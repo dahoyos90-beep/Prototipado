@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M13 - Matriz de Riesgos (Borrador)</title>
+    
+    <style>
+        /* ============================================================ */
+        /* BORRADOR: Todo el CSS mezclado para visualización rápida     */
+        /* ============================================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #f1f5f9;
+            color: #1E293B;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        /* ============================================================ */
+        /* HEADER                                                       */
+        /* ============================================================ */
+        .modulo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1B365D;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .modulo-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .modulo-header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: #284B7D;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3A6B9E;
+        }
+        
+        .btn-success {
+            background: #10B981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .btn-danger {
+            background: #DC2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #B91C1C;
+        }
+        
+        .btn-warning {
+            background: #F59E0B;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #284B7D;
+            color: #284B7D;
+        }
+        
+        .btn-outline:hover {
+            background: #284B7D;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+        }
+        
+        /* ============================================================ */
+        /* TABS                                                         */
+        /* ============================================================ */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: #284B7D;
+            background: #f1f5f9;
+        }
+        
+        .tab.active {
+            color: #284B7D;
+            border-bottom-color: #284B7D;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* ============================================================ */
+        /* CARD                                                         */
+        /* ============================================================ */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .card h3 {
+            color: #1B365D;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* ============================================================ */
+        /* ENCABEZADO DE LA MATRIZ                                      */
+        /* ============================================================ */
+        .matriz-header {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .matriz-header h2 {
+            color: #1B365D;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .matriz-header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .matriz-header-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .matriz-header-field label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .matriz-header-field input,
+        .matriz-header-field select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .matriz-header-field input:focus,
+        .matriz-header-field select:focus {
+            outline: none;
+            border-color: #284B7D;
+            box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.1);
+        }
+        
+        /* ============================================================ */
+        /* TABLA DE RIESGOS                                             */
+        /* ============================================================ */
+        .tabla-matriz-container {
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .tabla-matriz {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            min-width: 2500px;
+        }
+        
+        .tabla-matriz th {
+            background: #1B365D;
+            color: white;
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: 1px solid #0f2942;
+            white-space: nowrap;
+        }
+        
+        .tabla-matriz td {
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+            background: white;
+        }
+        
+        .tabla-matriz tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .tabla-matriz input,
+        .tabla-matriz select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .tabla-matriz input:focus,
+        .tabla-matriz select:focus {
+            outline: none;
+            border-color: #284B7D;
+            box-shadow: 0 0 0 2px rgba(40, 75, 125, 0.1);
+        }
+        
+        .tabla-matriz .calculado {
+            background: #f1f5f9;
+            font-weight: 700;
+            text-align: center;
+            color: #284B7D;
+        }
+        
+        .tabla-matriz .resultado-riesgo {
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            padding: 6px;
+            border-radius: 4px;
+        }
+        
+        .riesgo-i { background: #DC2626; }
+        .riesgo-ii { background: #F59E0B; }
+        .riesgo-iii { background: #FCD34D; color: #78350F; }
+        .riesgo-iv { background: #10B981; }
+        
+        /* ============================================================ */
+        /* FORMULARIO DE NUEVO RIESGO                                   */
+        /* ============================================================ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+        
+        .form-group label .required {
+            color: #DC2626;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #284B7D;
+            box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.1);
+        }
+        
+        .form-group small {
+            font-size: 0.7rem;
+            color: #64748B;
+            font-style: italic;
+        }
+        
+        /* ============================================================ */
+        /* CÁLCULOS AUTOMÁTICOS (preview)                               */
+        /* ============================================================ */
+        .calculo-preview {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .calculo-item {
+            text-align: center;
+        }
+        
+        .calculo-item .calculo-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+        }
+        
+        .calculo-item .calculo-valor {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1B365D;
+        }
+        
+        .calculo-item .calculo-valor.riesgo-i { color: #DC2626; }
+        .calculo-item .calculo-valor.riesgo-ii { color: #F59E0B; }
+        .calculo-item .calculo-valor.riesgo-iii { color: #FCD34D; }
+        .calculo-item .calculo-valor.riesgo-iv { color: #10B981; }
+        
+        /* ============================================================ */
+        /* LISTA DE MATRICES                                            */
+        /* ============================================================ */
+        .lista-matrices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .matriz-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.2s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .matriz-item:hover {
+            border-color: #284B7D;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .matriz-item-info {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .matriz-item-info h4 {
+            color: #1B365D;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .matriz-item-info p {
+            font-size: 0.8rem;
+            color: #64748B;
+            margin: 2px 0;
+        }
+        
+        .matriz-item-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        /* ============================================================ */
+        /* BADGES                                                       */
+        /* ============================================================ */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .badge-success { background: #D1FAE5; color: #065F46; }
+        .badge-danger { background: #FEE2E2; color: #991B1B; }
+        .badge-warning { background: #FEF3C7; color: #92400E; }
+        .badge-info { background: #DBEAFE; color: #1E40AF; }
+        
+        /* ============================================================ */
+        /* ESTADÍSTICAS                                                 */
+        /* ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #284B7D;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            font-size: 0.85rem;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* ============================================================ */
+        /* INFO BOX                                                     */
+        /* ============================================================ */
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #284B7D;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            color: #1E293B;
+        }
+        
+        .info-box strong {
+            color: #1B365D;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- HEADER                                                       -->
+    <!-- ============================================================ -->
+    <div class="modulo-header">
+        <div>
+            <h2>📊 Matriz de Peligros y Riesgos (GTC 45)</h2>
+            <p class="subtitle">Borrador para visualización · Módulo M13</p>
+        </div>
+        <button class="btn btn-primary" onclick="abrirNuevaMatriz()">➕ Nueva Matriz</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TABS                                                         -->
+    <!-- ============================================================ -->
+    <div class="tabs">
+        <button class="tab active" onclick="cambiarTab('matriz')">📋 Matriz</button>
+        <button class="tab" onclick="cambiarTab('estadistica')">📊 Estadística</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: MATRIZ (LISTADO DE MATRICES)                          -->
+    <!-- ============================================================ -->
+    <div id="tab-matriz" class="tab-content active">
+        <div class="card">
+            <h3>📋 Listado de Matrices</h3>
+            <div class="info-box">
+                <strong>ℹ️ Nota:</strong> Cada Centro de Trabajo tiene su propia Matriz de Riesgos.
+            </div>
+            
+            <div class="lista-matrices">
+                <div class="matriz-item">
+                    <div class="matriz-item-info">
+                        <h4>🏢 SURTITIENDAS GABY</h4>
+                        <p><strong>NIT:</strong> 41.092.047-6</p>
+                        <p><strong>Fecha creación:</strong> 15/09/2026</p>
+                        <p><strong>Última actualización:</strong> 16/09/2026</p>
+                        <p><strong>Motivo:</strong> Actualización anual de riesgos</p>
+                    </div>
+                    <div class="matriz-item-actions">
+                        <button class="btn btn-sm btn-outline" onclick="abrirMatriz()">📝 Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarMatriz()">🗑️ Eliminar</button>
+                    </div>
+                </div>
+                
+                <div class="matriz-item">
+                    <div class="matriz-item-info">
+                        <h4>🏢 SURTITIENDAS GABY - Sede Norte</h4>
+                        <p><strong>NIT:</strong> 41.092.047-6</p>
+                        <p><strong>Fecha creación:</strong> 10/09/2026</p>
+                        <p><strong>Última actualización:</strong> 12/09/2026</p>
+                        <p><strong>Motivo:</strong> Cambio de proceso</p>
+                    </div>
+                    <div class="matriz-item-actions">
+                        <button class="btn btn-sm btn-outline" onclick="abrirMatriz()">📝 Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarMatriz()">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: ESTADÍSTICA                                            -->
+    <!-- ============================================================ -->
+    <div id="tab-estadistica" class="tab-content">
+        <div class="card">
+            <h3>📊 Indicadores de Riesgos</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>45</h3>
+                    <p>Total Riesgos</p>
+                </div>
+                <div class="stat-card">
+                    <h3 style="color: #DC2626;">8</h3>
+                    <p>Riesgos I (Críticos)</p>
+                </div>
+                <div class="stat-card">
+                    <h3 style="color: #F59E0B;">15</h3>
+                    <p>Riesgos II (Altos)</p>
+                </div>
+                <div class="stat-card">
+                    <h3 style="color: #FCD34D;">12</h3>
+                    <p>Riesgos III (Medios)</p>
+                </div>
+                <div class="stat-card">
+                    <h3 style="color: #10B981;">10</h3>
+                    <p>Riesgos IV (Bajos)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- VISTA: MATRIZ ABIERTA (DETALLE)                              -->
+    <!-- ============================================================ -->
+    <div id="vista-matriz-detalle" style="display: none;">
+        <div class="card">
+            <button class="btn btn-outline btn-sm" onclick="cerrarMatriz()">← Volver al listado</button>
+        </div>
+        
+        <!-- ENCABEZADO DE LA MATRIZ -->
+        <div class="matriz-header">
+            <h2>MATRIZ DE IDENTIFICACIÓN DE PELIGROS, VALORACIÓN DE RIESGOS Y DETERMINACIÓN DE CONTROLES</h2>
+            <p style="text-align: center; font-size: 0.85rem; color: #64748B; margin-bottom: 20px;">MODELO SEGÚN NORMA GTC 45 ICONTEC</p>
+            
+            <div class="matriz-header-grid">
+                <div class="matriz-header-field">
+                    <label>Nombre del Centro de Trabajo</label>
+                    <input type="text" value="SURTITIENDAS GABY" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>NIT</label>
+                    <input type="text" value="41.092.047-6" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>No. de Trabajadores</label>
+                    <input type="number" value="15" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>Clase de Riesgo</label>
+                    <select>
+                        <option>I</option>
+                        <option>II</option>
+                        <option>III</option>
+                        <option selected>IV</option>
+                        <option>V</option>
+                    </select>
+                </div>
+                <div class="matriz-header-field">
+                    <label>Fecha Última Evaluación</label>
+                    <input type="date" value="2026-09-15" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>Fecha de Realización</label>
+                    <input type="date" value="2026-09-16" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>Responsable(s) de la Empresa</label>
+                    <input type="text" value="Carlos Julio Cardona" />
+                </div>
+                <div class="matriz-header-field">
+                    <label>Licencia en SO</label>
+                    <input type="text" value="63-1230" />
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN NUEVO RIESGO -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h3 style="margin: 0;">📋 Riesgos Identificados</h3>
+                <button class="btn btn-success" onclick="abrirNuevoRiesgo()">➕ Nuevo Riesgo</button>
+            </div>
+        </div>
+
+        <!-- TABLA DE RIESGOS -->
+        <div class="card">
+            <div class="tabla-matriz-container">
+                <table class="tabla-matriz">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Zona/Lugar</th>
+                            <th>Actividad</th>
+                            <th>Tarea</th>
+                            <th>Rutinaria</th>
+                            <th>Peligro - Descripción</th>
+                            <th>Peligro - Clasificación</th>
+                            <th>Efectos Posibles</th>
+                            <th>Control - Fuente</th>
+                            <th>Control - Medio</th>
+                            <th>Control - Trabajador</th>
+                            <th>ND</th>
+                            <th>NE</th>
+                            <th>NP</th>
+                            <th>Int. NP</th>
+                            <th>NC</th>
+                            <th>NR</th>
+                            <th>Int. NR</th>
+                            <th>Aceptabilidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Producción</td>
+                            <td>Bodega</td>
+                            <td>Cargue</td>
+                            <td>Levantar cajas</td>
+                            <td>Sí</td>
+                            <td>Postura prolongada</td>
+                            <td>Biomecánico</td>
+                            <td>Lumbalgia</td>
+                            <td>Ninguno</td>
+                            <td>Ninguno</td>
+                            <td>Pausas activas</td>
+                            <td class="calculado">6</td>
+                            <td class="calculado">4</td>
+                            <td class="calculado">24</td>
+                            <td class="calculado">MA</td>
+                            <td class="calculado">25</td>
+                            <td class="calculado">600</td>
+                            <td><span class="resultado-riesgo riesgo-i">I</span></td>
+                            <td>No Aceptable</td>
+                            <td><button class="btn btn-sm btn-danger" onclick="alert('Eliminar')">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>Producción</td>
+                            <td>Bodega</td>
+                            <td>Cargue</td>
+                            <td>Movimiento repetitivo</td>
+                            <td>Sí</td>
+                            <td>Movimiento repetitivo</td>
+                            <td>Biomecánico</td>
+                            <td>Síndrome túnel carpiano</td>
+                            <td>Ninguno</td>
+                            <td>Ninguno</td>
+                            <td>Pausas activas</td>
+                            <td class="calculado">2</td>
+                            <td class="calculado">4</td>
+                            <td class="calculado">8</td>
+                            <td class="calculado">M</td>
+                            <td class="calculado">10</td>
+                            <td class="calculado">80</td>
+                            <td><span class="resultado-riesgo riesgo-iii">III</span></td>
+                            <td>Mejorable</td>
+                            <td><button class="btn btn-sm btn-danger" onclick="alert('Eliminar')">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>Administración</td>
+                            <td>Oficina</td>
+                            <td>Facturación</td>
+                            <td>Digitación</td>
+                            <td>Sí</td>
+                            <td>Postura sedente prolongada</td>
+                            <td>Biomecánico</td>
+                            <td>Lumbalgia cervical</td>
+                            <td>Silla ajustable</td>
+                            <td>Ninguno</td>
+                            <td>Pausas activas</td>
+                            <td class="calculado">2</td>
+                            <td class="calculado">4</td>
+                            <td class="calculado">8</td>
+                            <td class="calculado">M</td>
+                            <td class="calculado">25</td>
+                            <td class="calculado">200</td>
+                            <td><span class="resultado-riesgo riesgo-ii">II</span></td>
+                            <td>No Aceptable con control específico</td>
+                            <td><button class="btn btn-sm btn-danger" onclick="alert('Eliminar')">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- VISTA: FORMULARIO NUEVO RIESGO (MODAL)                       -->
+    <!-- ============================================================ -->
+    <div id="vista-nuevo-riesgo" style="display: none;">
+        <div class="card">
+            <button class="btn btn-outline btn-sm" onclick="cerrarNuevoRiesgo()">← Cancelar</button>
+            <h3 style="margin-top: 15px;">➕ Nuevo Riesgo</h3>
+            
+            <div class="info-box">
+                <strong>ℹ️ Nota:</strong> Al seleccionar ND, NE y NC, los cálculos se generan automáticamente.
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Proceso <span class="required">*</span></label>
+                    <input type="text" placeholder="Ej. Producción" />
+                </div>
+                <div class="form-group">
+                    <label>Zona / Lugar <span class="required">*</span></label>
+                    <input type="text" placeholder="Ej. Bodega" />
+                </div>
+                <div class="form-group">
+                    <label>Actividad <span class="required">*</span></label>
+                    <input type="text" placeholder="Ej. Cargue" />
+                </div>
+                <div class="form-group">
+                    <label>Tarea <span class="required">*</span></label>
+                    <input type="text" placeholder="Ej. Levantar cajas" />
+                </div>
+                <div class="form-group">
+                    <label>Rutinaria</label>
+                    <select>
+                        <option>Sí</option>
+                        <option>No</option>
+                    </select>
+                </div>
+                
+                <!-- PELIGRO: DOS PESTAÑAS DESPLEGABLES -->
+                <div class="form-group">
+                    <label>Clasificación del Peligro <span class="required">*</span></label>
+                    <select id="clasificacion-peligro" onchange="actualizarDescripcionPeligro()">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="Biologico">Biológico</option>
+                        <option value="Fisico">Físico</option>
+                        <option value="Quimico">Químico</option>
+                        <option value="Psicosocial">Psicosocial</option>
+                        <option value="Biomecanico">Biomecánico</option>
+                        <option value="CondicionesSeguridad">Condiciones de Seguridad</option>
+                        <option value="FenomenosNaturales">Fenómenos Naturales</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Descripción del Peligro <span class="required">*</span></label>
+                    <select id="descripcion-peligro">
+                        <option value="">-- Seleccionar clasificación primero --</option>
+                    </select>
+                    <small>⚠️ Selecciona primero la clasificación</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Efectos Posibles</label>
+                    <input type="text" placeholder="Ej. Lumbalgia" />
+                </div>
+                <div class="form-group">
+                    <label>Control - Fuente</label>
+                    <input type="text" placeholder="Ej. Ninguno" />
+                </div>
+                <div class="form-group">
+                    <label>Control - Medio</label>
+                    <input type="text" placeholder="Ej. Ninguno" />
+                </div>
+                <div class="form-group">
+                    <label>Control - Trabajador</label>
+                    <input type="text" placeholder="Ej. Pausas activas" />
+                </div>
+                
+                <!-- CÁLCULOS AUTOMÁTICOS -->
+                <div class="form-group">
+                    <label>Nivel de Deficiencia (ND) <span class="required">*</span></label>
+                    <select id="nd" onchange="calcularTodo()">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="10">Muy Alto (10)</option>
+                        <option value="6">Alto (6)</option>
+                        <option value="2">Medio (2)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nivel de Exposición (NE) <span class="required">*</span></label>
+                    <select id="ne" onchange="calcularTodo()">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="4">Continua (4)</option>
+                        <option value="3">Frecuente (3)</option>
+                        <option value="2">Ocasional (2)</option>
+                        <option value="1">Esporádica (1)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nivel de Consecuencia (NC) <span class="required">*</span></label>
+                    <select id="nc" onchange="calcularTodo()">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="100">Mortal o Catastrófico (100)</option>
+                        <option value="60">Muy Grave (60)</option>
+                        <option value="25">Grave (25)</option>
+                        <option value="10">Leve (10)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- PREVIEW DE CÁLCULOS -->
+            <div class="calculo-preview">
+                <div class="calculo-item">
+                    <div class="calculo-label">Nivel Probabilidad (NP)</div>
+                    <div class="calculo-valor" id="preview-np">—</div>
+                </div>
+                <div class="calculo-item">
+                    <div class="calculo-label">Interpretación NP</div>
+                    <div class="calculo-valor" id="preview-int-np">—</div>
+                </div>
+                <div class="calculo-item">
+                    <div class="calculo-label">Nivel Riesgo (NR)</div>
+                    <div class="calculo-valor" id="preview-nr">—</div>
+                </div>
+                <div class="calculo-item">
+                    <div class="calculo-label">Interpretación NR</div>
+                    <div class="calculo-valor" id="preview-int-nr">—</div>
+                </div>
+                <div class="calculo-item">
+                    <div class="calculo-label">Aceptabilidad</div>
+                    <div class="calculo-valor" id="preview-aceptabilidad">—</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-success" onclick="alert('Guardar riesgo')">💾 Guardar Riesgo</button>
+                <button class="btn btn-outline" onclick="cerrarNuevoRiesgo()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS (BORRADOR - Todo mezclado)                           -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // CATÁLOGO DE PELIGROS (dos pestañas desplegables)
+        // ============================================================
+        const CATALOGO_PELIGROS = {
+            'Biologico': ['Virus', 'Bacterias', 'Hongos', 'Rickettsias', 'Parásitos', 'Picaduras', 'Mordeduras', 'Fluidos o excrementos'],
+            'Fisico': ['Ruido (impacto, intermitente y continuo)', 'Iluminación (luz visible por exceso o deficiencia)', 'Vibración (cuerpo entero, segmentaria)', 'Temperaturas extremas (calor y frío)', 'Pres

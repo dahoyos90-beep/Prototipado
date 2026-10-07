@@ -1,0 +1,171 @@
+<!-- modules/M10-Gestion-Condiciones-Salud/condiciones-salud.html -->
+<div class="modulo-salud" id="modulo-salud">
+    <div class="modulo-header">
+        <h2>🩺 Gestión de Condiciones de Salud</h2>
+        <!-- No hay botón "Nuevo" porque el formulario está siempre visible en la pestaña -->
+    </div>
+
+    <!-- Pestañas -->
+    <div id="tab-container" class="tab-container">
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="emo">📋 Exámenes Médicos</button>
+            <button class="tab-button" data-tab="encuestas">📝 Encuestas</button>
+            <button class="tab-button" data-tab="estadisticas">📊 Estadísticas</button>
+            <button class="tab-button" data-tab="alertas">🔔 Alertas Críticas</button>
+        </div>
+
+        <!-- TAB 1: E.M.O. -->
+        <div id="tab-emo" class="tab-content">
+            <div class="card">
+                <h3>Registrar Examen Médico</h3>
+                <form id="form-emo" novalidate>
+                    <div class="form-group">
+                        <label for="emo-trabajador">Trabajador (ID) <span class="required">*</span></label>
+                        <input type="text" id="emo-trabajador" class="form-control" placeholder="ID del trabajador" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="emo-tipo">Tipo <span class="required">*</span></label>
+                        <select id="emo-tipo" class="form-control" required>
+                            <option value="Ingreso">Ingreso</option>
+                            <option value="Periodico">Periódico</option>
+                            <option value="Retiro">Retiro</option>
+                            <option value="Especial">Especial</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emo-fecha-realizacion">Fecha Realización <span class="required">*</span></label>
+                            <input type="date" id="emo-fecha-realizacion" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="emo-fecha-vigencia">Fecha Vigencia <span class="required">*</span></label>
+                            <input type="date" id="emo-fecha-vigencia" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emo-institucion">Institución <span class="required">*</span></label>
+                        <input type="text" id="emo-institucion" class="form-control" placeholder="Nombre de la IPS" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="emo-resultado">Resultado <span class="required">*</span></label>
+                        <select id="emo-resultado" class="form-control" required>
+                            <option value="Apto">Apto</option>
+                            <option value="AptoConRestricciones">Apto con Restricciones</option>
+                            <option value="NoApto">No Apto</option>
+                            <option value="Pendiente">Pendiente</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Examen</button>
+                        <button type="button" id="btn-cancelar-emo" class="btn btn-outline">Cancelar</button>
+                    </div>
+                </form>
+                <div id="mensaje-emo" class="alert" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <h3>Listado de Exámenes</h3>
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Trabajador</th>
+                                <th>Tipo</th>
+                                <th>Realización</th>
+                                <th>Vigencia</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-emo">
+                            <!-- Las filas se generan dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Encuestas -->
+        <div id="tab-encuestas" class="tab-content hidden">
+            <div class="card">
+                <h3>Aplicar Encuesta</h3>
+                <form id="form-encuesta" novalidate>
+                    <div class="form-group">
+                        <label for="encuesta-trabajador">Trabajador (ID) <span class="required">*</span></label>
+                        <input type="text" id="encuesta-trabajador" class="form-control" placeholder="ID del trabajador" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="encuesta-tipo">Tipo de Encuesta <span class="required">*</span></label>
+                        <select id="encuesta-tipo" class="form-control" required>
+                            <option value="Nordic">Nordic (Musculoesquelético)</option>
+                            <option value="Psicosocial">Psicosocial</option>
+                            <option value="CondicionesSalud">Condiciones de Salud</option>
+                            <option value="EstiloVida">Estilo de Vida</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="encuesta-fecha">Fecha Aplicación <span class="required">*</span></label>
+                        <input type="date" id="encuesta-fecha" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="encuesta-riesgo">Nivel de Riesgo <span class="required">*</span></label>
+                        <select id="encuesta-riesgo" class="form-control" required>
+                            <option value="SinRiesgo">Sin Riesgo</option>
+                            <option value="Bajo">Bajo</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Alto">Alto</option>
+                            <option value="Critico">Crítico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="btn-aplicar-encuesta" class="btn btn-primary">
+                            📝 Aplicar Encuesta
+                        </button>
+                        <small class="form-text">Se abrirá un formulario con las preguntas de la encuesta seleccionada.</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btn-cancelar-encuesta" class="btn btn-outline">Cancelar</button>
+                    </div>
+                </form>
+                <div id="mensaje-encuestas" class="alert" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <h3>Encuestas Aplicadas</h3>
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Trabajador</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Riesgo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-encuestas">
+                            <!-- Filas generadas dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Estadísticas -->
+        <div id="tab-estadisticas" class="tab-content hidden">
+            <div class="card">
+                <h3>Indicadores de Salud</h3>
+                <div id="stats-container"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Alertas -->
+        <div id="tab-alertas" class="tab-content hidden">
+            <div class="card">
+                <h3>Alertas Críticas</h3>
+                <div id="alertas-container"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,779 @@
+/* ================================================================
+   css/global.css
+   Estilos globales para SG-SST Manager
+   Mobile-First: El código base está pensado para dispositivos móviles.
+   Escalamos hacia arriba con media queries (min-width).
+   
+   @version 2.0.0
+   @since 2026-09-16
+   ================================================================ */
+
+/* ================================================================
+   1. VARIABLES CSS (Paleta de colores, tipografías, espaciados)
+   ================================================================ */
+:root {
+    /* --- Paleta de colores (basada en guía de diseño) --- */
+    --color-primary-dark: #1B365D;    /* Azul institucional */
+    --color-primary: #284B7D;         /* Azul intermedio */
+    --color-primary-light: #3A6B9E;   /* Azul claro para hover */
+    --color-green-dark: #2E8B57;      /* Verde esmeralda (borde) */
+    --color-green: #388E3C;           /* Verde bandera */
+    --color-green-light: #4CAF50;     /* Verde claro (detalles) */
+    --color-green-pale: #81C784;      /* Verde lima suave */
+    --color-orange: #F57C00;          /* Naranja cálido (acento) */
+    --color-orange-light: #FFB300;    /* Naranja/amarillo suave */
+    --color-white: #FFFFFF;
+    
+    /* --- Colores neutros mejorados --- */
+    --color-gray-100: #f1f5f9;        /* Fondo general (más suave) */
+    --color-gray-200: #e2e8f0;        /* Bordes más sutiles */
+    --color-gray-300: #CBD5E1;        /* Bordes más oscuros */
+    --color-gray-400: #94A3B8;        /* Texto deshabilitado */
+    --color-gray-500: #6B7280;        /* Texto secundario claro */
+    --color-gray-600: #64748B;        /* Texto secundario */
+    --color-gray-700: #374151;        /* Texto intermedio */
+    --color-gray-800: #1E293B;        /* Texto principal */
+    --color-gray-900: #0F172A;        /* Texto más oscuro */
+    --color-black: #0F172A;
+
+    /* --- Tipografías (basado en análisis tipográfico) --- */
+    --font-primary: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+    --font-secondary: 'Open Sans', 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+    /* --- Espaciados y tamaños --- */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-xxl: 3rem;     /* 48px */
+
+    /* --- Bordes y sombras mejorados --- */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+    /* --- Transiciones suaves --- */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 250ms ease-in-out;
+    --transition-slow: 350ms ease-in-out;
+}
+
+/* ================================================================
+   2. RESET Y ESTILOS BASE
+   ================================================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    height: 100%; /* ═══════════════════════════════════════════════════════════════ */
+                  /* 🟢 MODIFICADO: [2026-09-16] - Para layout de pantalla completa */
+                  /* ═══════════════════════════════════════════════════════════════ */
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - body ahora ocupa 100vh sin max-width   */
+/* 🟢 MODIFICADO: [2026-09-16] - padding reducido, overflow hidden     */
+/* ═══════════════════════════════════════════════════════════════════ */
+body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-gray-800);
+    background-color: var(--color-gray-100);
+    height: 100vh;              /* 🟢 MODIFICADO: antes min-height */
+    max-width: 100%;            /* 🟢 MODIFICADO: asegurar ancho completo */
+    overflow: hidden;           /* 🟢 MODIFICADO: scroll interno en #app-main */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--spacing-sm);     /* 🟢 MODIFICADO: antes --spacing-md */
+    padding: var(--spacing-sm); /* 🟢 MODIFICADO: antes --spacing-md */
+}
+
+/* ================================================================
+   3. TIPOGRAFÍA MEJORADA
+   ================================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-primary-dark);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-gray-600);
+    line-height: 1.7;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-primary-light);
+}
+
+/* ================================================================
+   4. CABECERA (HEADER)
+   ================================================================ */
+#app-header {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    color: var(--color-white);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--color-green);
+    transition: box-shadow var(--transition-normal);
+    flex-shrink: 0; /* 🟢 MODIFICADO: [2026-09-16] - Para que no se reduzca */
+}
+
+.header-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+}
+
+.logo-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    max-width: 50px;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-sm);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: transform var(--transition-fast);
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.header-titles {
+    flex: 1 1 auto;
+    text-align: center;
+    min-width: 0;
+}
+
+.header-titles h1 {
+    color: var(--color-white);
+    font-size: 1.4rem;
+    margin-bottom: 0;
+    letter-spacing: -0.5px;
+}
+
+.header-titles .subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-left: auto;
+    flex: 0 0 auto;
+    transition: all var(--transition-normal);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--color-white);
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+.user-info .user-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.user-info .user-role {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    font-weight: 300;
+}
+
+.user-area .btn-outline {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--color-white);
+    background-color: transparent;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    min-height: 32px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.user-area .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--color-white);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* ================================================================
+   5. CUERPO PRINCIPAL: MENÚ LATERAL + CONTENIDO
+   ================================================================ */
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - app-body ahora ocupa todo el alto     */
+/* ═══════════════════════════════════════════════════════════════════ */
+.app-body {
+    display: flex;
+    gap: var(--spacing-lg);
+    min-height: 0; /* 🟢 MODIFICADO: antes min-height: 60vh */
+    height: 100%;  /* 🟢 MODIFICADO: para llenar el espacio disponible */
+    overflow: hidden; /* 🟢 MODIFICADO: para controlar overflow */
+}
+
+/* --- Menú lateral mejorado --- */
+#app-nav {
+    flex: 0 0 220px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-gray-200);
+    overflow-y: auto; /* 🟢 MODIFICADO: scroll interno del menú */
+    transition: box-shadow var(--transition-normal);
+}
+
+#app-nav:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    list-style: none;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background-color: transparent;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
+    text-align: left;
+    white-space: nowrap;
+    position: relative;
+}
+
+.nav-link i,
+.nav-link .icon {
+    font-size: 16px;
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-right: var(--spacing-sm);
+}
+
+.nav-link:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.nav-link.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+}
+
+.nav-link.active:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-white);
+}
+
+.nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 20%;
+    height: 60%;
+    width: 3.5px;
+    background-color: var(--color-white);
+    border-radius: 2px;
+}
+
+.logout-link {
+    color: #DC2626 !important;
+    font-weight: 700;
+    margin-top: var(--spacing-sm);
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: var(--spacing-sm);
+}
+
+.logout-link:hover {
+    background-color: #FEE2E2 !important;
+    color: #991B1B !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - app-main con scroll interno           */
+/* ═══════════════════════════════════════════════════════════════════ */
+#app-main {
+    flex: 1;
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-gray-200);
+    overflow-y: auto;   /* 🟢 MODIFICADO: scroll interno vertical */
+    overflow-x: hidden; /* 🟢 MODIFICADO: evitar scroll horizontal */
+    min-height: 0;      /* 🟢 MODIFICADO: para que flex funcione */
+    transition: box-shadow var(--transition-normal);
+}
+
+#app-main:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.module-container {
+    width: 100%;
+    height: 100%;
+}
+
+.welcome-message {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    color: var(--color-gray-600);
+}
+
+.welcome-message h2 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.welcome-message .hint {
+    font-size: 0.85rem;
+    background-color: var(--color-gray-100);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: inline-block;
+    border: 1px dashed var(--color-gray-300);
+}
+
+/* ================================================================
+   6. PIE DE PÁGINA (FOOTER)
+   ================================================================ */
+#app-footer {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-gray-200);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0; /* 🟢 MODIFICADO: [2026-09-16] - Para que no se reduzca */
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.footer-content p {
+    margin-bottom: 0;
+}
+
+.footer-version {
+    font-family: var(--font-secondary);
+    font-weight: 300;
+    color: var(--color-gray-400);
+}
+
+/* ================================================================
+   7. UTILIDADES REUTILIZABLES (clases helper)
+   ================================================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+}
+
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }
+
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+
+.hidden {
+    display: none !important;
+}
+
+/* ================================================================
+   8. ESTADOS DE CARGA Y ERROR
+   ================================================================ */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl);
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+}
+
+.loading-spinner::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin-left: var(--spacing-sm);
+    border: 3px solid var(--color-gray-200);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-message {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid #DC2626;
+    font-weight: 500;
+}
+
+.success-message {
+    background-color: #D1FAE5;
+    color: #065F46;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid #059669;
+    font-weight: 500;
+}
+
+/* ================================================================
+   9. MEDIA QUERIES (Mobile-First → Escalamos hacia arriba)
+   ================================================================ */
+
+/* --- TABLETS (min-width: 768px) --- */
+@media (min-width: 768px) {
+    body {
+        padding: var(--spacing-md); /* 🟢 MODIFICADO: antes --spacing-lg */
+        gap: var(--spacing-md);      /* 🟢 MODIFICADO: antes --spacing-lg */
+    }
+
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.6rem; }
+    h3 { font-size: 1.3rem; }
+
+    .logo-img {
+        max-width: 60px;
+    }
+
+    .header-titles h1 {
+        font-size: 1.8rem;
+    }
+
+    .header-titles .subtitle {
+        font-size: 0.85rem;
+    }
+
+    #app-nav {
+        flex: 0 0 200px;
+        padding: var(--spacing-md);
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    #app-main {
+        padding: var(--spacing-lg);
+    }
+
+    .welcome-message {
+        padding: var(--spacing-xxl) var(--spacing-xl);
+    }
+
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* --- ESCRITORIO (min-width: 1024px) --- */
+/* 🟢 MODIFICADO: [2026-09-16] - Se eliminó max-width: 1400px y margin: 0 auto */
+@media (min-width: 1024px) {
+    body {
+        padding: var(--spacing-md); /* 🟢 MODIFICADO: antes --spacing-xl */
+        gap: var(--spacing-md);      /* 🟢 MODIFICADO: antes --spacing-xl */
+        /* 🟢 ELIMINADO: max-width: 1400px */
+        /* 🟢 ELIMINADO: margin: 0 auto */
+    }
+
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 1.8rem; }
+
+    .logo-img {
+        max-width: 70px;
+    }
+
+    .header-titles h1 {
+        font-size: 2.2rem;
+    }
+
+    #app-nav {
+        flex: 0 0 240px;
+        padding: var(--spacing-lg);
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    #app-main {
+        padding: var(--spacing-xl);
+    }
+
+    .welcome-message {
+        padding: var(--spacing-xxl) var(--spacing-xxl);
+    }
+
+    .welcome-message h2 {
+        font-size: 2rem;
+    }
+
+    .user-area {
+        gap: var(--spacing-lg);
+    }
+
+    .user-info .user-name {
+        font-size: 1rem;
+    }
+    .user-info .user-role {
+        font-size: 0.8rem;
+    }
+}
+
+/* --- PANTALLAS EXTRA GRANDES (min-width: 1400px) --- */
+/* 🟢 MODIFICADO: [2026-09-16] - Se eliminó max-width: 1600px */
+@media (min-width: 1400px) {
+    body {
+        padding: var(--spacing-md); /* 🟢 MODIFICADO: antes --spacing-xxl */
+        /* 🟢 ELIMINADO: max-width: 1600px */
+    }
+
+    #app-nav {
+        flex: 0 0 280px;
+    }
+
+    .nav-link {
+        font-size: 1.05rem;
+        padding: var(--spacing-md) var(--spacing-xl);
+    }
+}
+
+/* ================================================================
+   10. MÓVIL: Menú horizontal (para pantallas pequeñas)
+   ================================================================ */
+@media (max-width: 767px) {
+    /* 🟢 MODIFICADO: [2026-09-16] - body vuelve a permitir scroll */
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .app-body {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        height: auto; /* 🟢 MODIFICADO: en móvil, altura automática */
+        overflow: visible;
+    }
+
+    #app-nav {
+        flex: 1 1 auto;
+        max-height: none;
+        position: static;
+        padding: var(--spacing-sm);
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
+        justify-content: flex-start;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+        font-size: 0.75rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .nav-link.active::before {
+        display: none;
+    }
+
+    .logout-link {
+        border-top: none;
+        margin-top: 0;
+        padding-top: var(--spacing-sm);
+        border-left: 1px solid var(--color-gray-200);
+        padding-left: var(--spacing-sm);
+    }
+
+    #app-main {
+        min-height: 50vh;
+        padding: var(--spacing-md);
+        overflow: visible; /* 🟢 MODIFICADO: en móvil, sin scroll interno */
+    }
+
+    .welcome-message {
+        padding: var(--spacing-md);
+    }
+
+    .welcome-message h2 {
+        font-size: 1.2rem;
+    }
+
+    .welcome-message .hint {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+}
+
+/* ================================================================
+   11. CORRECCIÓN PARA MÓVIL: Eliminar min-width fijos
+   ================================================================ */
+@media (max-width: 767px) {
+    .table-container,
+    .form-container,
+    .auth-container,
+    .module-container {
+        min-width: unset;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .header-titles {
+        text-align: center;
+    }
+
+    .user-area {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .user-info {
+        align-items: center;
+    }
+
+    .logo-img {
+        max-width: 40px;
+    }
+
+    .header-titles h1 {
+        font-size: 1.2rem;
+    }
+
+    .header-titles .subtitle {
+        font-size: 0.65rem;
+    }
+
+    body {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+
+    #app-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    #app-main {
+        padding: var(--spacing-sm);
+    }
+}

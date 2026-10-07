@@ -1,0 +1,398 @@
+/* ================================================================
+   css/components/buttons.css
+   Estilos para botones reutilizables en SG-SST Manager
+   Mobile-First: Tamaños táctiles, padding generoso.
+   ================================================================ */
+
+/* ================================================================
+   1. ESTILOS BASE PARA TODOS LOS BOTONES (mejorados)
+   ================================================================ */
+.btn {
+    /* Modelo de caja */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: 0.85rem 1.5rem;       /* ✅ Punto 5: Espaciado más generoso */
+    min-height: 52px;              /* ✅ Punto 5: Altura táctil más cómoda */
+    min-width: 52px;
+    
+    /* Tipografía (punto 4) */
+    font-family: var(--font-secondary);
+    font-size: 0.95rem;            /* ✅ Punto 4: Tamaño más legible */
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    
+    /* Estética (puntos 3, 7, 10) */
+    border: 2px solid transparent;
+    border-radius: var(--radius-md); /* ✅ Punto 7: 8px consistente */
+    background-color: transparent;
+    color: var(--color-gray-800);
+    cursor: pointer;
+    transition: all var(--transition-normal); /* ✅ Punto 10: Transición más suave */
+    
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Eliminar estilos de botón en navegadores (reset) */
+.btn::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/* ✅ Punto 10: Hover y focus más suaves */
+.btn:hover {
+    transform: translateY(-2px);    /* ✅ Efecto más pronunciado */
+    box-shadow: var(--shadow-md);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Deshabilitado */
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ================================================================
+   2. VARIANTES DE COLOR (basadas en paleta de global.css)
+   ================================================================ */
+
+/* --- Primario (Azul institucional) --- */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+    color: var(--color-white);
+}
+
+.btn-primary:active {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* --- Secundario (Verde esmeralda) --- */
+.btn-secondary {
+    background-color: var(--color-green);
+    color: var(--color-white);
+    border-color: var(--color-green);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-green-light);
+    border-color: var(--color-green-light);
+    color: var(--color-white);
+}
+
+.btn-secondary:active {
+    background-color: var(--color-green-dark);
+    border-color: var(--color-green-dark);
+}
+
+/* --- Éxito (Verde claro) --- */
+.btn-success {
+    background-color: var(--color-green-light);
+    color: var(--color-white);
+    border-color: var(--color-green-light);
+}
+
+.btn-success:hover {
+    background-color: var(--color-green-pale);
+    border-color: var(--color-green-pale);
+    color: var(--color-white);
+}
+
+.btn-success:active {
+    background-color: var(--color-green);
+    border-color: var(--color-green);
+}
+
+/* --- Peligro / Eliminar (Rojo) --- */
+.btn-danger {
+    background-color: #DC2626;
+    color: var(--color-white);
+    border-color: #DC2626;
+}
+
+.btn-danger:hover {
+    background-color: #EF4444;
+    border-color: #EF4444;
+}
+
+.btn-danger:active {
+    background-color: #B91C1C;
+    border-color: #B91C1C;
+}
+
+/* --- Advertencia (Naranja) --- */
+.btn-warning {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+    border-color: var(--color-orange);
+}
+
+.btn-warning:hover {
+    background-color: var(--color-orange-light);
+    border-color: var(--color-orange-light);
+}
+
+.btn-warning:active {
+    background-color: #E65100;
+    border-color: #E65100;
+}
+
+/* ✅ Punto 7: Outline más elegante (borde más delgado y suave) */
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary); /* ✅ Borde más delgado (2px) */
+}
+
+.btn-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-outline:active {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* --- Outline Secundario --- */
+.btn-outline-secondary {
+    background-color: transparent;
+    color: var(--color-green);
+    border: 2px solid var(--color-green);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--color-green);
+    color: var(--color-white);
+}
+
+.btn-outline-secondary:active {
+    background-color: var(--color-green-dark);
+    border-color: var(--color-green-dark);
+}
+
+/* --- Botón con solo texto (sin fondo) --- */
+.btn-text {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: transparent;
+    padding: 0.5rem 0.75rem;
+    min-height: auto;
+}
+
+.btn-text:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary-light);
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-text:active {
+    background-color: var(--color-gray-200);
+}
+
+/* ================================================================
+   3. TAMAÑOS DE BOTONES
+   ================================================================ */
+
+/* --- Pequeño (para compactar en tablas o barras de acciones) --- */
+.btn-sm {
+    padding: 0.4rem 1rem;          /* ✅ Punto 5: Padding más generoso */
+    font-size: 0.8rem;
+    min-height: 36px;
+    min-width: 36px;
+    border-radius: var(--radius-sm);
+}
+
+/* --- Grande (para acciones principales o CTA) --- */
+.btn-lg {
+    padding: 1.2rem 2.5rem;        /* ✅ Punto 5: Padding más generoso */
+    font-size: 1.15rem;
+    min-height: 60px;
+    min-width: 60px;
+    border-radius: var(--radius-lg);
+}
+
+/* ================================================================
+   4. BOTONES CON ICONOS (punto 8)
+   ================================================================ */
+.btn-icon {
+    padding: 0.75rem;
+    min-width: 52px;
+    min-height: 52px;
+    border-radius: 50%;
+}
+
+.btn-icon .icon,
+.btn-icon i {
+    font-size: 18px;              /* ✅ Punto 8: Tamaño uniforme de iconos */
+    line-height: 1;
+}
+
+.btn-icon.btn-sm {
+    padding: 0.4rem;
+    min-width: 38px;
+    min-height: 38px;
+}
+
+.btn-icon.btn-sm .icon,
+.btn-icon.btn-sm i {
+    font-size: 14px;              /* ✅ Punto 8: Iconos más pequeños para botones pequeños */
+}
+
+.btn-icon.btn-lg {
+    padding: 1rem;
+    min-width: 64px;
+    min-height: 64px;
+}
+
+.btn-icon.btn-lg .icon,
+.btn-icon.btn-lg i {
+    font-size: 22px;              /* ✅ Punto 8: Iconos más grandes para botones grandes */
+}
+
+/* Espaciado para iconos dentro de botones con texto */
+.btn .icon-left {
+    margin-right: var(--spacing-sm);
+}
+
+.btn .icon-right {
+    margin-left: var(--spacing-sm);
+}
+
+/* ================================================================
+   5. BOTONES DE ACCIÓN EN FORMS (específicos)
+   ================================================================ */
+.btn-submit {
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-reset {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-600);
+    border-color: var(--color-gray-200);
+}
+
+.btn-reset:hover {
+    background-color: var(--color-gray-300);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-800);
+}
+
+/* ================================================================
+   6. GRUPOS DE BOTONES (para barras de acciones)
+   ================================================================ */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.btn-group .btn {
+    flex: 0 1 auto;
+}
+
+.btn-group .btn:first-child:not(:last-child) {
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.btn-group .btn:last-child:not(:first-child) {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.btn-group .btn:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+/* ================================================================
+   7. MEDIA QUERIES (Mobile-First → Escalamos)
+   ================================================================ */
+
+/* --- Tablets (min-width: 768px) --- */
+@media (min-width: 768px) {
+    .btn {
+        padding: 0.9rem 1.8rem;    /* ✅ Punto 5: Más padding en tablet */
+        font-size: 1rem;
+        min-height: 48px;
+    }
+
+    .btn-sm {
+        padding: 0.45rem 1.2rem;
+        font-size: 0.85rem;
+        min-height: 40px;
+    }
+
+    .btn-lg {
+        padding: 1.2rem 3rem;
+        font-size: 1.25rem;
+        min-height: 56px;
+    }
+
+    .btn-submit {
+        width: auto;
+        min-width: 160px;
+    }
+}
+
+/* --- Escritorio (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+    .btn {
+        padding: 1rem 2rem;
+        font-size: 1.05rem;
+        min-height: 52px;
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1.4rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+
+    .btn-lg {
+        padding: 1.4rem 3.5rem;
+        font-size: 1.35rem;
+        min-height: 64px;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px); /* ✅ Efecto más pronunciado en escritorio */
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .btn-icon .icon,
+    .btn-icon i {
+        font-size: 20px;          /* ✅ Punto 8: Iconos un poco más grandes en escritorio */
+    }
+}

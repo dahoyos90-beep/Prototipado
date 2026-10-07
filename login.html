@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión · SG-SST Manager</title>
+
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components/buttons.css" />
+    <link rel="stylesheet" href="css/components/forms.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <img 
+                src="assets/images/Logo Sg-sst Manager 2.jpg" 
+                alt="SG-SST Manager" 
+                class="logo-img" 
+                loading="lazy"
+            />
+            <h1>Iniciar Sesión</h1>
+            <p>Accede a tu cuenta de <strong>SG-SST Manager</strong></p>
+        </div>
+
+        <div id="alert-error" class="alert alert-error">
+            <span id="error-message">Error de autenticación.</span>
+        </div>
+        <div id="alert-success" class="alert alert-success">
+            <span id="success-message">¡Bienvenido! Redirigiendo...</span>
+        </div>
+
+        <form id="login-form" novalidate>
+            <div class="form-group">
+                <label for="email">Correo electrónico <span class="required">*</span></label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control" 
+                    placeholder="ejemplo@correo.com" 
+                    required 
+                    autofocus
+                    value="admin@sgsst.com"
+                />
+                <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña <span class="required">*</span></label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-control" 
+                    placeholder="••••••••" 
+                    required 
+                    value="admin123"
+                />
+                <div class="invalid-feedback">La contraseña es obligatoria.</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-submit">
+                    🔓 Iniciar Sesión
+                </button>
+            </div>
+        </form>
+
+        <div class="auth-divider">o</div>
+
+        <div class="auth-footer">
+            ¿No tienes cuenta? 
+            <a href="register.html">Regístrate aquí</a>
+            <div class="register-hint">
+                <small>📝 Solo personal autorizado puede registrarse.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS (ruta corregida a dist/src/)                         -->
+    <!-- ============================================================ -->
+    <script type="module" src="dist/src/login.js"></script>
+
+</body>
+</html>

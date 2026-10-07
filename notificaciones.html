@@ -1,0 +1,92 @@
+<!-- ============================================================ -->
+<!-- notificaciones.html                                           -->
+<!-- Fragmento HTML del sistema de notificaciones.                 -->
+<!-- Incluye: campana en el header, panel lateral de historial y   -->
+<!-- contenedor para toasts emergentes. Se inyecta dinámicamente   -->
+<!-- desde src/notificaciones-ui.ts.                               -->
+<!-- ============================================================ -->
+
+<!-- ============================================================ -->
+<!-- 1. CAMPANA (se inyecta en el header desde TS)                 -->
+<!-- ============================================================ -->
+<div id="notificaciones-campana" class="notificaciones-campana hidden">
+    <button 
+        type="button" 
+        id="btn-notificaciones" 
+        class="btn-campana" 
+        aria-label="Notificaciones"
+    >
+        🔔
+        <span id="notificaciones-contador" class="notificaciones-contador hidden">0</span>
+    </button>
+</div>
+
+<!-- ============================================================ -->
+<!-- 2. OVERLAY (fondo oscuro del panel lateral)                   -->
+<!-- ============================================================ -->
+<div id="notificaciones-overlay" class="notificaciones-overlay hidden"></div>
+
+<!-- ============================================================ -->
+<!-- 3. PANEL LATERAL (historial de notificaciones)                -->
+<!-- ============================================================ -->
+<div 
+    id="notificaciones-panel" 
+    class="notificaciones-panel hidden" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="notificaciones-panel-titulo"
+>
+    <!-- Cabecera del panel -->
+    <div class="notificaciones-panel-header">
+        <h3 id="notificaciones-panel-titulo">🔔 Notificaciones</h3>
+        <button 
+            type="button" 
+            id="btn-cerrar-panel-notificaciones" 
+            class="btn-cerrar-panel" 
+            aria-label="Cerrar panel"
+        >
+            ✕
+        </button>
+    </div>
+
+    <!-- Acciones del panel -->
+    <div class="notificaciones-panel-acciones">
+        <button 
+            type="button" 
+            id="btn-marcar-todas-leidas" 
+            class="btn btn-sm btn-outline"
+        >
+            Marcar todas como leídas
+        </button>
+    </div>
+
+    <!-- Lista de notificaciones -->
+    <div id="notificaciones-lista" class="notificaciones-lista">
+        <!-- Las notificaciones se generan dinámicamente con TypeScript -->
+        <p class="notificaciones-vacio">No hay notificaciones.</p>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 4. CONTENEDOR DE TOASTS (esquina superior derecha)            -->
+<!-- ============================================================ -->
+<div id="notificaciones-toasts" class="notificaciones-toasts"></div>
+
+<!-- ============================================================ -->
+<!-- 5. PLANTILLA DE TOAST (se clona desde TS)                     -->
+<!-- ============================================================ -->
+<template id="template-toast-notificacion">
+    <div class="toast-notificacion">
+        <div class="toast-icono">🔔</div>
+        <div class="toast-contenido">
+            <p class="toast-mensaje"></p>
+        </div>
+        <button 
+            type="button" 
+            class="toast-cerrar" 
+            aria-label="Cerrar"
+        >
+            ✕
+        </button>
+    </div>
+</template>

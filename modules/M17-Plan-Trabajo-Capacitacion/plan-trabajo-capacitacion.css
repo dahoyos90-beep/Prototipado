@@ -1,0 +1,123 @@
+/* modules/M17-Plan-Trabajo-Capacitacion/plan-trabajo-capacitacion.css */
+/* Estilos del wrapper del módulo Planes (contiene Plan de Capacitación y Plan de Trabajo) */
+/* 
+   @version 1.0.0
+   @since 2026-09-28
+*/
+
+.modulo-planes-wrapper {
+    width: 100%;
+}
+
+/* ================================================================ */
+/* HEADER DEL WRAPPER                                               */
+/* ================================================================ */
+
+.modulo-planes-wrapper .modulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-planes-wrapper .modulo-header h2 {
+    margin: 0;
+    color: var(--color-primary-dark);
+}
+
+.modulo-planes-wrapper .modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin: var(--spacing-xs) 0 0 0;
+    width: 100%;
+}
+
+/* ================================================================ */
+/* PESTAÑAS PRINCIPALES DEL WRAPPER                                  */
+/* ================================================================ */
+
+.modulo-planes-wrapper .tab-container {
+    width: 100%;
+}
+
+.modulo-planes-wrapper .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+}
+
+.modulo-planes-wrapper .tab-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.modulo-planes-wrapper .tab-button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.modulo-planes-wrapper .tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* ================================================================ */
+/* CONTENEDOR DEL SUBMÓDULO                                          */
+/* ================================================================ */
+
+.modulo-planes-wrapper .wrapper-contenido {
+    width: 100%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modulo-planes-wrapper .wrapper-contenido.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================ */
+/* RESPONSIVE (Mobile-First)                                        */
+/* ================================================================ */
+
+@media (min-width: 768px) {
+    .modulo-planes-wrapper .tab-button {
+        font-size: 0.95rem;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .modulo-planes-wrapper .tab-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+
+    .modulo-planes-wrapper .tab-button {
+        font-size: 0.8rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        white-space: nowrap;
+    }
+}

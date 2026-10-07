@@ -1,0 +1,363 @@
+/* ================================================================
+   auth.css
+   Estilos específicos para las páginas de autenticación
+   (login.html y register.html) de SG-SST Manager.
+   
+   Mobile-First: Diseñado para pantallas pequeñas, escalando hacia arriba.
+   ================================================================ */
+
+/* ================================================================
+   1. CONTENEDOR PRINCIPAL (centrado con fondo)
+   ================================================================ */
+
+/* Fondo de la página (gradiente azul institucional) */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    padding: var(--spacing-md);
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-gray-100); /* ✅ Punto 9: Fondo sutil de respaldo */
+}
+
+/* ✅ Tarjeta blanca que contiene el formulario (mejorada) */
+.auth-container {
+    width: 100%;
+    max-width: 440px;
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);  /* ✅ Punto 3: Sombra más suave */
+    padding: var(--spacing-xl);
+    border: 1px solid var(--color-gray-200); /* ✅ Punto 3: Borde más delgado */
+    transition: all var(--transition-normal);
+}
+
+/* Para registro (más campos) se necesita un poco más de ancho */
+.auth-container.register {
+    max-width: 480px;
+}
+
+/* Scroll interno si el contenido es muy largo (especialmente en registro) */
+.auth-container {
+    max-height: 98vh;
+    overflow-y: auto;
+}
+
+.auth-container::-webkit-scrollbar {
+    width: 6px;
+}
+.auth-container::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border-radius: 3px;
+}
+.auth-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ================================================================
+   2. CABECERA (logo + título) – Mejorada (puntos 4, 11)
+   ================================================================ */
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.auth-header .logo-img {
+    max-width: 60px;          /* ✅ Punto 11: Logo más integrado en móvil */
+    height: auto;
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gray-200);
+    padding: 4px;
+    background-color: var(--color-white);
+    display: inline-block;
+    transition: transform var(--transition-fast);
+}
+
+.auth-header .logo-img:hover {
+    transform: scale(1.05);
+}
+
+.auth-header h1 {
+    font-size: 1.6rem;        /* ✅ Punto 4: Título más grande */
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: -0.5px;
+}
+
+.auth-header p {
+    color: var(--color-gray-600);
+    font-size: 0.95rem;       /* ✅ Punto 4: Subtítulo más legible */
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.auth-header p strong {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* ================================================================
+   3. ALERTAS (mensajes de éxito/error)
+   ================================================================ */
+
+.alert {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+    border: 1px solid transparent;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.alert.show {
+    display: block;
+}
+
+.alert-error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+    border-color: #FECACA;
+}
+
+.alert-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+    border-color: #A7F3D0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================================================
+   4. FORMULARIO (campos específicos) – Mejorado (puntos 4, 5)
+   ================================================================ */
+
+.auth-container .form-group {
+    margin-bottom: var(--spacing-lg); /* ✅ Punto 5: Más espacio entre campos */
+}
+
+.auth-container .form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-gray-800);
+    line-height: 1.4;
+}
+
+.auth-container .form-group .required {
+    color: #DC2626;
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+/* ✅ Punto 5: Más padding en campos */
+.auth-container .form-control {
+    padding: 0.8rem 1rem;
+    min-height: 48px;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Campo de contraseña con ayuda */
+.password-hint {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    margin-top: var(--spacing-xs);
+    line-height: 1.5;
+}
+
+.password-hint strong {
+    color: var(--color-gray-700);
+}
+
+/* Texto de ayuda para campos opcionales */
+.form-text {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    margin-top: var(--spacing-xs);
+    font-style: italic;
+}
+
+/* ================================================================
+   5. BOTÓN DE ENVÍO – Mejorado (punto 7)
+   ================================================================ */
+
+.auth-container .form-actions {
+    margin-top: var(--spacing-lg);
+    border-top: none;
+    padding-top: 0;
+}
+
+.auth-container .btn-submit {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;         /* ✅ Altura táctil más generosa */
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-radius: var(--radius-md); /* ✅ Punto 7: 8px en lugar de 4px */
+    transition: all var(--transition-fast);
+}
+
+.auth-container .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ================================================================
+   6. DIVISOR Y PIE DE PÁGINA – Mejorado (punto 5)
+   ================================================================ */
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    color: var(--color-gray-400);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-gray-200);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    font-size: 0.9rem;
+    color: var(--color-gray-600);
+}
+
+.auth-footer a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.auth-footer a:hover {
+    color: var(--color-primary-light);
+    text-decoration: underline;
+}
+
+.register-hint {
+    margin-top: var(--spacing-xs);
+    font-size: 0.8rem;
+    color: var(--color-gray-500);
+}
+
+.register-hint small {
+    display: inline-block;
+}
+
+/* ================================================================
+   7. MEDIA QUERIES (Mobile-First → Escalamos)
+   ================================================================ */
+
+/* --- Tablets (min-width: 768px) --- */
+@media (min-width: 768px) {
+    .auth-page {
+        padding: var(--spacing-lg);
+    }
+
+    .auth-container {
+        padding: var(--spacing-xl) var(--spacing-xxl);
+        max-width: 480px;
+    }
+
+    .auth-container.register {
+        max-width: 520px;
+    }
+
+    .auth-header .logo-img {
+        max-width: 70px;      /* ✅ Punto 11: Logo más grande en tablet */
+    }
+
+    .auth-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .auth-header p {
+        font-size: 1rem;
+    }
+
+    .auth-container .btn-submit {
+        min-height: 56px;
+        font-size: 1.1rem;
+    }
+}
+
+/* --- Escritorio (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+    .auth-page {
+        padding: var(--spacing-xl);
+    }
+
+    .auth-container {
+        padding: var(--spacing-xxl);
+        max-width: 520px;
+        border-radius: var(--radius-xl);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* ✅ Sombra más suave */
+        border: 1px solid var(--color-gray-200);
+    }
+
+    .auth-container.register {
+        max-width: 560px;
+    }
+
+    .auth-header .logo-img {
+        max-width: 80px;      /* ✅ Punto 11: Logo más grande en escritorio */
+        transition: transform var(--transition-normal);
+    }
+
+    .auth-header .logo-img:hover {
+        transform: scale(1.05);
+    }
+
+    .auth-header h1 {
+        font-size: 2rem;
+    }
+
+    .auth-container .btn-submit {
+        min-height: 60px;
+        font-size: 1.2rem;
+    }
+
+    .auth-footer {
+        font-size: 1rem;
+    }
+}
+
+/* --- Pantallas extra grandes (min-width: 1400px) --- */
+@media (min-width: 1400px) {
+    .auth-container {
+        max-width: 600px;
+        padding: var(--spacing-xxl) calc(var(--spacing-xxl) * 1.5);
+    }
+
+    .auth-container.register {
+        max-width: 640px;
+    }
+}

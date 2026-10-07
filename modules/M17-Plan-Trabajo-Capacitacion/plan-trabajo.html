@@ -1,0 +1,52 @@
+<!-- modules/M17-Plan-Trabajo-Capacitacion/plan-trabajo.html -->
+<div class="modulo-plan-trabajo" id="modulo-plan-trabajo">
+    <div class="modulo-header">
+        <h2>📋 Plan de Trabajo</h2>
+        <p class="subtitle">Gestión de actividades, metas y seguimiento del plan anual de SST</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                         -->
+    <!-- ============================================================ -->
+    <div id="tab-container-plan-trabajo" class="tab-container">
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="plan-trabajo">📋 Plan de Trabajo</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB: PLAN DE TRABAJO                                         -->
+        <!-- ============================================================ -->
+        <div id="tab-plan-trabajo" class="tab-content">
+            <div class="card">
+                <!-- Selector de año -->
+                <div class="form-group año-selector">
+                    <label for="select-anio-plan-trabajo">Vigencia del Plan:</label>
+                    <select id="select-anio-plan-trabajo" class="form-control">
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024" selected>2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+
+                <!-- Sub-pestañas en dos filas -->
+                <div id="subtabs-plan-trabajo" class="subtabs-container">
+                    <!-- Fila 1: Consolidado / Datos Generales / Agregar Actividad -->
+                    <div class="subtabs-row subtabs-row-primary" id="subtabs-primary-plan-trabajo">
+                        <!-- Se generan dinámicamente con TypeScript -->
+                    </div>
+                    <!-- Fila 2: Meses -->
+                    <div class="subtabs-row subtabs-row-months" id="subtabs-months-plan-trabajo">
+                        <!-- Se generan dinámicamente con TypeScript -->
+                    </div>
+                </div>
+
+                <!-- Contenedor de contenido de sub-pestañas -->
+                <div id="subtab-contenido-plan-trabajo" class="subtab-contenido">
+                    <!-- El contenido se renderiza dinámicamente con TypeScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

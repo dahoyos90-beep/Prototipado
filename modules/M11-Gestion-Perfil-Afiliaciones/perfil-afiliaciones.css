@@ -1,0 +1,763 @@
+/* modules/M11-Gestion-Perfil-Afiliaciones/perfil-afiliaciones.css */
+/* Estilos específicos del módulo de Perfil y Afiliaciones */
+/* 
+   @version 2.0.0
+   @since 2026-09-16
+*/
+
+.modulo-perfil {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - .modulo-header unificado con flex     */
+/* 🟢 MODIFICADO: [2026-09-16] - h2 con margin 0 y color               */
+/* ═══════════════════════════════════════════════════════════════════ */
+.modulo-header {
+    display: flex;                          /* 🟢 MODIFICADO: [2026-09-16] */
+    justify-content: space-between;         /* 🟢 MODIFICADO: [2026-09-16] */
+    align-items: center;                    /* 🟢 MODIFICADO: [2026-09-16] */
+    flex-wrap: wrap;                        /* 🟢 MODIFICADO: [2026-09-16] */
+    gap: var(--spacing-sm);                 /* 🟢 MODIFICADO: [2026-09-16] */
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-header h2 {
+    margin: 0;                              /* 🟢 MODIFICADO: [2026-09-16] - Antes 0 0 xs 0 */
+    color: var(--color-primary-dark);       /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+.modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin: var(--spacing-xs) 0 0 0;        /* 🟢 MODIFICADO: [2026-09-16] */
+    width: 100%;                            /* 🟢 MODIFICADO: [2026-09-16] - Ocupa todo el ancho */
+}
+
+/* ================================================================ */
+/* PESTAÑAS PRINCIPALES                                             */
+/* ================================================================ */
+
+.tab-container {
+    width: 100%;
+}
+
+.tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - tab-button unificado con M10           */
+/*                              padding: sm lg (antes sm md)           */
+/*                              font-size: 0.9rem (antes 0.85rem)      */
+/* ═══════════════════════════════════════════════════════════════════ */
+.tab-button {
+    padding: var(--spacing-sm) var(--spacing-lg); /* 🟢 MODIFICADO: [2026-09-16] */
+    font-family: var(--font-secondary);
+    font-size: 0.9rem; /* 🟢 MODIFICADO: [2026-09-16] - Antes 0.85rem */
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+}
+
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================ */
+/* SUBTABS DE TRABAJADORES (Activos / Inactivos / Retirados)       */
+/* ================================================================ */
+
+.subtabs-trabajadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.subtab-button {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.subtab-button:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.subtab-button.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+/* ================================================================ */
+/* TARJETAS Y SECCIONES                                             */
+/* ================================================================ */
+
+.card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    transition: box-shadow var(--transition-normal);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-primary-dark);
+    font-size: 1.2rem;
+}
+
+.card .text-muted {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-md);
+}
+
+/* ================================================================ */
+/* FILTROS DE TRABAJADORES                                          */
+/* ================================================================ */
+
+.filtros-trabajadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - form-group unificado con M12           */
+/*                              flex: 1 1 200px (antes 180px)          */
+/* ═══════════════════════════════════════════════════════════════════ */
+.filtros-trabajadores .form-group {
+    flex: 1 1 200px; /* 🟢 MODIFICADO: [2026-09-16] - Antes 180px */
+    margin-bottom: 0;
+}
+
+.filtros-trabajadores .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.filtros-trabajadores .btn {
+    flex: 0 0 auto;
+}
+
+/* ================================================================ */
+/* TABLA DE TRABAJADORES (6 columnas)                              */
+/* ================================================================ */
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 ELIMINADO: [2026-09-16] - Se eliminó min-width: 800px            */
+/* 🟢 MODIFICADO: [2026-09-16] - Se agregó width: 100% para adaptarse  */
+/* ═══════════════════════════════════════════════════════════════════ */
+#tabla-trabajadores {
+    width: 100%; /* 🟢 MODIFICADO: [2026-09-16] - Ocupa todo el ancho */
+    /* 🟢 ELIMINADO: min-width: 800px; */
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Columna de soportes */
+.soportes-cell {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.btn-soporte {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-gray-300);
+    background-color: var(--color-white);
+    color: var(--color-gray-800);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.btn-soporte:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+/* Botones de acción de la tabla */
+.btn-retirar {
+    background-color: #F59E0B;
+    color: #ffffff;
+    border: 1px solid #F59E0B;
+}
+
+.btn-retirar:hover {
+    background-color: #D97706;
+    border-color: #D97706;
+}
+
+.btn-reactivar {
+    background-color: #10B981;
+    color: #ffffff;
+    border: 1px solid #10B981;
+}
+
+.btn-reactivar:hover {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+/* ================================================================ */
+/* FORMULARIO DE PERFIL                                             */
+/* ================================================================ */
+
+#form-perfil fieldset {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+#form-perfil legend {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    padding: 0 var(--spacing-sm);
+    font-size: 1rem;
+}
+
+#form-perfil .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+#form-perfil .form-row .form-group {
+    flex: 1 1 200px;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Campos de archivo (soportes) */
+#form-perfil .form-group-upload {
+    margin-top: var(--spacing-xs);
+    padding: var(--spacing-sm);
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--color-gray-300);
+}
+
+#form-perfil .form-group-upload label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-xs);
+}
+
+#form-perfil .form-group-upload .form-control-file {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-xs) 0;
+    font-size: 0.85rem;
+}
+
+/* Checkboxes agrupados */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-xs) 0;
+}
+
+.checkbox-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: 400;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.checkbox-group label:hover {
+    background-color: var(--color-gray-100);
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: var(--color-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Acciones del formulario */
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - .btn con min-width unificado          */
+/* ═══════════════════════════════════════════════════════════════════ */
+#form-perfil .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+#form-perfil .form-actions .btn {
+    flex: 1 1 auto;
+    min-width: 120px; /* 🟢 MODIFICADO: [2026-09-16] - Consistencia */
+}
+
+/* ================================================================ */
+/* ESTADÍSTICAS JERÁRQUICAS (SUB-SUBTABS)                          */
+/* ================================================================ */
+
+.stats-jerarquicas {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.subtab-bloques {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-gray-200);
+    padding-bottom: var(--spacing-xs);
+}
+
+.subtab-bloque {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.subtab-bloque:hover {
+    color: var(--color-primary);
+    background-color: var(--color-gray-100);
+}
+
+.subtab-bloque.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Sub-subtabs de tablas individuales */
+.subtab-tablas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
+}
+
+.subtab-tabla {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-gray-700, #374151);
+    background-color: var(--color-gray-100);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.subtab-tabla:hover {
+    background-color: var(--color-gray-200);
+    color: var(--color-primary);
+}
+
+.subtab-tabla.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Tabla individual */
+.stats-tabla-individual {
+    background-color: var(--color-white);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+}
+
+.stats-tabla-individual h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-md) 0;
+}
+
+.stats-tabla-individual table {
+    width: 100%;
+    font-size: 0.9rem;
+    border-collapse: collapse;
+}
+
+.stats-tabla-individual table th,
+.stats-tabla-individual table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.stats-tabla-individual table th {
+    background-color: var(--color-gray-100);
+    font-weight: 600;
+    color: var(--color-gray-600);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* (Compatibilidad con versiones anteriores de estadísticas) */
+.stats-bloque {
+    margin-bottom: var(--spacing-xl);
+}
+
+.stats-bloque h3 {
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+    border-bottom: 2px solid var(--color-gray-200);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.stats-tabla {
+    margin-bottom: var(--spacing-lg);
+    overflow-x: auto;
+}
+
+/* ================================================================ */
+/* SOPORTES DE AFILIACIÓN (tabla)                                  */
+/* ================================================================ */
+
+#tbody-soportes .btn-sm {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    min-height: 28px;
+}
+
+/* ================================================================ */
+/* ENCUESTAS VINCULADAS (con aplicadas/pendientes)                 */
+/* ================================================================ */
+
+.encuestas-header {
+    background-color: var(--color-gray-100);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 4px solid var(--color-primary);
+}
+
+.encuestas-header h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-primary-dark);
+    font-size: 1.1rem;
+}
+
+.encuestas-header .text-muted {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.encuestas-tabla {
+    width: 100%;
+    margin-bottom: var(--spacing-md);
+}
+
+.encuestas-tabla th {
+    background-color: var(--color-gray-100);
+    font-weight: 600;
+    color: var(--color-gray-600);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+}
+
+.encuestas-tabla td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.fila-pendiente {
+    background-color: #FEF3C7;
+}
+
+.fila-pendiente td {
+    color: #92400E;
+}
+
+/* (Compatibilidad con versiones anteriores) */
+#encuestas-container .encuesta-item {
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 4px solid var(--color-primary);
+}
+
+/* ================================================================ */
+/* MENSAJES DE ALERTA                                              */
+/* ================================================================ */
+
+#mensaje-perfil {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: none;
+}
+
+#mensaje-perfil.success {
+    display: block;
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+#mensaje-perfil.error {
+    display: block;
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* Alertas genéricas */
+.alert {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-md);
+}
+
+.alert-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+.alert-error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================ */
+/* RESPONSIVE                                                       */
+/* ================================================================ */
+
+/* Tablets y pantallas medianas */
+@media (min-width: 768px) {
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 MODIFICADO: [2026-09-16] - tab-button unificado con M10       */
+    /* ═══════════════════════════════════════════════════════════════ */
+    .tab-button {
+        font-size: 0.95rem; /* 🟢 MODIFICADO: [2026-09-16] */
+        padding: var(--spacing-sm) var(--spacing-lg); /* 🟢 MODIFICADO: [2026-09-16] */
+    }
+
+    #form-perfil .form-actions .btn {
+        flex: 0 1 auto;
+        min-width: 160px; /* 🟢 MODIFICADO: [2026-09-16] - Consistencia */
+    }
+
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 MODIFICADO: [2026-09-16] - form-group unificado con M12       */
+    /* ═══════════════════════════════════════════════════════════════ */
+    .filtros-trabajadores .form-group {
+        flex: 1 1 220px; /* 🟢 MODIFICADO: [2026-09-16] - Consistencia */
+    }
+
+    .subtab-bloque {
+        font-size: 0.9rem;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    .subtab-tabla {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+
+/* Escritorio */
+@media (min-width: 1024px) {
+    .card {
+        padding: var(--spacing-xl);
+    }
+
+    #form-perfil fieldset {
+        padding: var(--spacing-lg);
+    }
+
+    #form-perfil .form-row .form-group {
+        flex: 1 1 300px;
+    }
+
+    .checkbox-group {
+        gap: var(--spacing-md);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 ELIMINADO: [2026-09-16] - Se eliminó min-width: auto porque   */
+    /*                              ya no hay min-width en la tabla      */
+    /* ═══════════════════════════════════════════════════════════════ */
+}
+
+/* Móvil: ajustes finos */
+@media (max-width: 480px) {
+    .tab-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+
+    .tab-button {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        white-space: nowrap;
+    }
+
+    .subtabs-trabajadores {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .subtab-button {
+        font-size: 0.7rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .subtab-bloques {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .subtab-bloque {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .subtab-tablas {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .subtab-tabla {
+        font-size: 0.7rem;
+    }
+
+    .card {
+        padding: var(--spacing-md);
+    }
+
+    #form-perfil fieldset {
+        padding: var(--spacing-sm);
+    }
+
+    .filtros-trabajadores {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .filtros-trabajadores .form-group {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .filtros-trabajadores .btn {
+        width: 100%;
+    }
+
+    .checkbox-group {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .checkbox-group label {
+        padding: var(--spacing-xs);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 MODIFICADO: [2026-09-16] - Se eliminó min-width: 700px        */
+    /* ═══════════════════════════════════════════════════════════════ */
+    #tabla-trabajadores {
+        /* 🟢 ELIMINADO: min-width: 700px; */
+        font-size: 0.8rem;
+    }
+
+    .stats-tabla-individual table {
+        font-size: 0.8rem;
+    }
+}

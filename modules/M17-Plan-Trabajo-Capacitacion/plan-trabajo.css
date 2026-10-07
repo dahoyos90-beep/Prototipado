@@ -1,0 +1,897 @@
+/* modules/M17-Plan-Trabajo-Capacitacion/plan-trabajo.css */
+/* Estilos específicos del módulo Plan de Trabajo */
+/* Rediseño visual: limpio, moderno, profesional */
+/* 
+   @version 2.0.0
+   @since 2026-09-28
+*/
+
+.modulo-plan-trabajo {
+    width: 100%;
+    --pt-radius-card: 12px;
+    --pt-radius-pill: 999px;
+    --pt-transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+    --pt-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+    --pt-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.08);
+    --pt-border-subtle: 1px solid #E5E9F0;
+}
+
+/* ================================================================ */
+/* HEADER                                                           */
+/* ================================================================ */
+
+.modulo-plan-trabajo .modulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.modulo-plan-trabajo .modulo-header h2 {
+    margin: 0;
+    color: var(--color-primary-dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.modulo-plan-trabajo .modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.875rem;
+    margin: var(--spacing-xs) 0 0 0;
+    width: 100%;
+    font-weight: 400;
+}
+
+/* ================================================================ */
+/* SELECTOR DE AÑO                                                  */
+/* ================================================================ */
+
+.modulo-plan-trabajo .año-selector {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: 0;
+}
+
+.modulo-plan-trabajo .año-selector label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-gray-800);
+    margin-bottom: 0;
+}
+
+.modulo-plan-trabajo .año-selector .form-control {
+    max-width: 160px;
+    min-height: 40px;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    border-radius: var(--pt-radius-pill);
+    padding-left: var(--spacing-md);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-300);
+    transition: all var(--pt-transition);
+}
+
+.modulo-plan-trabajo .año-selector .form-control:hover {
+    border-color: var(--color-primary-light);
+}
+
+.modulo-plan-trabajo .año-selector .form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.12);
+    outline: none;
+}
+
+/* ================================================================ */
+/* PESTAÑAS PRINCIPALES                                             */
+/* ================================================================ */
+
+.modulo-plan-trabajo .tab-container {
+    width: 100%;
+}
+
+.modulo-plan-trabajo .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+}
+
+.modulo-plan-trabajo .tab-button {
+    position: relative;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--pt-transition);
+    white-space: nowrap;
+    border-radius: var(--pt-radius-pill);
+    margin-bottom: -2px;
+}
+
+.modulo-plan-trabajo .tab-button:hover {
+    color: var(--color-primary);
+    background-color: rgba(40, 75, 125, 0.06);
+}
+
+.modulo-plan-trabajo .tab-button.active {
+    color: var(--color-primary-dark);
+    font-weight: 700;
+}
+
+.modulo-plan-trabajo .tab-button.active::after {
+    content: '';
+    position: absolute;
+    left: var(--spacing-lg);
+    right: var(--spacing-lg);
+    bottom: -2px;
+    height: 3px;
+    background: var(--color-primary);
+    border-radius: 3px 3px 0 0;
+    transition: all var(--pt-transition);
+}
+
+.modulo-plan-trabajo .tab-content {
+    animation: pt-fadeIn 0.25s ease-out;
+}
+
+.modulo-plan-trabajo .tab-content.hidden {
+    display: none;
+}
+
+@keyframes pt-fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================ */
+/* SUB-PESTAÑAS (dos filas)                                         */
+/* ================================================================ */
+
+.modulo-plan-trabajo .subtabs-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-plan-trabajo .subtabs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.modulo-plan-trabajo .subtabs-row-primary {
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.modulo-plan-trabajo .subtabs-row-months {
+    padding-top: var(--spacing-xs);
+}
+
+.modulo-plan-trabajo .subtab-button {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--pt-radius-pill);
+    cursor: pointer;
+    transition: all var(--pt-transition);
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.modulo-plan-trabajo .subtab-button:hover {
+    background-color: rgba(40, 75, 125, 0.06);
+    color: var(--color-primary);
+    border-color: var(--color-primary-light);
+    transform: translateY(-1px);
+}
+
+.modulo-plan-trabajo .subtab-button.active {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--color-white);
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 2px 6px rgba(27, 54, 93, 0.25);
+}
+
+.modulo-plan-trabajo .subtab-button.active:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(27, 54, 93, 0.3);
+}
+
+.modulo-plan-trabajo .subtab-button.subtab-primary {
+    font-size: 0.85rem;
+    padding: 0.5rem 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+/* ================================================================ */
+/* CONTENIDO DE SUB-PESTAÑAS                                        */
+/* ================================================================ */
+
+.modulo-plan-trabajo .subtab-contenido {
+    width: 100%;
+}
+
+.modulo-plan-trabajo .subtab-panel {
+    animation: pt-fadeIn 0.25s ease-out;
+}
+
+.modulo-plan-trabajo .subtab-panel.hidden {
+    display: none;
+}
+
+/* ================================================================ */
+/* CARD                                                             */
+/* ================================================================ */
+
+.modulo-plan-trabajo .card {
+    background-color: var(--color-white);
+    border-radius: var(--pt-radius-card);
+    padding: var(--spacing-lg);
+    border: var(--pt-border-subtle);
+    box-shadow: var(--pt-shadow-card);
+    margin-bottom: var(--spacing-lg);
+    transition: box-shadow var(--pt-transition);
+}
+
+.modulo-plan-trabajo .card:hover {
+    box-shadow: var(--pt-shadow-hover);
+}
+
+/* ================================================================ */
+/* CONSOLIDADO GENERAL                                              */
+/* ================================================================ */
+
+.modulo-plan-trabajo .consolidado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(40, 75, 125, 0.05) 0%, rgba(30, 58, 138, 0.08) 100%);
+    border-radius: var(--pt-radius-card);
+    border-left: 4px solid var(--color-primary);
+}
+
+.modulo-plan-trabajo .consolidado-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--color-primary-dark);
+    font-weight: 700;
+}
+
+.modulo-plan-trabajo .consolidado-header p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+}
+
+.modulo-plan-trabajo .consolidado-resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-plan-trabajo .resumen-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    background-color: var(--color-white);
+    border: var(--pt-border-subtle);
+    border-radius: var(--pt-radius-card);
+    box-shadow: var(--pt-shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.modulo-plan-trabajo .resumen-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-primary);
+}
+
+.modulo-plan-trabajo .resumen-card.resumen-programadas::before { background: var(--color-primary); }
+.modulo-plan-trabajo .resumen-card.resumen-ejecutadas::before { background: #10B981; }
+.modulo-plan-trabajo .resumen-card.resumen-pendientes::before { background: #F59E0B; }
+.modulo-plan-trabajo .resumen-card.resumen-cumplimiento::before { background: #8B5CF6; }
+
+.modulo-plan-trabajo .resumen-card .resumen-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-gray-500);
+}
+
+.modulo-plan-trabajo .resumen-card .resumen-valor {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-primary-dark);
+    line-height: 1.1;
+}
+
+.modulo-plan-trabajo .resumen-card .resumen-detalle {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+}
+
+.modulo-plan-trabajo .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--color-gray-100);
+    border-radius: var(--pt-radius-pill);
+    overflow: hidden;
+    margin-top: var(--spacing-sm);
+}
+
+.modulo-plan-trabajo .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, #10B981 100%);
+    border-radius: var(--pt-radius-pill);
+    transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================================ */
+/* GRÁFICA INTERACTIVA                                              */
+/* ================================================================ */
+
+.modulo-plan-trabajo .grafica-container {
+    background: linear-gradient(180deg, var(--color-white) 0%, #FAFBFD 100%);
+    border: var(--pt-border-subtle);
+    border-radius: var(--pt-radius-card);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--pt-shadow-card);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modulo-plan-trabajo .grafica-container h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.modulo-plan-trabajo .grafica-container canvas {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-width: 300px;
+}
+
+/* ================================================================ */
+/* TOTALES DEL MES                                                  */
+/* ================================================================ */
+
+.modulo-plan-trabajo .totales-mes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    border-radius: var(--pt-radius-card);
+    margin-bottom: var(--spacing-lg);
+    border: var(--pt-border-subtle);
+}
+
+.modulo-plan-trabajo .totales-mes .total-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: var(--spacing-sm);
+    border-left: 3px solid var(--color-gray-300);
+}
+
+.modulo-plan-trabajo .totales-mes .total-item:nth-child(1) { border-left-color: var(--color-primary); }
+.modulo-plan-trabajo .totales-mes .total-item:nth-child(2) { border-left-color: #10B981; }
+.modulo-plan-trabajo .totales-mes .total-item:nth-child(3) { border-left-color: #8B5CF6; }
+.modulo-plan-trabajo .totales-mes .total-item:nth-child(4) { border-left-color: #F59E0B; }
+
+.modulo-plan-trabajo .totales-mes .total-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.modulo-plan-trabajo .totales-mes .total-valor {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary-dark);
+    line-height: 1.1;
+}
+
+.modulo-plan-trabajo .totales-mes .total-valor.meta {
+    color: #F59E0B;
+}
+
+/* ================================================================ */
+/* TABLA EDITABLE                                                   */
+/* ================================================================ */
+
+.modulo-plan-trabajo .tabla-actividades-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--pt-radius-card);
+    border: var(--pt-border-subtle);
+    background-color: var(--color-white);
+    box-shadow: var(--pt-shadow-card);
+}
+
+.modulo-plan-trabajo .tabla-actividades {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 1100px;
+}
+
+.modulo-plan-trabajo .tabla-actividades thead {
+    background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.modulo-plan-trabajo .tabla-actividades thead th {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-gray-600);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    background-color: #F8FAFC;
+    z-index: 1;
+    text-align: left;
+}
+
+.modulo-plan-trabajo .tabla-actividades tbody tr {
+    border-bottom: 1px solid var(--color-gray-100);
+    transition: background-color var(--pt-transition);
+}
+
+.modulo-plan-trabajo .tabla-actividades tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+.modulo-plan-trabajo .tabla-actividades tbody td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    vertical-align: middle;
+    color: var(--color-gray-800);
+    font-size: 0.85rem;
+}
+
+/* Celdas de etapa PHVA (colores suaves) */
+.modulo-plan-trabajo .tabla-actividades td.etapa-planear {
+    background-color: #E3F2FD;
+    font-weight: 700;
+    color: #1565C0;
+    border-radius: 6px 0 0 6px;
+}
+
+.modulo-plan-trabajo .tabla-actividades td.etapa-hacer {
+    background-color: #E8F5E9;
+    font-weight: 700;
+    color: #2E7D32;
+    border-radius: 6px 0 0 6px;
+}
+
+.modulo-plan-trabajo .tabla-actividades td.etapa-verificar {
+    background-color: #FFF8E1;
+    font-weight: 700;
+    color: #F9A825;
+    border-radius: 6px 0 0 6px;
+}
+
+.modulo-plan-trabajo .tabla-actividades td.etapa-actuar {
+    background-color: #FFEBEE;
+    font-weight: 700;
+    color: #C62828;
+    border-radius: 6px 0 0 6px;
+}
+
+/* Inputs dentro de la tabla */
+.modulo-plan-trabajo .tabla-actividades td input[type="text"],
+.modulo-plan-trabajo .tabla-actividades td input[type="number"],
+.modulo-plan-trabajo .tabla-actividades td textarea,
+.modulo-plan-trabajo .tabla-actividades td select {
+    width: 100%;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    background-color: var(--color-white);
+    transition: all var(--pt-transition);
+    color: var(--color-gray-800);
+}
+
+.modulo-plan-trabajo .tabla-actividades td input:focus,
+.modulo-plan-trabajo .tabla-actividades td textarea:focus,
+.modulo-plan-trabajo .tabla-actividades td select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.1);
+}
+
+.modulo-plan-trabajo .tabla-actividades td input:disabled,
+.modulo-plan-trabajo .tabla-actividades td select:disabled,
+.modulo-plan-trabajo .tabla-actividades td textarea:disabled {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-500);
+    cursor: not-allowed;
+}
+
+.modulo-plan-trabajo .tabla-actividades td textarea {
+    min-height: 40px;
+    resize: vertical;
+}
+
+/* Columna de porcentaje e indicador */
+.modulo-plan-trabajo .tabla-actividades td.porcentaje-cell {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.modulo-plan-trabajo .tabla-actividades td.indicador-cell {
+    font-weight: 700;
+    color: #8B5CF6;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.modulo-plan-trabajo .tabla-actividades td select.select-estado-mes {
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Evidencias: input de archivo */
+.modulo-plan-trabajo .evidencia-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modulo-plan-trabajo .evidencia-upload input[type="file"] {
+    font-size: 0.7rem;
+    padding: 0.25rem;
+    border: 1px dashed var(--color-gray-300);
+    border-radius: 6px;
+    background-color: #FAFBFD;
+    cursor: pointer;
+}
+
+.modulo-plan-trabajo .evidencia-upload input[type="file"]:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background-color: rgba(40, 75, 125, 0.04);
+}
+
+.modulo-plan-trabajo .evidencia-upload input[type="file"]:disabled {
+    background-color: var(--color-gray-100);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.modulo-plan-trabajo .evidencia-upload .evidencia-hint {
+    font-size: 0.65rem;
+    color: var(--color-gray-500);
+    font-style: italic;
+}
+
+.modulo-plan-trabajo .evidencia-upload .evidencia-hint.bloqueado {
+    color: #F59E0B;
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* ================================================================ */
+/* FORMULARIOS (Agregar y Datos Generales)                          */
+/* ================================================================ */
+
+.modulo-plan-trabajo #form-agregar-actividad fieldset,
+.modulo-plan-trabajo .datos-generales fieldset {
+    border: var(--pt-border-subtle);
+    border-radius: var(--pt-radius-card);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    background-color: var(--color-white);
+    box-shadow: var(--pt-shadow-card);
+}
+
+.modulo-plan-trabajo #form-agregar-actividad legend,
+.modulo-plan-trabajo .datos-generales legend {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    padding: 0 var(--spacing-sm);
+    font-size: 1rem;
+    background-color: var(--color-white);
+    border-radius: 6px;
+}
+
+.modulo-plan-trabajo #form-agregar-actividad .form-row,
+.modulo-plan-trabajo .datos-generales .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.modulo-plan-trabajo #form-agregar-actividad .form-row .form-group,
+.modulo-plan-trabajo .datos-generales .form-row .form-group {
+    flex: 1 1 200px;
+    margin-bottom: var(--spacing-md);
+}
+
+.modulo-plan-trabajo #form-agregar-actividad .form-actions,
+.modulo-plan-trabajo .datos-generales .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-gray-100);
+    padding-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.modulo-plan-trabajo #form-agregar-actividad .form-actions .btn,
+.modulo-plan-trabajo .datos-generales .form-actions .btn {
+    flex: 1 1 auto;
+    min-width: 140px;
+}
+
+.modulo-plan-trabajo .datos-generales .form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.modulo-plan-trabajo .datos-generales .form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-gray-800);
+}
+
+.modulo-plan-trabajo .datos-generales .form-control {
+    min-height: 42px;
+    border-radius: 8px;
+}
+
+.modulo-plan-trabajo .datos-generales textarea.form-control {
+    min-height: 100px;
+}
+
+/* ================================================================ */
+/* ALERTAS                                                          */
+/* ================================================================ */
+
+.modulo-plan-trabajo .alert {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 8px;
+    margin-top: var(--spacing-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    animation: pt-fadeIn 0.25s ease-out;
+}
+
+.modulo-plan-trabajo .alert-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+.modulo-plan-trabajo .alert-error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================ */
+/* EMPTY STATE                                                      */
+/* ================================================================ */
+
+.modulo-plan-trabajo .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxl) var(--spacing-md);
+    color: var(--color-gray-500);
+    text-align: center;
+}
+
+.modulo-plan-trabajo .empty-state .empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.4;
+}
+
+.modulo-plan-trabajo .empty-state .empty-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-xs);
+}
+
+.modulo-plan-trabajo .empty-state .empty-text {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+}
+
+/* ================================================================ */
+/* RESPONSIVE (Mobile-First)                                        */
+/* ================================================================ */
+
+@media (min-width: 768px) {
+    .modulo-plan-trabajo .tab-button {
+        font-size: 0.95rem;
+    }
+
+    .modulo-plan-trabajo .subtab-button {
+        font-size: 0.85rem;
+        padding: 0.45rem 1rem;
+    }
+
+    .modulo-plan-trabajo .subtab-button.subtab-primary {
+        font-size: 0.9rem;
+        padding: 0.55rem 1.25rem;
+    }
+
+    .modulo-plan-trabajo .tabla-actividades {
+        font-size: 0.9rem;
+        min-width: 1200px;
+    }
+
+    .modulo-plan-trabajo .tabla-actividades thead th {
+        font-size: 0.75rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .modulo-plan-trabajo .tabla-actividades tbody td {
+        padding: var(--spacing-md) var(--spacing-md);
+    }
+
+    .modulo-plan-trabajo .grafica-container canvas {
+        min-width: 500px;
+    }
+
+    .modulo-plan-trabajo .resumen-card .resumen-valor {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .modulo-plan-trabajo .card {
+        padding: var(--spacing-xl);
+    }
+
+    .modulo-plan-trabajo .tabla-actividades {
+        min-width: 1300px;
+    }
+
+    .modulo-plan-trabajo .grafica-container canvas {
+        min-width: 700px;
+    }
+
+    .modulo-plan-trabajo .totales-mes {
+        gap: var(--spacing-lg);
+    }
+}
+
+/* ================================================================ */
+/* MÓVIL: ajustes finos                                             */
+/* ================================================================ */
+
+@media (max-width: 480px) {
+    .modulo-plan-trabajo .modulo-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .modulo-plan-trabajo .tab-nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .modulo-plan-trabajo .tab-button {
+        font-size: 0.8rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        white-space: nowrap;
+    }
+
+    .modulo-plan-trabajo .tab-button.active::after {
+        left: var(--spacing-sm);
+        right: var(--spacing-sm);
+    }
+
+    .modulo-plan-trabajo .subtabs-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .modulo-plan-trabajo .subtab-button {
+        font-size: 0.7rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        white-space: nowrap;
+    }
+
+    .modulo-plan-trabajo .subtab-button.subtab-primary {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .modulo-plan-trabajo .año-selector {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .modulo-plan-trabajo .año-selector .form-control {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .modulo-plan-trabajo .tabla-actividades {
+        min-width: 1000px;
+        font-size: 0.75rem;
+    }
+
+    .modulo-plan-trabajo .tabla-actividades thead th,
+    .modulo-plan-trabajo .tabla-actividades tbody td {
+        padding: var(--spacing-xs);
+    }
+
+    .modulo-plan-trabajo .totales-mes {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .modulo-plan-trabajo .consolidado-resumen {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .modulo-plan-trabajo .resumen-card .resumen-valor {
+        font-size: 1.4rem;
+    }
+
+    .modulo-plan-trabajo #form-agregar-actividad .form-actions .btn,
+    .modulo-plan-trabajo .datos-generales .form-actions .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+<!-- modules/M03-Dashboard/dashboard.html -->
+<div class="modulo-dashboard" id="modulo-dashboard">
+    <div class="modulo-header">
+        <h2>📊 Dashboard</h2>
+        <p class="subtitle">Resumen de indicadores clave del SG-SST</p>
+    </div>
+
+    <!-- Banner de empresa activa (oculto si no hay empresa activa) -->
+    <div id="banner-empresa-activa" class="banner-empresa-activa hidden">
+        <span class="banner-icono">🏢</span>
+        <span class="banner-texto">
+            Trabajando en: <strong id="banner-empresa-nombre">—</strong>
+            (NIT: <span id="banner-empresa-nit">—</span>)
+        </span>
+    </div>
+
+    <!-- Contenedor de selección de empresa (visible si NO hay empresa activa) -->
+    <div id="dashboard-seleccion-empresa" class="dashboard-seleccion-empresa hidden">
+        <h3>Seleccione una empresa para comenzar</h3>
+        <p class="text-muted">Debe seleccionar y verificar el NIT de la empresa con la que desea trabajar.</p>
+
+        <!-- Lista de empresas disponibles (se genera dinámicamente) -->
+        <div id="lista-empresas-disponibles" class="lista-empresas">
+            <!-- Filas generadas dinámicamente -->
+        </div>
+
+        <!-- Mensaje si no hay empresas -->
+        <div id="mensaje-sin-empresas" class="mensaje-sin-empresas hidden">
+            <p>⚠️ No tiene empresas vinculadas.</p>
+            <button id="btn-ir-empresas" class="btn btn-primary">Ir a Gestión de Empresas</button>
+        </div>
+    </div>
+
+    <!-- Contenedor de tarjetas de indicadores (visible si hay empresa activa) -->
+    <div id="dashboard-indicadores" class="hidden">
+        <div id="dashboard-cards">
+            <!-- Las tarjetas se generan dinámicamente con TypeScript -->
+            <div class="loading-spinner">Cargando indicadores...</div>
+        </div>
+    </div>
+</div>

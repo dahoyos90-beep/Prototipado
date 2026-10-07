@@ -1,0 +1,571 @@
+<!-- modules/M11-Gestion-Perfil-Afiliaciones/perfil-afiliaciones.html -->
+<div class="modulo-perfil" id="modulo-perfil">
+    <div class="modulo-header">
+        <h2>📋 Gestión de Perfil y Afiliaciones</h2>
+        <p class="subtitle">Administración de trabajadores, perfil sociodemográfico y encuestas</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                         -->
+    <!-- ============================================================ -->
+    <div id="tab-container" class="tab-container">
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="trabajadores">👥 Trabajadores</button>
+            <button class="tab-button" data-tab="perfil">📝 Perfil Sociodemográfico</button>
+            <button class="tab-button" data-tab="estadisticas">📊 Estadísticas</button>
+            <button class="tab-button" data-tab="soportes">📎 Soportes de Afiliación</button>
+            <button class="tab-button" data-tab="encuestas">📋 Encuestas Vinculadas</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: TRABAJADORES                                         -->
+        <!-- ============================================================ -->
+        <div id="tab-trabajadores" class="tab-content">
+            <div class="card">
+                <h3>👥 Listado de Trabajadores</h3>
+
+                <!-- SUBTABS: Activos / Inactivos / Retirados -->
+                <div id="subtabs-trabajadores" class="subtabs-trabajadores">
+                    <!-- Los subtabs se generan dinámicamente con TypeScript -->
+                </div>
+
+                <div class="filtros-trabajadores">
+                    <div class="form-group">
+                        <label for="buscar-trabajador">Buscar por cédula o nombre</label>
+                        <input type="text" id="buscar-trabajador" class="form-control" placeholder="Ej. 1234567890 o nombre" />
+                    </div>
+                    <button id="btn-nuevo-trabajador" class="btn btn-primary">+ Nuevo Trabajador</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre Completo</th>
+                                <th>Estado</th>
+                                <th>Soportes</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-trabajadores">
+                            <!-- Las filas se generan dinámicamente con TypeScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: PERFIL SOCIODEMOGRÁFICO                              -->
+        <!-- ============================================================ -->
+        <div id="tab-perfil" class="tab-content hidden">
+            <div class="card">
+                <h3 id="perfil-titulo">Perfil Sociodemográfico</h3>
+                <form id="form-perfil" novalidate>
+                    <input type="hidden" id="perfil-trabajador-id" />
+
+                    <!-- ============================================================ -->
+                    <!-- SECCIÓN 1: DATOS PERSONALES Y DEMOGRÁFICOS                  -->
+                    <!-- ============================================================ -->
+                    <fieldset>
+                        <legend>Datos Personales y Demográficos</legend>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-tipo-documento">Tipo de documento <span class="required">*</span></label>
+                                <select id="perfil-tipo-documento" class="form-control" required>
+                                    <option value="Cédula">Cédula</option>
+                                    <option value="Cédula de extranjería">Cédula de extranjería</option>
+                                    <option value="Permiso de trabajo">Permiso de trabajo</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-cedula">Número de cédula <span class="required">*</span></label>
+                                <input type="text" id="perfil-cedula" class="form-control" placeholder="Ej. 1234567890" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-nombre">Nombres <span class="required">*</span></label>
+                                <input type="text" id="perfil-nombre" class="form-control" placeholder="Nombres" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-apellidos">Apellidos <span class="required">*</span></label>
+                                <input type="text" id="perfil-apellidos" class="form-control" placeholder="Apellidos" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-fecha-nacimiento">Fecha de nacimiento <span class="required">*</span></label>
+                                <input type="date" id="perfil-fecha-nacimiento" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-genero">Género <span class="required">*</span></label>
+                                <select id="perfil-genero" class="form-control" required>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-estado-civil">Estado civil <span class="required">*</span></label>
+                            <select id="perfil-estado-civil" class="form-control" required>
+                                <option value="Soltero/a">Soltero/a</option>
+                                <option value="Casado/a">Casado/a</option>
+                                <option value="Unión libre">Unión libre</option>
+                                <option value="Divorciado/a">Divorciado/a</option>
+                                <option value="Viudo/a">Viudo/a</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-oficio">Oficio actual <span class="required">*</span></label>
+                            <input type="text" id="perfil-oficio" class="form-control" placeholder="Ej. Representante legal, Vendedor" required />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-medio-transporte">Medio de transporte <span class="required">*</span></label>
+                                <select id="perfil-medio-transporte" class="form-control" required>
+                                    <option value="Automóvil">Automóvil</option>
+                                    <option value="Moto">Moto</option>
+                                    <option value="Bicicleta">Bicicleta</option>
+                                    <option value="Transporte público">Transporte público</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-zona-residencia">Zona de residencia <span class="required">*</span></label>
+                                <select id="perfil-zona-residencia" class="form-control" required>
+                                    <option value="Urbana">Urbana</option>
+                                    <option value="Rural">Rural</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-tipo-vivienda">Tipo de vivienda <span class="required">*</span></label>
+                                <select id="perfil-tipo-vivienda" class="form-control" required>
+                                    <option value="Propia">Propia</option>
+                                    <option value="Arrendada">Arrendada</option>
+                                    <option value="Familiar">Familiar</option>
+                                    <option value="Otra">Otra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-cabeza-familia">¿Es cabeza de familia? <span class="required">*</span></label>
+                                <select id="perfil-cabeza-familia" class="form-control" required>
+                                    <option value="Sí">Sí</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-personas-cargo">Número de personas a cargo <span class="required">*</span></label>
+                            <select id="perfil-personas-cargo" class="form-control" required>
+                                <option value="Menor o igual a 2 personas">Menor o igual a 2 personas</option>
+                                <option value="De 3 a 5 personas">De 3 a 5 personas</option>
+                                <option value="Más de 5 personas">Más de 5 personas</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-nivel-educacion">Nivel de educación <span class="required">*</span></label>
+                            <select id="perfil-nivel-educacion" class="form-control" required>
+                                <option value="Primaria">Primaria</option>
+                                <option value="Bachillerato">Bachillerato</option>
+                                <option value="Técnico/Tecnólogo">Técnico/Tecnólogo</option>
+                                <option value="Profesional">Profesional</option>
+                                <option value="Postgrado">Postgrado</option>
+                                <option value="Ninguno">Ninguno</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-ingresos">Ingresos mensuales <span class="required">*</span></label>
+                                <select id="perfil-ingresos" class="form-control" required>
+                                    <option value="Menos de 1 SMLV">Menos de 1 SMLV</option>
+                                    <option value="De 1 a 2 SMLV">De 1 a 2 SMLV</option>
+                                    <option value="De 2 a 3 SMLV">De 2 a 3 SMLV</option>
+                                    <option value="De 3 a 4 SMLV">De 3 a 4 SMLV</option>
+                                    <option value="Más de 4 SMLV">Más de 4 SMLV</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-antiguedad">Antigüedad en el oficio <span class="required">*</span></label>
+                                <select id="perfil-antiguedad" class="form-control" required>
+                                    <option value="Menos de 1 año">Menos de 1 año</option>
+                                    <option value="De 1 a 5 años">De 1 a 5 años</option>
+                                    <option value="De 6 a 10 años">De 6 a 10 años</option>
+                                    <option value="Más de 10 años">Más de 10 años</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-vinculacion">Vinculación laboral <span class="required">*</span></label>
+                                <select id="perfil-vinculacion" class="form-control" required>
+                                    <option value="Contrato término fijo o indefinido">Contrato término fijo o indefinido</option>
+                                    <option value="Obra labor contratada">Obra labor contratada</option>
+                                    <option value="Prestación de servicios">Prestación de servicios</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-jornada">Jornada laboral <span class="required">*</span></label>
+                                <select id="perfil-jornada" class="form-control" required>
+                                    <option value="Diurna">Diurna</option>
+                                    <option value="Nocturna">Nocturna</option>
+                                    <option value="Turnos">Turnos</option>
+                                    <option value="Por horas">Por horas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-fecha-ingreso">Fecha de ingreso a la empresa <span class="required">*</span></label>
+                                <input type="date" id="perfil-fecha-ingreso" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-fecha-retiro">Fecha de retiro (si aplica)</label>
+                                <input type="date" id="perfil-fecha-retiro" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================ -->
+                    <!-- SECCIÓN 2: AFILIACIONES Y SOPORTES                          -->
+                    <!-- ============================================================ -->
+                    <fieldset>
+                        <legend>Afiliaciones y Soporte</legend>
+
+                        <!-- EPS -->
+                        <div class="form-group">
+                            <label for="perfil-eps">EPS (Entidad Promotora de Salud)</label>
+                            <input type="text" id="perfil-eps" class="form-control" placeholder="Nombre de la EPS" />
+                            <div class="form-group-upload">
+                                <label for="perfil-eps-soporte">Cargar soporte EPS</label>
+                                <input type="file" id="perfil-eps-soporte" class="form-control-file" accept=".pdf,.jpg,.png,.jpeg" />
+                                <small class="form-text">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5 MB.</small>
+                            </div>
+                        </div>
+
+                        <!-- ARL -->
+                        <div class="form-group">
+                            <label for="perfil-arl">ARL (Administradora de Riesgos Laborales)</label>
+                            <input type="text" id="perfil-arl" class="form-control" placeholder="Nombre de la ARL" />
+                            <div class="form-group-upload">
+                                <label for="perfil-arl-soporte">Cargar soporte ARL</label>
+                                <input type="file" id="perfil-arl-soporte" class="form-control-file" accept=".pdf,.jpg,.png,.jpeg" />
+                                <small class="form-text">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5 MB.</small>
+                            </div>
+                        </div>
+
+                        <!-- AFP -->
+                        <div class="form-group">
+                            <label for="perfil-afp">AFP (Administradora de Fondos de Pensiones)</label>
+                            <input type="text" id="perfil-afp" class="form-control" placeholder="Nombre de la AFP" />
+                            <div class="form-group-upload">
+                                <label for="perfil-afp-soporte">Cargar soporte AFP</label>
+                                <input type="file" id="perfil-afp-soporte" class="form-control-file" accept=".pdf,.jpg,.png,.jpeg" />
+                                <small class="form-text">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5 MB.</small>
+                            </div>
+                        </div>
+
+                        <!-- Caja de Compensación -->
+                        <div class="form-group">
+                            <label for="perfil-caja">Caja de Compensación</label>
+                            <input type="text" id="perfil-caja" class="form-control" placeholder="Nombre de la Caja de Compensación" />
+                            <div class="form-group-upload">
+                                <label for="perfil-caja-soporte">Cargar soporte Caja de Compensación</label>
+                                <input type="file" id="perfil-caja-soporte" class="form-control-file" accept=".pdf,.jpg,.png,.jpeg" />
+                                <small class="form-text">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5 MB.</small>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================ -->
+                    <!-- SECCIÓN 3: CONDICIONES DE SALUD                              -->
+                    <!-- ============================================================ -->
+                    <fieldset>
+                        <legend>Condiciones de Salud</legend>
+
+                        <div class="form-group">
+                            <label for="perfil-frecuencia-deporte">¿Con qué frecuencia practica deporte? <span class="required">*</span></label>
+                            <select id="perfil-frecuencia-deporte" class="form-control" required>
+                                <option value="A diario">A diario</option>
+                                <option value="1 o 2 veces por semana">1 o 2 veces por semana</option>
+                                <option value="Cada 15 días">Cada 15 días</option>
+                                <option value="Ocasionalmente">Ocasionalmente</option>
+                                <option value="No practica">No practica</option>
+                                <option value="No sabe / No responde">No sabe / No responde</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-fuma">¿Fuma? <span class="required">*</span></label>
+                                <select id="perfil-fuma" class="form-control" required>
+                                    <option value="A diario">A diario</option>
+                                    <option value="Ocasionalmente">Ocasionalmente</option>
+                                    <option value="No fuma">No fuma</option>
+                                    <option value="No sabe / No responde">No sabe / No responde</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-alcohol">Consumo de alcohol <span class="required">*</span></label>
+                                <select id="perfil-alcohol" class="form-control" required>
+                                    <option value="1 vez a la semana">1 vez a la semana</option>
+                                    <option value="A diario">A diario</option>
+                                    <option value="Cada quincena">Cada quincena</option>
+                                    <option value="Ocasionalmente">Ocasionalmente</option>
+                                    <option value="No consume">No consume</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-alimentacion">¿Cuántas veces se alimenta al día? <span class="required">*</span></label>
+                            <select id="perfil-alimentacion" class="form-control" required>
+                                <option value="Igual o más de 3 veces">Igual o más de 3 veces</option>
+                                <option value="Menos de 3 veces">Menos de 3 veces</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-estado-salud">En general, ¿cómo considera su estado de salud? <span class="required">*</span></label>
+                            <select id="perfil-estado-salud" class="form-control" required>
+                                <option value="Excelente">Excelente</option>
+                                <option value="Bueno">Bueno</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Malo">Malo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Enfermedades diagnosticadas (selección múltiple)</label>
+                            <div class="checkbox-group" id="perfil-enfermedades">
+                                <label><input type="checkbox" value="Ninguna"> Ninguna</label>
+                                <label><input type="checkbox" value="Obesidad"> Obesidad</label>
+                                <label><input type="checkbox" value="Diabetes"> Diabetes</label>
+                                <label><input type="checkbox" value="Pérdida de la visión"> Pérdida de la visión</label>
+                                <label><input type="checkbox" value="Hipertensión arterial"> Hipertensión arterial</label>
+                                <label><input type="checkbox" value="Cáncer"> Cáncer</label>
+                                <label><input type="checkbox" value="Pérdida de la audición"> Pérdida de la audición</label>
+                                <label><input type="checkbox" value="Enfermedad pulmonar"> Enfermedad pulmonar</label>
+                                <label><input type="checkbox" value="Infarto"> Infarto</label>
+                                <label><input type="checkbox" value="Insuficiencia renal"> Insuficiencia renal</label>
+                                <label><input type="checkbox" value="Otra"> Otra</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Molestias frecuentes en los últimos 6 meses (selección múltiple)</label>
+                            <div class="checkbox-group" id="perfil-molestias">
+                                <label><input type="checkbox" value="Ninguna"> Ninguna</label>
+                                <label><input type="checkbox" value="Dificultad respiratoria"> Dificultad respiratoria</label>
+                                <label><input type="checkbox" value="Tos frecuente"> Tos frecuente</label>
+                                <label><input type="checkbox" value="Alteraciones digestivas"> Alteraciones digestivas</label>
+                                <label><input type="checkbox" value="Dolor de cuello, espalda y cintura"> Dolor de cuello, espalda y cintura</label>
+                                <label><input type="checkbox" value="Mal genio"> Mal genio</label>
+                                <label><input type="checkbox" value="Dolor de cabeza"> Dolor de cabeza</label>
+                                <label><input type="checkbox" value="Dolores musculares"> Dolores musculares</label>
+                                <label><input type="checkbox" value="Cansancio mental"> Cansancio mental</label>
+                                <label><input type="checkbox" value="Alteraciones del sueño (insomnio, somnolencia)"> Alteraciones del sueño</label>
+                                <label><input type="checkbox" value="Cambios visuales"> Cambios visuales</label>
+                                <label><input type="checkbox" value="Dificultad para algún movimiento"> Dificultad para algún movimiento</label>
+                                <label><input type="checkbox" value="Dolor en el pecho"> Dolor en el pecho</label>
+                                <label><input type="checkbox" value="Nerviosismo"> Nerviosismo</label>
+                                <label><input type="checkbox" value="Dificultad para concentrarse"> Dificultad para concentrarse</label>
+                                <label><input type="checkbox" value="Palpitaciones"> Palpitaciones</label>
+                                <label><input type="checkbox" value="Otro"> Otro</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Discapacidades (selección múltiple)</label>
+                            <div class="checkbox-group" id="perfil-discapacidad">
+                                <label><input type="checkbox" value="Física o motora"> Física o motora</label>
+                                <label><input type="checkbox" value="Sensorial (Visual, Auditiva)"> Sensorial (Visual, Auditiva)</label>
+                                <label><input type="checkbox" value="Intelectual o Mental"> Intelectual o Mental</label>
+                                <label><input type="checkbox" value="Ninguna"> Ninguna</label>
+                                <label><input type="checkbox" value="No sabe / No responde"> No sabe / No responde</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================ -->
+                    <!-- SECCIÓN 4: CONDICIONES DE SEGURIDAD Y COVID-19              -->
+                    <!-- ============================================================ -->
+                    <fieldset>
+                        <legend>Condiciones de Seguridad y COVID-19</legend>
+
+                        <div class="form-group">
+                            <label for="perfil-conoce-sg">¿Conoce si la empresa cuenta con SG-SST? <span class="required">*</span></label>
+                            <select id="perfil-conoce-sg" class="form-control" required>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Accidentes sufridos durante la ejecución del oficio (selección múltiple)</label>
+                            <div class="checkbox-group" id="perfil-accidentes">
+                                <label><input type="checkbox" value="Ninguna"> Ninguna</label>
+                                <label><input type="checkbox" value="Golpes"> Golpes</label>
+                                <label><input type="checkbox" value="Accidente de tránsito"> Accidente de tránsito</label>
+                                <label><input type="checkbox" value="Quemadura"> Quemadura</label>
+                                <label><input type="checkbox" value="Amputación"> Amputación</label>
+                                <label><input type="checkbox" value="Fractura"> Fractura</label>
+                                <label><input type="checkbox" value="Torcedura (Esguince)"> Torcedura (Esguince)</label>
+                                <label><input type="checkbox" value="Caídas"> Caídas</label>
+                                <label><input type="checkbox" value="Heridas"> Heridas</label>
+                                <label><input type="checkbox" value="Otro"> Otro</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-objeto-accidente">Objeto que generó el accidente (selección simple) <span class="required">*</span></label>
+                            <select id="perfil-objeto-accidente" class="form-control" required>
+                                <option value="Máquinas, equipos o herramientas">Máquinas, equipos o herramientas</option>
+                                <option value="Medios de transporte">Medios de transporte</option>
+                                <option value="Ambiente de trabajo (Escaleras, desniveles, etc.)">Ambiente de trabajo</option>
+                                <option value="Animales">Animales</option>
+                                <option value="Materiales o sustancias">Materiales o sustancias</option>
+                                <option value="Otro">Otro</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil-parte-cuerpo">Parte del cuerpo afectada (selección simple) <span class="required">*</span></label>
+                            <select id="perfil-parte-cuerpo" class="form-control" required>
+                                <option value="Cabeza o cuello">Cabeza o cuello</option>
+                                <option value="Tórax">Tórax</option>
+                                <option value="Abdomen">Abdomen</option>
+                                <option value="Tronco (Espalda)">Tronco (Espalda)</option>
+                                <option value="Brazos o manos">Brazos o manos</option>
+                                <option value="Piernas o pies">Piernas o pies</option>
+                                <option value="Ubicaciones múltiples">Ubicaciones múltiples</option>
+                                <option value="Otro">Otro</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Exposición a peligros o riesgos laborales (selección múltiple)</label>
+                            <div class="checkbox-group" id="perfil-riesgos">
+                                <label><input type="checkbox" value="Esfuerzos inadecuados o movimientos repetitivos"> Esfuerzos inadecuados o movimientos repetitivos</label>
+                                <label><input type="checkbox" value="Levantamiento o cargue de elementos pesados"> Levantamiento o cargue de elementos pesados</label>
+                                <label><input type="checkbox" value="Infecciones por virus, bacterias u otros"> Infecciones por virus, bacterias u otros</label>
+                                <label><input type="checkbox" value="Accidentes de tránsito"> Accidentes de tránsito</label>
+                                <label><input type="checkbox" value="Ruidos fuertes"> Ruidos fuertes</label>
+                                <label><input type="checkbox" value="Posturas inadecuadas"> Posturas inadecuadas</label>
+                                <label><input type="checkbox" value="Horarios y cargas de trabajo excesivas"> Horarios y cargas de trabajo excesivas</label>
+                                <label><input type="checkbox" value="Contacto con químicos peligrosos y no peligrosos"> Contacto con químicos peligrosos y no peligrosos</label>
+                                <label><input type="checkbox" value="Contacto con máquinas o herramientas"> Contacto con máquinas o herramientas</label>
+                                <label><input type="checkbox" value="Caída de objetos"> Caída de objetos</label>
+                                <label><input type="checkbox" value="Robos, atentados terroristas o desorden público"> Robos, atentados terroristas o desorden público</label>
+                                <label><input type="checkbox" value="Exceso de calor o frío"> Exceso de calor o frío</label>
+                                <label><input type="checkbox" value="Pisos irregulares o con desniveles"> Pisos irregulares o con desniveles</label>
+                                <label><input type="checkbox" value="Incendios o explosiones"> Incendios o explosiones</label>
+                                <label><input type="checkbox" value="Falta de participación en la toma de decisiones que afectan al trabajador"> Falta de participación en la toma de decisiones</label>
+                                <label><input type="checkbox" value="Falta de claridad de las funciones del oficio"> Falta de claridad de las funciones del oficio</label>
+                                <label><input type="checkbox" value="Ninguno"> Ninguno</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="perfil-covid">¿Ha tenido COVID-19 con prueba positiva? <span class="required">*</span></label>
+                                <select id="perfil-covid" class="form-control" required>
+                                    <option value="Sí">Sí</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfil-vacunado">¿Se encuentra vacunado contra COVID-19? <span class="required">*</span></label>
+                                <select id="perfil-vacunado" class="form-control" required>
+                                    <option value="Sí">Sí</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Perfil</button>
+                        <button type="button" id="btn-cancelar-perfil" class="btn btn-outline">Cancelar</button>
+                    </div>
+                </form>
+                <div id="mensaje-perfil" class="alert" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: ESTADÍSTICAS                                          -->
+        <!-- ============================================================ -->
+        <div id="tab-estadisticas" class="tab-content hidden">
+            <div class="card">
+                <h3>📊 Estadísticas Sociodemográficas</h3>
+                <p class="text-muted">A continuación se presentan las 22 tablas con los indicadores clave de la población encuestada.</p>
+                <div id="stats-container">
+                    <div class="loading-spinner">Cargando estadísticas...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: SOPORTES DE AFILIACIÓN                                -->
+        <!-- ============================================================ -->
+        <div id="tab-soportes" class="tab-content hidden">
+            <div class="card">
+                <h3>📎 Soportes de Afiliación</h3>
+                <p class="text-muted">Listado de trabajadores con sus soportes de afiliación disponibles para descarga.</p>
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombre Completo</th>
+                                <th>EPS</th>
+                                <th>ARL</th>
+                                <th>AFP</th>
+                                <th>Caja de Compensación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-soportes">
+                            <!-- Las filas se generan dinámicamente con TypeScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: ENCUESTAS VINCULADAS                                  -->
+        <!-- ============================================================ -->
+        <div id="tab-encuestas" class="tab-content hidden">
+            <div class="card">
+                <h3>📋 Encuestas Vinculadas</h3>
+                <p class="text-muted">Historial de encuestas (Nordic, Psicosocial, CondicionesSalud) aplicadas al trabajador seleccionado.</p>
+                <div id="encuestas-container">
+                    <p class="text-muted">Seleccione un trabajador en la tabla de "Trabajadores" para ver sus encuestas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

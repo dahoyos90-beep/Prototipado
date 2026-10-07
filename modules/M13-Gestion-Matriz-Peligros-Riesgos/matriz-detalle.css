@@ -1,0 +1,619 @@
+/* ================================================================
+   modules/M13-Gestion-Matriz-Peligros-Riesgos/matriz-detalle.css
+   Estilos del módulo M13 - Matriz de Riesgos (GTC 45).
+
+   @version 1.0.3 (fix scroll: sobrescribe height/overflow/display de global.css)
+   @since 2026-09-21
+   ================================================================ */
+
+/* ================================================================
+   RESET UNIVERSAL
+   ================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================================================================
+   BASE
+   ⚠️ IMPORTANTE: matriz-detalle.html se abre como página
+   independiente (pestaña nueva), NO dentro del layout de index.html.
+   Por eso hay que sobrescribir las reglas de global.css que asumen
+   el layout del SPA (body con height: 100vh + overflow: hidden).
+   ================================================================ */
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #f1f5f9;
+    color: #1E293B;
+    padding: 15px;
+    line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+
+    /* ⚠️ Sobrescribir el layout del SPA (global.css) */
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+.modulo-matriz-detalle {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    background: #f1f5f9;
+    color: #1E293B;
+    line-height: 1.6;
+}
+
+/* ================================================================
+   BOTONES
+   ================================================================ */
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary { background: #284B7D; color: white; }
+.btn-primary:hover { background: #3A6B9E; }
+
+.btn-success { background: #10B981; color: white; }
+.btn-success:hover { background: #059669; }
+
+.btn-danger { background: #DC2626; color: white; }
+.btn-danger:hover { background: #B91C1C; }
+
+.btn-warning { background: #F59E0B; color: white; }
+.btn-warning:hover { background: #D97706; }
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #284B7D;
+    color: #284B7D;
+}
+.btn-outline:hover { background: #284B7D; color: white; }
+
+.btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+
+/* ================================================================
+   CARD
+   ================================================================ */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ================================================================
+   ENCABEZADO DE LA MATRIZ (estilo Excel naranja)
+   ================================================================ */
+
+.matriz-encabezado {
+    background: #F59E0B;
+    border: 2px solid #92400E;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.matriz-encabezado-titulo {
+    background: #F59E0B;
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 2px solid #92400E;
+}
+
+.matriz-encabezado-subtitulo {
+    background: #FEF3C7;
+    color: #78350F;
+    padding: 6px 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid #92400E;
+}
+
+.matriz-encabezado-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0;
+    background: white;
+}
+
+.matriz-campo {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 10px;
+    border-right: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    min-width: 0;
+}
+
+.matriz-campo label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #78350F;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 3px;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+.matriz-campo input,
+.matriz-campo select {
+    padding: 4px 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: inherit;
+    background: white;
+    width: 100%;
+}
+
+.matriz-campo input:focus,
+.matriz-campo select:focus {
+    outline: none;
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+/* ================================================================
+   HEADER DE SECCIÓN
+   ================================================================ */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.section-header h3 {
+    color: #1B365D;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ================================================================
+   RESUMEN (chips)
+   ================================================================ */
+
+.md-resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.md-resumen:empty {
+    display: none;
+}
+
+.md-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.md-chip b {
+    font-size: 0.85rem;
+}
+
+.md-chip i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* ================================================================
+   PESTAÑAS INTERNAS
+   ================================================================ */
+
+.md-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #1B365D;
+    padding: 0 4px;
+}
+
+.md-tab {
+    padding: 9px 14px;
+    border: 1px solid #cbd5e1;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    background: #e2e8f0;
+    color: #334155;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: background 0.15s;
+}
+
+.md-tab:hover {
+    background: #cbd5e1;
+}
+
+.md-tab.activa {
+    background: #1B365D;
+    color: white;
+    border-color: #1B365D;
+}
+
+.md-tab-sep {
+    flex: 1 1 auto;
+}
+
+.md-panel {
+    padding-top: 14px;
+}
+
+.md-tab:focus-visible {
+    outline: 3px solid #F59E0B;
+    outline-offset: 2px;
+}
+
+/* ================================================================
+   INFO BOX
+   ================================================================ */
+
+.info-box {
+    background: #eff6ff;
+    border-left: 4px solid #284B7D;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.8rem;
+    color: #1E293B;
+}
+
+.info-box strong {
+    color: #1B365D;
+}
+
+/* ================================================================
+   TABLA DE RIESGOS
+   ================================================================ */
+
+.tabla-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 2px solid #1B365D;
+    border-radius: 6px;
+    background: white;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabla-matriz {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+}
+
+.tabla-matriz thead tr:first-child th {
+    background: #1B365D;
+    color: white;
+    padding: 6px 4px;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid #0f2942;
+    white-space: nowrap;
+}
+
+.tabla-matriz thead tr:nth-child(2) th {
+    background: #3A6B9E;
+    color: white;
+    padding: 5px 3px;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid #1B365D;
+    white-space: nowrap;
+}
+
+.tabla-matriz td {
+    padding: 5px 4px;
+    border: 1px solid #d1d5db;
+    vertical-align: middle;
+    background: white;
+    font-size: 0.7rem;
+}
+
+.tabla-matriz tbody tr:hover td {
+    background: #f8fafc;
+}
+
+.tabla-matriz input,
+.tabla-matriz select,
+.tabla-matriz textarea {
+    width: 100%;
+    padding: 3px 4px;
+    border: 1px solid #e2e8f0;
+    border-radius: 3px;
+    font-size: 0.68rem;
+    font-family: inherit;
+    background: white;
+    box-sizing: border-box;
+}
+
+.tabla-matriz textarea {
+    resize: vertical;
+    min-height: 38px;
+    display: block;
+}
+
+.tabla-matriz input:focus,
+.tabla-matriz select:focus,
+.tabla-matriz textarea:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 2px rgba(40, 75, 125, 0.15);
+}
+
+.tabla-matriz .calculado {
+    background: #f1f5f9;
+    font-weight: 700;
+    text-align: center;
+    color: #284B7D;
+}
+
+.tabla-matriz .resultado-riesgo {
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    padding: 5px 3px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    display: block;
+}
+
+.tabla-matriz .td-indice {
+    text-align: center;
+    font-weight: 700;
+    color: #1B365D;
+    background: #f8fafc;
+}
+
+.tabla-matriz .td-contexto {
+    background: #f8fafc;
+}
+
+.tabla-matriz .td-contexto strong {
+    display: block;
+    font-weight: 600;
+    color: #1B365D;
+}
+
+.tabla-matriz .td-contexto span {
+    display: block;
+    color: #64748B;
+    font-size: 0.66rem;
+    margin-top: 2px;
+}
+
+.tabla-matriz .td-vacio {
+    text-align: center;
+    padding: 22px;
+    color: #64748B;
+}
+
+/* Colores de los niveles de riesgo */
+.riesgo-i { background: #DC2626; }
+.riesgo-ii { background: #F59E0B; }
+.riesgo-iii { background: #FCD34D; color: #78350F; }
+.riesgo-iv { background: #10B981; }
+
+/* Colores de los encabezados agrupadores */
+.th-base { background: #1B365D !important; }
+.th-peligros { background: #4CAF50 !important; }
+.th-control { background: #2196F3 !important; }
+.th-eficiencia { background: #FF9800 !important; }
+.th-evaluacion { background: #9C27B0 !important; }
+.th-criterios { background: #00BCD4 !important; }
+.th-medidas { background: #F44336 !important; }
+.th-legal { background: #795548 !important; }
+
+/* ================================================================
+   MENSAJES DE ALERTA
+   ================================================================ */
+
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+.alert.success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+.alert.error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================
+   TABLAS DE CONSULTA (Tabla 1 y Guía 2-9)
+   ================================================================ */
+
+.guia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    gap: 16px;
+}
+
+.guia-bloque {
+    min-width: 0;
+}
+
+.guia-bloque h4 {
+    color: #1B365D;
+    font-size: 0.9rem;
+    margin: 0 0 6px;
+}
+
+.guia-bloque p {
+    font-size: 0.75rem;
+    color: #475569;
+    margin: 6px 0 0;
+}
+
+.tabla-guia {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+
+.tabla-guia th {
+    background: #1B365D;
+    color: white;
+    padding: 6px 8px;
+    border: 1px solid #0f2942;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.tabla-guia td {
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+}
+
+.tabla-guia td.c {
+    text-align: center;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.tabla-guia td.fila-titulo {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #1B365D;
+}
+
+.tabla-guia .c-i { background: #DC2626; color: white; }
+.tabla-guia .c-ii { background: #F59E0B; color: white; }
+.tabla-guia .c-iii { background: #FCD34D; color: #78350F; }
+.tabla-guia .c-iv { background: #10B981; color: white; }
+.tabla-guia .c-ma { background: #fecaca; }
+.tabla-guia .c-a { background: #fed7aa; }
+.tabla-guia .c-m { background: #fef08a; }
+.tabla-guia .c-b { background: #bbf7d0; }
+.tabla-guia .fw { overflow-x: auto; }
+
+/* ================================================================
+   DROPDOWN
+   ================================================================ */
+
+.tabla-matriz select option {
+    font-size: 0.75rem;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+@media (max-width: 1200px) {
+    .matriz-encabezado-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .matriz-encabezado-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .guia-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .guia-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .md-tab {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .matriz-encabezado-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    body,
+    .modulo-matriz-detalle {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .section-header .btn {
+        width: 100%;
+    }
+}

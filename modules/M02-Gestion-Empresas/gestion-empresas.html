@@ -1,0 +1,89 @@
+<!-- modules/M02-Gestion-Empresas/gestion-empresas.html -->
+<div class="modulo-empresas" id="modulo-empresas">
+    <div class="modulo-header">
+        <h2>🏢 Gestión de Empresas</h2>
+        <button id="btn-nueva-empresa" class="btn btn-primary">+ Nueva Empresa</button>
+    </div>
+
+    <!-- Formulario de registro/edición (oculto por defecto) -->
+    <div id="form-empresa-container" class="form-container hidden">
+        <h3 id="form-empresa-titulo">Registrar Empresa</h3>
+        <form id="form-empresa" novalidate>
+            <input type="hidden" id="empresa-id" />
+
+            <div class="form-group">
+                <label for="razon-social">Razón Social <span class="required">*</span></label>
+                <input type="text" id="razon-social" class="form-control" placeholder="Ej. Mi Empresa S.A.S" required />
+                <div class="invalid-feedback">La razón social es obligatoria.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="nit-empresa">NIT <span class="required">*</span></label>
+                <input type="text" id="nit-empresa" class="form-control" placeholder="Ej. 900123456-7" required />
+                <div class="invalid-feedback">Ingresa un NIT válido (8-12 dígitos).</div>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion-empresa">Dirección <span class="required">*</span></label>
+                <input type="text" id="direccion-empresa" class="form-control" placeholder="Ej. Calle 123 #45-67" required />
+                <div class="invalid-feedback">La dirección es obligatoria.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="correo-empresa">Correo electrónico <span class="required">*</span></label>
+                <input type="email" id="correo-empresa" class="form-control" placeholder="contacto@empresa.com" required />
+                <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono-empresa">Teléfono <span class="required">*</span></label>
+                <input type="tel" id="telefono-empresa" class="form-control" placeholder="Ej. 6011234567" required />
+                <div class="invalid-feedback">Ingresa un teléfono válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="representante-legal">Representante Legal <span class="required">*</span></label>
+                <input type="text" id="representante-legal" class="form-control" placeholder="Ej. Juan Pérez" required />
+                <div class="invalid-feedback">El representante legal es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="estado-empresa">Estado</label>
+                <select id="estado-empresa" class="form-control">
+                    <option value="Activa">Activa</option>
+                    <option value="Inactiva">Inactiva</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">💾 Guardar</button>
+                <button type="button" id="btn-cancelar-form" class="btn btn-outline">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de empresas -->
+    <div class="table-container">
+        <table class="table table-striped" id="tabla-empresas">
+            <thead>
+                <tr>
+                    <th>Razón Social</th>
+                    <th>NIT</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Representante</th>
+                    <th>Estado</th>
+                    <th>Estado Eliminación</th>
+                    <th>Días Restantes</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-empresas">
+                <!-- Filas generadas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensaje de alerta (se muestra mediante JS) -->
+    <div id="mensaje-empresas" class="alert" style="display:none;"></div>
+</div>

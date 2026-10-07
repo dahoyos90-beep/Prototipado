@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro · SG-SST Manager</title>
+
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components/buttons.css" />
+    <link rel="stylesheet" href="css/components/forms.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container register">
+        <div class="auth-header">
+            <img 
+                src="assets/images/Logo Sg-sst Manager 2.jpg" 
+                alt="SG-SST Manager" 
+                class="logo-img" 
+                loading="lazy"
+            />
+            <h1>Registro de Usuario</h1>
+            <p>Crear cuenta de <strong>Profesional SST</strong></p>
+        </div>
+
+        <div id="alert-error" class="alert alert-error">
+            <span id="error-message">Error en el registro.</span>
+        </div>
+        <div id="alert-success" class="alert alert-success">
+            <span id="success-message">¡Registro exitoso! Redirigiendo al login...</span>
+        </div>
+
+        <form id="register-form" novalidate>
+            <!-- Campos (igual que antes) -->
+            <div class="form-group">
+                <label for="nombre">Nombre completo <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="nombre" 
+                    class="form-control" 
+                    placeholder="Ej. Ana María Pérez" 
+                    required 
+                    autofocus
+                />
+                <div class="invalid-feedback">El nombre completo es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo electrónico <span class="required">*</span></label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control" 
+                    placeholder="ejemplo@correo.com" 
+                    required 
+                />
+                <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña <span class="required">*</span></label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-control" 
+                    placeholder="Mínimo 8 caracteres" 
+                    required 
+                />
+                <div class="password-hint">
+                    🔐 Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.
+                </div>
+                <div class="invalid-feedback">La contraseña no cumple con los requisitos de seguridad.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password-confirm">Confirmar contraseña <span class="required">*</span></label>
+                <input 
+                    type="password" 
+                    id="password-confirm" 
+                    class="form-control" 
+                    placeholder="Repite la contraseña" 
+                    required 
+                />
+                <div class="invalid-feedback">Las contraseñas no coinciden.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="documento">Documento de identidad <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="documento" 
+                    class="form-control" 
+                    placeholder="Ej. 1234567890" 
+                    required 
+                />
+                <div class="invalid-feedback">El documento es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono <span class="required">*</span></label>
+                <input 
+                    type="tel" 
+                    id="telefono" 
+                    class="form-control" 
+                    placeholder="Ej. 3001234567" 
+                    required 
+                />
+                <div class="invalid-feedback">El teléfono es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="licencia">Licencia SST (opcional)</label>
+                <input 
+                    type="text" 
+                    id="licencia" 
+                    class="form-control" 
+                    placeholder="Ej. SST-2026-001" 
+                />
+                <div class="form-text">Si no tienes licencia, déjalo vacío.</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success btn-submit">
+                    ✅ Registrarse
+                </button>
+            </div>
+        </form>
+
+        <div class="auth-divider">o</div>
+
+        <div class="auth-footer">
+            ¿Ya tienes cuenta? 
+            <a href="login.html">Inicia sesión aquí</a>
+            <div class="register-hint">
+                <small>⚠️ Solo se permite el registro de <strong>Profesionales SST</strong> (administradores).</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS (ruta corregida a dist/src/)                         -->
+    <!-- ============================================================ -->
+    <script type="module" src="dist/src/register.js"></script>
+
+</body>
+</html>

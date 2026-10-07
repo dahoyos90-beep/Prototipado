@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SG-SST Manager · Prototipo</title>
+
+    <!-- ===== ESTILOS GLOBALES ===== -->
+    <link rel="stylesheet" href="css/global.css" />
+
+    <!-- ===== COMPONENTES REUTILIZABLES ===== -->
+    <link rel="stylesheet" href="css/components/buttons.css" />
+    <link rel="stylesheet" href="css/components/forms.css" />
+    <link rel="stylesheet" href="css/components/tables.css" />
+    <link rel="stylesheet" href="css/components/modals.css" />
+    <link rel="stylesheet" href="css/components/notificaciones.css" />
+</head>
+
+<body>
+    <!-- ============================================================ -->
+    <!-- CABECERA PRINCIPAL                                            -->
+    <!-- ============================================================ -->
+    <header id="app-header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo-wrapper">
+                <img
+                    src="assets/images/Logo Sg-sst Manager 2.jpg"
+                    alt="Logo SG-SST Manager"
+                    class="logo-img"
+                    loading="lazy"
+                />
+            </div>
+
+            <!-- Títulos -->
+            <div class="header-titles">
+                <h1>SG-SST Manager</h1>
+                <p class="subtitle">Seguridad y Salud en el Trabajo</p>
+            </div>
+
+            <!-- Área de usuario (se llena dinámicamente con app.ts) -->
+            <div id="user-area" class="user-area"></div>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- CUERPO PRINCIPAL: MENÚ LATERAL + CONTENIDO                   -->
+    <!-- ============================================================ -->
+    <div class="app-body">
+        <!-- Menú lateral -->
+        <nav id="app-nav" aria-label="Navegación principal">
+            <ul class="nav-list">
+                <li><a href="#" data-modulo="M03-Dashboard" class="nav-link active">📊 Dashboard</a></li>
+                <li><a href="#" data-modulo="M01-Gestion-Usuarios" class="nav-link">👥 Usuarios</a></li>
+                <li><a href="#" data-modulo="M02-Gestion-Empresas" class="nav-link">🏢 Empresas</a></li>
+                <!-- ✅ Perfil ANTES de Salud -->
+                <li><a href="#" data-modulo="M11-Gestion-Perfil-Afiliaciones" class="nav-link">📋 Perfil</a></li>
+                <li><a href="#" data-modulo="M10-Gestion-Condiciones-Salud" class="nav-link">🩺 Salud</a></li>
+                <li><a href="#" data-modulo="M12-Gestion-Peligros" class="nav-link">⚠️ Peligros</a></li>
+                <li><a href="#" data-modulo="M13-Gestion-Matriz-Peligros-Riesgos" class="nav-link">📊 Matriz</a></li>
+                <li><a href="#" data-modulo="M17-Plan-Trabajo-Capacitacion" class="nav-link">📅 Planes</a></li>
+                <li><a href="#" data-modulo="M18-Gestion-Comites" class="nav-link">🗂️ Comités</a></li>
+                <li><a href="#" data-modulo="M21-Gestion-Comite-Convivencia" class="nav-link">🤝 Convivencia</a></li>
+                <li><a href="#" data-modulo="M23-Gestion-Indicadores" class="nav-link">📈 Indicadores</a></li>
+                <li><a href="#" data-modulo="M24-Gestion-Ausentismo" class="nav-link">📅 Ausentismo</a></li>
+                <li><a href="#" data-modulo="M25-Gestion-Siniestralidad" class="nav-link">🚨 Siniestralidad</a></li>
+                <!-- Cierre de sesión (enlace fijo en el menú) -->
+                <li><a href="#" id="logout-nav-link" class="nav-link logout-link">🔒 Cerrar sesión</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal (derecha) -->
+        <main id="app-main">
+            <section id="module-container" class="module-container">
+                <div class="welcome-message">
+                    <h2>Bienvenido a SG-SST Manager</h2>
+                    <p>Selecciona un módulo del menú para comenzar.</p>
+                    <p class="hint">🛠️ Prototipo funcional · Datos almacenados en localStorage</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PIE DE PÁGINA                                               -->
+    <!-- ============================================================ -->
+    <footer id="app-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 SG-SST Manager · Prototipo funcional</p>
+            <p class="footer-version">v1.0.0 · TypeScript + CSS Mobile-First</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS                                                      -->
+    <!-- ============================================================ -->
+    <script type="module" src="dist/src/app.js"></script>
+
+</body>
+</html>

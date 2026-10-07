@@ -1,0 +1,582 @@
+<!-- modules/M12-Gestion-Peligros/gestion-peligros.html -->
+<div class="modulo-peligros" id="modulo-peligros">
+    <div class="modulo-header">
+        <h2>⚠️ Gestión de Peligros</h2>
+        <p class="subtitle">Encuesta de auto-reporte de condiciones de trabajo y peligros (GTC 45)</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- VISTA 1: LISTADO DE TRABAJADORES                            -->
+    <!-- ============================================================ -->
+    <div id="vista-trabajadores" class="vista-contenedor">
+        <div class="card">
+            <h3>👥 Listado de Trabajadores Activos</h3>
+            <p class="text-muted">Seleccione un trabajador para aplicar o ver su encuesta de auto-reporte de peligros.</p>
+
+            <div class="filtros-trabajadores">
+                <div class="form-group">
+                    <label for="buscar-trabajador-peligros">Buscar por cédula o nombre</label>
+                    <input type="text" id="buscar-trabajador-peligros" class="form-control" placeholder="Ej. 1234567890 o nombre" />
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre Completo</th>
+                            <th>Encuesta Aplicada</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-trabajadores-peligros">
+                        <!-- Las filas se generan dinámicamente con TypeScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- VISTA 2: FORMULARIO DE ENCUESTA                             -->
+    <!-- ============================================================ -->
+    <div id="vista-encuesta" class="vista-contenedor hidden">
+        <div class="card">
+            <div class="encuesta-header">
+                <h3 id="encuesta-titulo">Encuesta de Auto-Reporte de Peligros</h3>
+                <p id="encuesta-trabajador-info" class="text-muted">Trabajador: —</p>
+            </div>
+
+            <form id="form-encuesta-peligros" novalidate>
+                <input type="hidden" id="encuesta-trabajador-id" />
+                <input type="hidden" id="encuesta-reporte-id" />
+
+                <!-- ==================================================== -->
+                <!-- DATOS GENERALES                                       -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>Datos Generales</legend>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="encuesta-nombre">Nombre y Apellidos <span class="required">*</span></label>
+                            <input type="text" id="encuesta-nombre" class="form-control" placeholder="Nombre completo" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="encuesta-cedula">Cédula <span class="required">*</span></label>
+                            <input type="text" id="encuesta-cedula" class="form-control" placeholder="Número de cédula" required readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="encuesta-cargo">Cargo <span class="required">*</span></label>
+                            <input type="text" id="encuesta-cargo" class="form-control" placeholder="Cargo que desempeña" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="encuesta-area">Área / Sección <span class="required">*</span></label>
+                            <input type="text" id="encuesta-area" class="form-control" placeholder="Área o sección" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="encuesta-antiguedad">Antigüedad en el cargo <span class="required">*</span></label>
+                            <input type="text" id="encuesta-antiguedad" class="form-control" placeholder="Ej. 2 años" required />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 1. BIOLÓGICOS (3 preguntas)                          -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>1. Biológicos</legend>
+
+                    <div class="pregunta-item" data-pregunta="1.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">1.1</span>
+                            <span class="pregunta-texto">¿Manipula o tiene contacto directo con virus, bacterias, hongos o parásitos?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p1.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p1.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-1.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-1.1" class="form-control" rows="2" placeholder="Ej. contacto con desechos biológicos"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="1.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">1.2</span>
+                            <span class="pregunta-texto">¿Está expuesto a fluidos corporales, sangre o desechos biológicos humanos o animales?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p1.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p1.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-1.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-1.2" class="form-control" rows="2" placeholder="Ej. manejo de residuos hospitalarios"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="1.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">1.3</span>
+                            <span class="pregunta-texto">¿Existe riesgo de mordeduras, picaduras o contacto con animales (insectos, roedores, serpientes)?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p1.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p1.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-1.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-1.3" class="form-control" rows="2" placeholder="Ej. presencia de roedores"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 2. FÍSICOS (5 preguntas)                             -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>2. Físicos</legend>
+
+                    <div class="pregunta-item" data-pregunta="2.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">2.1</span>
+                            <span class="pregunta-texto">(Ruido) ¿Debe elevar la voz para hablar con alguien ubicado a un metro de distancia por ruido ambiental?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p2.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p2.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-2.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-2.1" class="form-control" rows="2" placeholder="Ej. máquinas industriales"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="2.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">2.2</span>
+                            <span class="pregunta-texto">(Iluminación) ¿Considera que la luz en su puesto es deficiente (oscuridad) o excesiva (reflejos molestos)?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p2.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p2.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-2.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-2.2" class="form-control" rows="2" placeholder="Ej. zona sin luz natural"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="2.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">2.3</span>
+                            <span class="pregunta-texto">(Temperaturas extremas) ¿Trabaja en ambientes muy fríos (cuartos fríos) o muy calurosos (hornos, sol directo)?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p2.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p2.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-2.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-2.3" class="form-control" rows="2" placeholder="Ej. horno industrial"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="2.4">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">2.4</span>
+                            <span class="pregunta-texto">(Vibraciones) ¿Utiliza herramientas o maquinaria que le transmitan vibraciones a las manos o al cuerpo?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p2.4" value="si" /> Sí</label>
+                            <label><input type="radio" name="p2.4" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-2.4">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-2.4" class="form-control" rows="2" placeholder="Ej. taladro percutor"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="2.5">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">2.5</span>
+                            <span class="pregunta-texto">(Radiaciones) ¿Está expuesto a radiaciones ionizantes (rayos X) o no ionizantes (pantallas de soldadura, sol)?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p2.5" value="si" /> Sí</label>
+                            <label><input type="radio" name="p2.5" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-2.5">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-2.5" class="form-control" rows="2" placeholder="Ej. soldadura"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 3. QUÍMICOS (3 preguntas)                            -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>3. Químicos</legend>
+
+                    <div class="pregunta-item" data-pregunta="3.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">3.1</span>
+                            <span class="pregunta-texto">¿Inhala o tiene contacto con polvos, fibras, humos metálicos o gases en suspensión?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p3.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p3.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-3.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-3.1" class="form-control" rows="2" placeholder="Ej. polvo de madera"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="3.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">3.2</span>
+                            <span class="pregunta-texto">¿Utiliza o manipula productos químicos líquidos (solventes, ácidos, desinfectantes, pinturas, combustibles)?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p3.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p3.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-3.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-3.2" class="form-control" rows="2" placeholder="Ej. thinner"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="3.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">3.3</span>
+                            <span class="pregunta-texto">¿Las sustancias químicas que maneja carecen de etiquetas o fichas de seguridad visibles?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p3.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p3.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-3.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-3.3" class="form-control" rows="2" placeholder="Ej. envases sin etiqueta"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 4. PSICOSOCIALES (4 preguntas)                       -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>4. Psicosociales</legend>
+
+                    <div class="pregunta-item" data-pregunta="4.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">4.1</span>
+                            <span class="pregunta-texto">(Carga de trabajo) ¿Siente que la cantidad de trabajo es excesiva para el tiempo disponible o hay alta presión?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p4.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p4.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-4.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-4.1" class="form-control" rows="2" placeholder="Ej. exceso de tareas"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="4.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">4.2</span>
+                            <span class="pregunta-texto">(Monotonía) ¿Su trabajo es altamente repetitivo, monótono o requiere una atención prolongada?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p4.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p4.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-4.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-4.2" class="form-control" rows="2" placeholder="Ej. línea de ensamble"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="4.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">4.3</span>
+                            <span class="pregunta-texto">(Jornadas) ¿Trabaja habitualmente en turnos rotativos, nocturnos o hace horas extra frecuentes?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p4.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p4.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-4.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-4.3" class="form-control" rows="2" placeholder="Ej. turno nocturno"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="4.4">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">4.4</span>
+                            <span class="pregunta-texto">(Relaciones) ¿Percibe un clima laboral tenso, falta de apoyo o canales de comunicación deficientes?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p4.4" value="si" /> Sí</label>
+                            <label><input type="radio" name="p4.4" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-4.4">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-4.4" class="form-control" rows="2" placeholder="Ej. falta de comunicación"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 5. BIOMECÁNICOS (3 preguntas)                        -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>5. Biomecánicos</legend>
+
+                    <div class="pregunta-item" data-pregunta="5.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">5.1</span>
+                            <span class="pregunta-texto">(Posturas) ¿Mantiene posturas prolongadas (todo el día de pie o sentado), inclinadas o forzadas?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p5.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p5.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-5.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-5.1" class="form-control" rows="2" placeholder="Ej. postura de pie prolongada"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="5.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">5.2</span>
+                            <span class="pregunta-texto">(Esfuerzos y Cargas) ¿Realiza levantamiento, transporte o manipulación manual de cargas pesadas?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p5.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p5.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-5.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-5.2" class="form-control" rows="2" placeholder="Ej. cajas de 20 kg"></textarea>
+                            <label for="extra-5.2">Indique peso aprox.:</label>
+                            <input type="text" id="extra-5.2" class="form-control" placeholder="Ej. 25 kg" />
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="5.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">5.3</span>
+                            <span class="pregunta-texto">(Movimientos repetitivos) ¿Realiza movimientos constantes y repetitivos con manos, brazos o muñecas?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p5.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p5.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-5.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-5.3" class="form-control" rows="2" placeholder="Ej. digitación"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 6. CONDICIONES DE SEGURIDAD (6 preguntas)            -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>6. Condiciones de Seguridad</legend>
+
+                    <div class="pregunta-item" data-pregunta="6.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.1</span>
+                            <span class="pregunta-texto">(Mecánico) ¿Opera o trabaja cerca de máquinas, equipos o herramientas sin guardas o con partes filosas?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.1" class="form-control" rows="2" placeholder="Ej. sierra sin guarda"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="6.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.2</span>
+                            <span class="pregunta-texto">(Eléctrico) ¿Manipula tableros, cables expuestos, enchufes averiados o equipos energizados?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.2" class="form-control" rows="2" placeholder="Ej. cables pelados"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="6.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.3</span>
+                            <span class="pregunta-texto">(Locativo) ¿Existen superficies deslizantes, irregulares, escaleras sin barandas u obstáculos en pasillos?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.3" class="form-control" rows="2" placeholder="Ej. piso mojado"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="6.4">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.4</span>
+                            <span class="pregunta-texto">(Trabajo en Alturas) ¿Realiza labores a más de 2.00 metros de altura sobre el nivel del suelo?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.4" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.4" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.4">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.4" class="form-control" rows="2" placeholder="Ej. andamios"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="6.5">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.5</span>
+                            <span class="pregunta-texto">(Público / Tránsito) ¿Está expuesto a robos, asaltos, orden público, o se desplaza constantemente en vehículos?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.5" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.5" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.5">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.5" class="form-control" rows="2" placeholder="Ej. zona de alto riesgo"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="6.6">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">6.6</span>
+                            <span class="pregunta-texto">(Tecnológico) ¿Existe riesgo de incendio, explosión o fugas de materiales peligrosos en su zona?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p6.6" value="si" /> Sí</label>
+                            <label><input type="radio" name="p6.6" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-6.6">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-6.6" class="form-control" rows="2" placeholder="Ej. tanques de gas"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 7. FENÓMENOS NATURALES (1 pregunta)                  -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>7. Fenómenos Naturales</legend>
+
+                    <div class="pregunta-item" data-pregunta="7.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">7.1</span>
+                            <span class="pregunta-texto">¿Su área de trabajo es vulnerable ante sismos, inundaciones, vendavales u otros fenómenos naturales?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p7.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p7.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-7.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-7.1" class="form-control" rows="2" placeholder="Ej. zona de inundación"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- 8. SALUD Y EPP (3 preguntas)                         -->
+                <!-- ==================================================== -->
+                <fieldset>
+                    <legend>8. Salud y EPP</legend>
+
+                    <div class="pregunta-item" data-pregunta="8.1">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">8.1</span>
+                            <span class="pregunta-texto">¿Presenta actualmente dolores musculares o articulares frecuentes que asocie con su labor?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p8.1" value="si" /> Sí</label>
+                            <label><input type="radio" name="p8.1" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-8.1">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-8.1" class="form-control" rows="2" placeholder="Ej. dolor lumbar"></textarea>
+                            <label for="extra-8.1">¿Qué parte del cuerpo?</label>
+                            <input type="text" id="extra-8.1" class="form-control" placeholder="Ej. espalda baja" />
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="8.2">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">8.2</span>
+                            <span class="pregunta-texto">¿La empresa le hace entrega de los Elementos de Protección Personal (EPP) necesarios?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p8.2" value="si" /> Sí</label>
+                            <label><input type="radio" name="p8.2" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-8.2">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-8.2" class="form-control" rows="2" placeholder="Ej. no entregan EPP"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pregunta-item" data-pregunta="8.3">
+                        <div class="pregunta-header">
+                            <span class="pregunta-numero">8.3</span>
+                            <span class="pregunta-texto">¿Utiliza los EPP de manera permanente y adecuada durante su jornada laboral?</span>
+                        </div>
+                        <div class="pregunta-respuesta">
+                            <label><input type="radio" name="p8.3" value="si" /> Sí</label>
+                            <label><input type="radio" name="p8.3" value="no" /> No</label>
+                        </div>
+                        <div class="pregunta-descripcion hidden">
+                            <label for="desc-8.3">Describa brevemente la situación o fuente:</label>
+                            <textarea id="desc-8.3" class="form-control" rows="2" placeholder="Ej. a veces no lo usa"></textarea>
+                            <label for="extra-8.3">Si no, explique por qué:</label>
+                            <input type="text" id="extra-8.3" class="form-control" placeholder="Ej. incomodidad" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ==================================================== -->
+                <!-- ACCIONES                                             -->
+                <!-- ==================================================== -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btn-guardar-encuesta">💾 Guardar Encuesta</button>
+                    <button type="button" class="btn btn-outline" id="btn-cancelar-encuesta">Cancelar</button>
+                </div>
+            </form>
+
+            <div id="mensaje-encuesta-peligros" class="alert" style="display:none;"></div>
+        </div>
+    </div>
+</div>

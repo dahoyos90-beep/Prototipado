@@ -1,0 +1,234 @@
+SG-SST Manager/
+│
+├── index.html                                 # ✅ Creado (página principal con layout base)
+├── login.html                                 # ✅ Creado (página de inicio de sesión)
+├── register.html                              # ✅ Creado (página de registro de usuario)
+├── tsconfig.json                              # ✅ Creado (configuración de TypeScript)
+├── package.json                               # ✅ Creado (dependencias y scripts)
+├── package-lock.json                          # ✅ Creado (bloqueo de versiones)
+├── .gitignore                                 # ✅ Creado (archivos ignorados por Git)
+├── .prettierrc                                # ✅ Creado (configuración de Prettier)
+├── eslint.config.mjs                          # ✅ Creado (configuración de ESLint)
+├── README.md                                  # ✅ Creado (documentación del proyecto)
+│
+├── assets/                                    # ✅ Creado (recursos estáticos)
+│   ├── images/                                # ✅ Creado (imágenes)
+│   │   └── Logo Sg-sst Manager 2.jpg          # ✅ Creado (logo del proyecto)
+│   └── fonts/                                 # ✅ Creado sin contenido (fuentes personalizadas)
+│
+├── css/                                       # ✅ Creado (estilos globales)
+│   ├── global.css                             # ✅ Creado (variables, reset, layout base)
+│   ├── auth.css                               # ✅ Creado (estilos de login y registro)
+│   └── components/                            # ✅ Creado (componentes reutilizables)
+│       ├── buttons.css                        # ✅ Creado (estilos de botones)
+│       ├── forms.css                          # ✅ Creado (estilos de formularios)
+│       └── tables.css                         # ✅ Creado (estilos de tablas responsivas)
+│
+├── src/                                       # ✅ Creado (código fuente TypeScript)
+│   ├── app.ts                                 # 🔧 Modificar (agregar selección de empresa, verificación NIT, advertencia cambios)
+│   ├── auth.ts                                # 🔧 Modificar (agregar empresaId a sesión, carga de empresas vinculadas)
+│   ├── storage.ts                             # 🔧 Modificar (asegurar filtrado por empresaId)
+│   ├── validators.ts                          # 🔧 Modificar (agregar validaciones de NIT y dígitos)
+│   ├── utils.ts                               # 🔧 Modificar (agregar formatearNIT, calcularDiasRestantes)
+│   ├── login.ts                               # ✅ Creado (lógica UI de login, compila a dist/src/login.js)
+│   ├── register.ts                            # ✅ Creado (lógica UI de register, compila a dist/src/register.js)
+│   ├── estadisticas.ts                        # ✅ Creado (helper de estadísticas, se modificará para filtrar por empresaId)
+│   │
+│   ├── session-manager.ts                     # 🆕 Nuevo (gestor de sesión, empresa activa, inactividad, NIT)
+│   ├── advertencia-cambios.ts                 # 🆕 Nuevo (lógica genérica de cambios sin guardar)
+│   ├── notificaciones.ts                      # 🆕 Nuevo (sistema de notificaciones del Dashboard)
+│   ├── exportar-excel.ts                      # 🆕 Nuevo (helper para exportar módulos a Excel)
+│   │
+│   └── interfaces/                            # ✅ Creado (interfaces del sistema)
+│       ├── IUsuario.ts                        # 🔧 Modificar (agregar empresaId, cc)
+│       ├── IEmpresa.ts                        # 🔧 Modificar (agregar estadoEliminacion, fechaEliminacion, observacion, diasRestantes)
+│       ├── IInspeccion.ts                     # 🔧 Modificar (agregar empresaId)
+│       ├── IPeligro.ts                        # 🔧 Modificar (agregar empresaId)
+│       ├── IRiesgo.ts                         # 🔧 Modificar (agregar empresaId)
+│       ├── ICapacitacion.ts                   # 🔧 Modificar (agregar empresaId)
+│       ├── IComite.ts                         # 🔧 Modificar (agregar empresaId)
+│       ├── IConvivencia.ts                    # 🔧 Modificar (agregar empresaId)
+│       ├── IIndicador.ts                      # 🔧 Modificar (agregar empresaId)
+│       ├── IAusentismo.ts                     # 🔧 Modificar (agregar empresaId)
+│       ├── ISiniestro.ts                      # 🔧 Modificar (agregar empresaId)
+│       ├── IEMO.ts                            # 🔧 Modificar (agregar empresaId)
+│       ├── IEncuesta.ts                       # 🔧 Modificar (agregar empresaId)
+│       ├── ISociodemografico.ts               # 🔧 Modificar (agregar empresaId, estadoTrabajador, fechas inactividad/retiro)
+│       ├── IMorbilidadSentida.ts              # ✅ Creado (detalle encuesta Nórdica, pendiente de contenido)
+│       ├── IPsicosocial.ts                    # ✅ Creado (detalle encuesta Psicosocial, pendiente de contenido)
+│       ├── INotificacion.ts                   # 🆕 Nuevo (interfaz para notificaciones)
+│       ├── ISession.ts                        # 🆕 Nuevo (interfaz para estado de sesión)
+│       └── index.ts                           # 🔧 Modificar (exportar todas las interfaces nuevas)
+│
+├── modules/                                   # ✅ Creado (módulos funcionales)
+│   ├── M01-Gestion-Usuarios/
+│   │   ├── gestion-usuarios.html              # 🔧 Modificar (añadir campos NIT, CC, selector de rol)
+│   │   ├── gestion-usuarios.css               # ✅ Creado (estilos del módulo)
+│   │   └── gestion-usuarios.ts                # 🔧 Modificar (lógica rol "Empresa", filtros por empresa)
+│   │
+│   ├── M02-Gestion-Empresas/
+│   │   ├── gestion-empresas.html              # 🔧 Modificar (estado eliminación, contador días, botones recuperar)
+│   │   ├── gestion-empresas.css               # ✅ Creado (estilos del módulo)
+│   │   └── gestion-empresas.ts                # 🔧 Modificar (eliminación 30 días, recuperación, validación NIT)
+│   │
+│   ├── M03-Dashboard/
+│   │   ├── dashboard.html                     # 🔧 Modificar (selector de empresas para SST, nombre empresa activa)
+│   │   ├── dashboard.css                      # ✅ Creado (estilos del módulo)
+│   │   └── dashboard.ts                       # 🔧 Modificar (listado empresas, verificación NIT, carga de datos)
+│   │
+│   ├── M10-Gestion-Condiciones-Salud/
+│   │   ├── condiciones-salud.html             # ✅ Creado (pestañas E.M.O., Encuestas, Estadísticas, Alertas)
+│   │   ├── condiciones-salud.css              # ✅ Creado (estilos del módulo)
+│   │   └── condiciones-salud.ts               # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M11-Gestion-Perfil-Afiliaciones/
+│   │   ├── perfil-afiliaciones.html           # 🔧 Modificar (activos/inactivos, soportes, encuestas, estadísticas jerárquicas)
+│   │   ├── perfil-afiliaciones.css            # 🔧 Modificar (estilos para subtabs, iconos, alertas, tablas de estadísticas)
+│   │   └── perfil-afiliaciones.ts             # 🔧 Modificar (lógica de estados, fechas, encuestas, estadísticas, soportes)
+│   │
+│   ├── M12-Gestion-Peligros/
+│   │   ├── gestion-peligros.html              # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── gestion-peligros.css               # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── gestion-peligros.ts                # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M13-Gestion-Matriz-Peligros-Riesgos/
+│   │   ├── matriz-peligros-riesgos.html       # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── matriz-peligros-riesgos.css        # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── matriz-peligros-riesgos.ts         # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M17-Plan-Trabajo-Capacitacion/
+│   │   ├── plan-trabajo-capacitacion.html     # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── plan-trabajo-capacitacion.css      # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── plan-trabajo-capacitacion.ts       # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M18-Gestion-Comites/
+│   │   ├── gestion-comites.html               # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── gestion-comites.css                # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── gestion-comites.ts                 # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M21-Gestion-Comite-Convivencia/
+│   │   ├── comite-convivencia.html            # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── comite-convivencia.css             # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── comite-convivencia.ts              # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M23-Gestion-Indicadores/
+│   │   ├── gestion-indicadores.html           # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── gestion-indicadores.css            # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── gestion-indicadores.ts             # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   ├── M24-Gestion-Ausentismo/
+│   │   ├── gestion-ausentismo.html            # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   ├── gestion-ausentismo.css             # ✅ Creado sin contenido (pendiente de desarrollo)
+│   │   └── gestion-ausentismo.ts              # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│   │
+│   └── M25-Gestion-Siniestralidad/
+│       ├── gestion-siniestralidad.html        # ✅ Creado sin contenido (pendiente de desarrollo)
+│       ├── gestion-siniestralidad.css         # ✅ Creado sin contenido (pendiente de desarrollo)
+│       └── gestion-siniestralidad.ts          # 🔧 Modificar (filtrar por empresaId, ocultar acciones para "Empresa")
+│
+└── dist/                                      # 📁 Generada por tsc (no se modifica manualmente)
+    ├── app.js                                 # ✅ Generado (compilado de app.ts)
+    ├── app.js.map                             # ✅ Generado (source map)
+    ├── auth.js                                # ✅ Generado (compilado de auth.ts)
+    ├── auth.js.map                            # ✅ Generado
+    ├── login.js                               # ✅ Generado (compilado de src/login.ts)
+    ├── login.js.map                           # ✅ Generado
+    ├── register.js                            # ✅ Generado (compilado de src/register.ts)
+    ├── register.js.map                        # ✅ Generado
+    ├── storage.js                             # ✅ Generado (compilado de storage.ts)
+    ├── storage.js.map                         # ✅ Generado
+    ├── validators.js                          # ✅ Generado (compilado de validators.ts)
+    ├── validators.js.map                      # ✅ Generado
+    ├── utils.js                               # ✅ Generado (compilado de utils.ts)
+    ├── utils.js.map                           # ✅ Generado
+    ├── estadisticas.js                        # ✅ Generado (compilado de estadisticas.ts)
+    ├── estadisticas.js.map                    # ✅ Generado
+    ├── session-manager.js                     # 🆕 Generado (compilado de session-manager.ts)
+    ├── session-manager.js.map                 # 🆕 Generado
+    ├── advertencia-cambios.js                 # 🆕 Generado (compilado de advertencia-cambios.ts)
+    ├── advertencia-cambios.js.map             # 🆕 Generado
+    ├── notificaciones.js                      # 🆕 Generado (compilado de notificaciones.ts)
+    ├── notificaciones.js.map                  # 🆕 Generado
+    ├── exportar-excel.js                      # 🆕 Generado (compilado de exportar-excel.ts)
+    ├── exportar-excel.js.map                  # 🆕 Generado
+    │
+    ├── interfaces/                            # ✅ Generado (interfaces compiladas)
+    │   ├── IUsuario.js                        # ✅ Generado
+    │   ├── IUsuario.js.map                    # ✅ Generado
+    │   ├── IEmpresa.js                        # ✅ Generado
+    │   ├── IEmpresa.js.map                    # ✅ Generado
+    │   ├── IInspeccion.js                     # ✅ Generado
+    │   ├── IInspeccion.js.map                 # ✅ Generado
+    │   ├── IPeligro.js                        # ✅ Generado
+    │   ├── IPeligro.js.map                    # ✅ Generado
+    │   ├── IRiesgo.js                         # ✅ Generado
+    │   ├── IRiesgo.js.map                     # ✅ Generado
+    │   ├── ICapacitacion.js                   # ✅ Generado
+    │   ├── ICapacitacion.js.map               # ✅ Generado
+    │   ├── IComite.js                         # ✅ Generado
+    │   ├── IComite.js.map                     # ✅ Generado
+    │   ├── IConvivencia.js                    # ✅ Generado
+    │   ├── IConvivencia.js.map                # ✅ Generado
+    │   ├── IIndicador.js                      # ✅ Generado
+    │   ├── IIndicador.js.map                  # ✅ Generado
+    │   ├── IAusentismo.js                     # ✅ Generado
+    │   ├── IAusentismo.js.map                 # ✅ Generado
+    │   ├── ISiniestro.js                      # ✅ Generado
+    │   ├── ISiniestro.js.map                  # ✅ Generado
+    │   ├── IEMO.js                            # ✅ Generado
+    │   ├── IEMO.js.map                        # ✅ Generado
+    │   ├── IEncuesta.js                       # ✅ Generado
+    │   ├── IEncuesta.js.map                   # ✅ Generado
+    │   ├── ISociodemografico.js               # ✅ Generado
+    │   ├── ISociodemografico.js.map           # ✅ Generado
+    │   ├── IMorbilidadSentida.js              # ✅ Generado
+    │   ├── IMorbilidadSentida.js.map          # ✅ Generado
+    │   ├── IPsicosocial.js                    # ✅ Generado
+    │   ├── IPsicosocial.js.map                # ✅ Generado
+    │   ├── INotificacion.js                   # 🆕 Generado (cuando se compile)
+    │   ├── INotificacion.js.map               # 🆕 Generado
+    │   ├── ISession.js                        # 🆕 Generado (cuando se compile)
+    │   ├── ISession.js.map                    # 🆕 Generado
+    │   └── index.js                           # ✅ Generado
+    │       index.js.map                       # ✅ Generado
+    │
+    └── modules/                                # ✅ Generado (módulos compilados)
+        ├── M01-Gestion-Usuarios/
+        │   ├── gestion-usuarios.js            # ✅ Generado
+        │   └── gestion-usuarios.js.map        # ✅ Generado
+        ├── M02-Gestion-Empresas/
+        │   ├── gestion-empresas.js            # ✅ Generado
+        │   └── gestion-empresas.js.map        # ✅ Generado
+        ├── M03-Dashboard/
+        │   ├── dashboard.js                   # ✅ Generado
+        │   └── dashboard.js.map               # ✅ Generado
+        ├── M10-Gestion-Condiciones-Salud/
+        │   ├── condiciones-salud.js           # ✅ Generado
+        │   └── condiciones-salud.js.map       # ✅ Generado
+        ├── M11-Gestion-Perfil-Afiliaciones/
+        │   ├── perfil-afiliaciones.js         # ✅ Generado
+        │   └── perfil-afiliaciones.js.map     # ✅ Generado
+        ├── M12-Gestion-Peligros/
+        │   ├── gestion-peligros.js            # ✅ Generado sin contenido
+        │   └── gestion-peligros.js.map        # ✅ Generado
+        ├── M13-Gestion-Matriz-Peligros-Riesgos/
+        │   ├── matriz-peligros-riesgos.js     # ✅ Generado sin contenido
+        │   └── matriz-peligros-riesgos.js.map # ✅ Generado
+        ├── M17-Plan-Trabajo-Capacitacion/
+        │   ├── plan-trabajo-capacitacion.js   # ✅ Generado sin contenido
+        │   └── plan-trabajo-capacitacion.js.map # ✅ Generado
+        ├── M18-Gestion-Comites/
+        │   ├── gestion-comites.js             # ✅ Generado sin contenido
+        │   └── gestion-comites.js.map         # ✅ Generado
+        ├── M21-Gestion-Comite-Convivencia/
+        │   ├── comite-convivencia.js          # ✅ Generado sin contenido
+        │   └── comite-convivencia.js.map      # ✅ Generado
+        ├── M23-Gestion-Indicadores/
+        │   ├── gestion-indicadores.js         # ✅ Generado sin contenido
+        │   └── gestion-indicadores.js.map     # ✅ Generado
+        ├── M24-Gestion-Ausentismo/
+        │   ├── gestion-ausentismo.js          # ✅ Generado sin contenido
+        │   └── gestion-ausentismo.js.map      # ✅ Generado
+        └── M25-Gestion-Siniestralidad/
+            ├── gestion-siniestralidad.js      # ✅ Generado sin contenido
+            └── gestion-siniestralidad.js.map  # ✅ Generado

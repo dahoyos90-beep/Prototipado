@@ -1,0 +1,113 @@
+<!-- modules/M01-Gestion-Usuarios/gestion-usuarios.html -->
+<div class="modulo-usuarios" id="modulo-usuarios">
+    <div class="modulo-header">
+        <h2>👥 Gestión de Usuarios</h2>
+        <button id="btn-nuevo-usuario" class="btn btn-primary">+ Nuevo Usuario</button>
+    </div>
+
+    <!-- Formulario de registro/edición (oculto por defecto) -->
+    <div id="form-usuario-container" class="form-container hidden">
+        <h3 id="form-usuario-titulo">Registrar Usuario</h3>
+        <form id="form-usuario" novalidate>
+            <input type="hidden" id="usuario-id" />
+
+            <div class="form-group">
+                <label for="nombre-completo">Nombre completo <span class="required">*</span></label>
+                <input type="text" id="nombre-completo" class="form-control" placeholder="Ej. Ana Pérez" required />
+                <div class="invalid-feedback">El nombre es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email-usuario">Correo electrónico <span class="required">*</span></label>
+                <input type="email" id="email-usuario" class="form-control" placeholder="ejemplo@correo.com" required />
+                <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="documento-usuario">Documento <span class="required">*</span></label>
+                <input type="text" id="documento-usuario" class="form-control" placeholder="1234567890" required />
+                <div class="invalid-feedback">El documento es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono-usuario">Teléfono <span class="required">*</span></label>
+                <input type="tel" id="telefono-usuario" class="form-control" placeholder="3001234567" required />
+                <div class="invalid-feedback">El teléfono es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="licencia-usuario">Licencia SST</label>
+                <input type="text" id="licencia-usuario" class="form-control" placeholder="SST-2026-001" />
+            </div>
+
+            <div class="form-group">
+                <label for="password-usuario">Contraseña <span class="required">*</span></label>
+                <input type="password" id="password-usuario" class="form-control" placeholder="Mínimo 8 caracteres" required />
+                <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres, mayúscula, minúscula, número y especial.</div>
+            </div>
+
+            <!-- ✅ NUEVO: Selector de rol -->
+            <div class="form-group">
+                <label for="rol-usuario">Rol <span class="required">*</span></label>
+                <select id="rol-usuario" class="form-control" required>
+                    <option value="Profesional">Profesional SST</option>
+                    <option value="Empresa">Empresa</option>
+                </select>
+                <div class="invalid-feedback">Selecciona un rol.</div>
+            </div>
+
+            <!-- ✅ NUEVO: Cédula del representante legal (solo para rol Empresa) -->
+            <div class="form-group hidden" id="grupo-cc-usuario">
+                <label for="cc-usuario">Cédula del representante legal <span class="required">*</span></label>
+                <input type="text" id="cc-usuario" class="form-control" placeholder="Ej. 1234567890" />
+                <div class="invalid-feedback">La cédula es obligatoria para el rol Empresa (solo números, 6-10 dígitos).</div>
+            </div>
+
+            <!-- ✅ NUEVO: Empresas vinculadas (solo para rol Empresa) -->
+            <div class="form-group hidden" id="grupo-empresas-vinculadas-usuario">
+                <label for="empresas-vinculadas-usuario">Empresas vinculadas (NIT) <span class="required">*</span></label>
+                <select id="empresas-vinculadas-usuario" class="form-control" multiple size="4">
+                    <!-- Se llena dinámicamente desde TS con las empresas del SST -->
+                </select>
+                <small class="form-text">Mantén presionado Ctrl (o Cmd) para seleccionar varias empresas.</small>
+                <div class="invalid-feedback">Debe seleccionar al menos una empresa.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="estado-usuario">Estado</label>
+                <select id="estado-usuario" class="form-control">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">💾 Guardar</button>
+                <button type="button" id="btn-cancelar-form" class="btn btn-outline">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="table-container">
+        <table class="table table-striped" id="tabla-usuarios">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Documento</th>
+                    <th>Rol</th>
+                    <th>Empresa(s)</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-usuarios">
+                <!-- Filas generadas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensaje de alerta (se muestra mediante JS) -->
+    <div id="mensaje-usuarios" class="alert" style="display:none;"></div>
+</div>

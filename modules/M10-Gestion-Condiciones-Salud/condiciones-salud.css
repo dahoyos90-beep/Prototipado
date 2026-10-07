@@ -1,0 +1,209 @@
+/* modules/M10-Gestion-Condiciones-Salud/condiciones-salud.css */
+/* 
+   @version 2.0.0
+   @since 2026-09-16
+*/
+
+.modulo-salud {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - h2 con color para consistencia        */
+/* ═══════════════════════════════════════════════════════════════════ */
+.modulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.modulo-header h2 {
+    margin: 0;
+    color: var(--color-primary-dark); /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+/* Pestañas */
+.tab-container {
+    width: 100%;
+}
+
+.tab-nav {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--color-gray-200);
+    flex-wrap: wrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - tab-button unificado con M11           */
+/*                              padding: sm md (antes sm lg)           */
+/*                              font-size: 0.85rem (antes 0.9rem)      */
+/* ═══════════════════════════════════════════════════════════════════ */
+.tab-button {
+    padding: var(--spacing-sm) var(--spacing-md); /* 🟢 MODIFICADO: [2026-09-16] */
+    border: none;
+    background: transparent;
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    color: var(--color-gray-600);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all var(--transition-fast);
+    font-size: 0.85rem; /* 🟢 MODIFICADO: [2026-09-16] - Antes 0.9rem */
+}
+
+.tab-button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-gray-100); /* 🟢 MODIFICADO: [2026-09-16] - Consistencia con M11 */
+}
+
+.tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700; /* 🟢 MODIFICADO: [2026-09-16] - Consistencia con M11 */
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - Animación unificada con M11 y M12    */
+/* ═══════════════════════════════════════════════════════════════════ */
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out; /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+.tab-content.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); } /* 🟢 MODIFICADO: [2026-09-16] */
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tarjetas */
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - .card ahora tiene transition y hover  */
+/*                              (consistencia con M11 y M12)            */
+/* ═══════════════════════════════════════════════════════════════════ */
+.card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--color-gray-200);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-normal); /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md); /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - h3 con font-size y margin unificado  */
+/* ═══════════════════════════════════════════════════════════════════ */
+.card h3 {
+    margin: 0 0 var(--spacing-md) 0; /* 🟢 MODIFICADO: [2026-09-16] */
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary-dark);
+    font-size: 1.2rem; /* 🟢 MODIFICADO: [2026-09-16] */
+}
+
+/* Formularios */
+.form-row {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.stat-card {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    margin: 0;
+    color: var(--color-primary);
+}
+
+.stat-card p {
+    margin: 0;
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+}
+
+/* Alertas */
+.alerta-item {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    border-left: 4px solid var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.alerta-pendiente {
+    border-left-color: #DC2626;
+}
+
+.alerta-seguimiento {
+    border-left-color: #F59E0B;
+}
+
+.alerta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.alerta-tipo {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.alerta-fecha {
+    font-size: 0.8rem;
+    color: var(--color-gray-600);
+}
+
+.alerta-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 MODIFICADO: [2026-09-16] - tab-button unificado               */
+    /* ═══════════════════════════════════════════════════════════════ */
+    .tab-button {
+        font-size: 0.95rem; /* 🟢 MODIFICADO: [2026-09-16] - Antes 1rem */
+        padding: var(--spacing-sm) var(--spacing-lg); /* 🟢 MODIFICADO: [2026-09-16] - Antes md xl */
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}

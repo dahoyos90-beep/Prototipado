@@ -1,0 +1,448 @@
+/* ================================================================
+   modules/M12-Gestion-Peligros/gestion-peligros.css
+   Estilos específicos del módulo de Gestión de Peligros.
+   
+   Mobile-First: base para móviles, escalamos con media queries.
+   
+   @version 2.0.0
+   @since 2026-09-16
+   ================================================================ */
+
+.modulo-peligros {
+    width: 100%;
+}
+
+/* ================================================================
+   HEADER DEL MÓDULO
+   ================================================================ */
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - .modulo-header unificado con M01-M10  */
+/*                              (antes era simple, ahora es flex)       */
+/* ═══════════════════════════════════════════════════════════════════ */
+.modulo-header {
+    display: flex;                          /* 🟢 MODIFICADO: [2026-09-16] */
+    justify-content: space-between;         /* 🟢 MODIFICADO: [2026-09-16] */
+    align-items: center;                    /* 🟢 MODIFICADO: [2026-09-16] */
+    flex-wrap: wrap;                        /* 🟢 MODIFICADO: [2026-09-16] */
+    gap: var(--spacing-sm);                 /* 🟢 MODIFICADO: [2026-09-16] */
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-header h2 {
+    margin: 0;                              /* 🟢 MODIFICADO: [2026-09-16] - Antes 0 0 xs 0 */
+    color: var(--color-primary-dark);
+}
+
+.modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin: var(--spacing-xs) 0 0 0;
+    width: 100%;                            /* 🟢 MODIFICADO: [2026-09-16] - Ocupa todo el ancho */
+}
+
+/* ================================================================
+   VISTAS (contenedores alternables)
+   ================================================================ */
+
+.vista-contenedor {
+    width: 100%;
+}
+
+.vista-contenedor.hidden {
+    display: none;
+}
+
+/* ================================================================
+   TARJETAS
+   ================================================================ */
+
+.card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    transition: box-shadow var(--transition-normal);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-primary-dark);
+    font-size: 1.2rem;
+}
+
+.card .text-muted {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-md);
+}
+
+/* ================================================================
+   FILTROS DE TRABAJADORES
+   ================================================================ */
+
+.filtros-trabajadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - form-group unificado con M11           */
+/*                              flex: 1 1 200px (antes 250px)          */
+/* ═══════════════════════════════════════════════════════════════════ */
+.filtros-trabajadores .form-group {
+    flex: 1 1 200px; /* 🟢 MODIFICADO: [2026-09-16] - Antes 250px */
+    margin-bottom: 0;
+}
+
+.filtros-trabajadores .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ================================================================
+   TABLA DE TRABAJADORES
+   ================================================================ */
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#tbody-trabajadores-peligros .actions-cell {
+    display: flex;
+    gap: var(--spacing-xs);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ================================================================
+   FORMULARIO DE ENCUESTA
+   ================================================================ */
+
+.encuesta-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.encuesta-header h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-primary-dark);
+}
+
+.encuesta-header .text-muted {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ================================================================
+   FIELDSET (bloques de preguntas)
+   ================================================================ */
+
+#form-encuesta-peligros fieldset {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+#form-encuesta-peligros legend {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    padding: 0 var(--spacing-sm);
+    font-size: 1rem;
+}
+
+/* ================================================================
+   PREGUNTAS INDIVIDUALES
+   ================================================================ */
+
+.pregunta-item {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px dashed var(--color-gray-200);
+}
+
+.pregunta-item:last-child {
+    border-bottom: none;
+}
+
+.pregunta-header {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    align-items: flex-start;
+}
+
+.pregunta-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 24px;
+    padding: 0 var(--spacing-xs);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.pregunta-texto {
+    font-size: 0.95rem;
+    color: var(--color-gray-800);
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* ================================================================
+   RESPUESTAS SÍ / NO
+   ================================================================ */
+
+.pregunta-respuesta {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-left: calc(42px + var(--spacing-sm));
+    margin-bottom: var(--spacing-sm);
+}
+
+.pregunta-respuesta label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.9rem;
+    color: var(--color-gray-800);
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.pregunta-respuesta input[type="radio"] {
+    accent-color: var(--color-primary);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* ================================================================
+   DESCRIPCIÓN CONDICIONAL
+   ================================================================ */
+
+.pregunta-descripcion {
+    margin-left: calc(42px + var(--spacing-sm));
+    padding: var(--spacing-sm);
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--color-primary);
+    margin-top: var(--spacing-sm);
+}
+
+.pregunta-descripcion.hidden {
+    display: none;
+}
+
+.pregunta-descripcion label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-xs);
+}
+
+.pregunta-descripcion textarea,
+.pregunta-descripcion input[type="text"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    background-color: var(--color-white);
+    resize: vertical;
+}
+
+.pregunta-descripcion input[type="text"] {
+    margin-top: var(--spacing-sm);
+}
+
+.pregunta-descripcion textarea:focus,
+.pregunta-descripcion input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.1);
+}
+
+/* ================================================================
+   DATOS GENERALES (form-row)
+   ================================================================ */
+
+#form-encuesta-peligros .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+#form-encuesta-peligros .form-row .form-group {
+    flex: 1 1 200px;
+    margin-bottom: var(--spacing-md);
+}
+
+#form-encuesta-peligros .form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+#form-encuesta-peligros .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-gray-800);
+    margin-bottom: var(--spacing-xs);
+}
+
+#form-encuesta-peligros .form-group label .required {
+    color: #DC2626;
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+#form-encuesta-peligros .form-control {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background-color: var(--color-white);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+#form-encuesta-peligros .form-control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.1);
+}
+
+#form-encuesta-peligros .form-control[readonly] {
+    background-color: var(--color-gray-100);
+    cursor: not-allowed;
+}
+
+/* ================================================================
+   ACCIONES DEL FORMULARIO
+   ================================================================ */
+
+#form-encuesta-peligros .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 2px solid var(--color-gray-200);
+    flex-wrap: wrap;
+}
+
+#form-encuesta-peligros .form-actions .btn {
+    flex: 1 1 auto;
+    min-width: 140px;
+}
+
+/* ================================================================
+   MENSAJES DE ALERTA
+   ================================================================ */
+
+#mensaje-encuesta-peligros {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: none;
+}
+
+#mensaje-encuesta-peligros.success {
+    display: block;
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+#mensaje-encuesta-peligros.error {
+    display: block;
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================
+   RESPONSIVE (Mobile-First: escalamos hacia arriba)
+   ================================================================ */
+
+/* Tablets y pantallas medianas */
+@media (min-width: 768px) {
+    .pregunta-texto {
+        font-size: 1rem;
+    }
+
+    .pregunta-respuesta {
+        gap: var(--spacing-xl);
+    }
+
+    #form-encuesta-peligros .form-actions .btn {
+        flex: 0 1 auto;
+        min-width: 180px;
+    }
+}
+
+/* Escritorio */
+@media (min-width: 1024px) {
+    .card {
+        padding: var(--spacing-xl);
+    }
+
+    #form-encuesta-peligros fieldset {
+        padding: var(--spacing-lg);
+    }
+
+    .pregunta-item {
+        padding: var(--spacing-lg) 0;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .card {
+        padding: var(--spacing-md);
+    }
+
+    .pregunta-respuesta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        margin-left: 0;
+    }
+
+    .pregunta-descripcion {
+        margin-left: 0;
+    }
+
+    .pregunta-numero {
+        min-width: 36px;
+        font-size: 0.7rem;
+    }
+
+    .pregunta-texto {
+        font-size: 0.9rem;
+    }
+
+    #form-encuesta-peligros .form-actions .btn {
+        width: 100%;
+        min-width: auto;
+    }
+}

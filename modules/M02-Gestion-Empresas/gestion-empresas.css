@@ -1,0 +1,213 @@
+/* modules/M02-Gestion-Empresas/gestion-empresas.css */
+/* Estilos específicos del módulo de Gestión de Empresas */
+/* 
+   @version 2.0.0
+   @since 2026-09-16
+*/
+
+.modulo-empresas {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - h2 con color para consistencia        */
+/* ═══════════════════════════════════════════════════════════════════ */
+.modulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.modulo-header h2 {
+    margin: 0;
+    color: var(--color-primary-dark); /* 🟢 MODIFICADO: [2026-09-16] - Consistencia */
+}
+
+/* ================================================================ */
+/* FORMULARIO                                                       */
+/* ================================================================ */
+
+/* Contenedor del formulario */
+#form-empresa-container {
+    margin-bottom: var(--spacing-lg);
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+}
+
+#form-empresa-container:not(.hidden) {
+    max-height: 2000px;
+    opacity: 1;
+}
+
+#form-empresa-container.hidden {
+    display: none;
+}
+
+/* Acciones del formulario */
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - Unificado con flex-wrap para mejor    */
+/*                              comportamiento en pantallas pequeñas    */
+/* ═══════════════════════════════════════════════════════════════════ */
+#form-empresa .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: var(--spacing-md);
+    flex-wrap: wrap; /* 🟢 MODIFICADO: [2026-09-16] - Para evitar desborde */
+}
+
+#form-empresa .form-actions .btn {
+    flex: 1 1 auto; /* 🟢 MODIFICADO: [2026-09-16] - Antes flex: 1 */
+    min-width: 120px; /* 🟢 MODIFICADO: [2026-09-16] - Ancho mínimo */
+}
+
+/* ================================================================ */
+/* TABLA                                                            */
+/* ================================================================ */
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 ELIMINADO: [2026-09-16] - Se eliminó min-width: 900px            */
+/* 🟢 MODIFICADO: [2026-09-16] - Se agregó width: 100% para adaptarse  */
+/* ═══════════════════════════════════════════════════════════════════ */
+#tabla-empresas {
+    width: 100%; /* 🟢 MODIFICADO: [2026-09-16] - Ocupa todo el ancho */
+    /* 🟢 ELIMINADO: min-width: 900px; */
+}
+
+/* Columna de días restantes (más estrecha) */
+#tabla-empresas th:nth-child(8),
+#tabla-empresas td:nth-child(8) {
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ================================================================ */
+/* ACCIONES DE LA TABLA                                             */
+/* ================================================================ */
+
+#tabla-empresas .actions-cell {
+    display: flex;
+    gap: var(--spacing-xs);
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Botón "Recuperar" */
+#tabla-empresas .btn-recuperar {
+    background-color: #10b981;
+    color: #ffffff;
+    border: 1px solid #10b981;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+}
+
+#tabla-empresas .btn-recuperar:hover {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+/* ================================================================ */
+/* BADGES ESPECÍFICOS DEL MÓDULO                                    */
+/* ================================================================ */
+
+#tabla-empresas .badge-info {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+#tabla-empresas .badge-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+#tabla-empresas .badge-danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Días restantes (texto destacado) */
+#tabla-empresas td:nth-child(8) strong {
+    font-size: 1rem;
+    color: var(--color-primary-dark);
+}
+
+/* ================================================================ */
+/* MENSAJES DE ALERTA                                               */
+/* ================================================================ */
+
+#mensaje-empresas {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+#mensaje-empresas.success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+#mensaje-empresas.error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================ */
+/* RESPONSIVE (Mobile-First: escalamos hacia arriba)               */
+/* ================================================================ */
+
+/* Móviles pequeños */
+/* ═══════════════════════════════════════════════════════════════════ */
+/* 🟢 MODIFICADO: [2026-09-16] - Se eliminó min-width: 800px            */
+/*                              Se ajustó font-size y padding          */
+/* ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    #tabla-empresas {
+        /* 🟢 ELIMINADO: min-width: 800px; */
+        font-size: 0.8rem;
+    }
+
+    #tabla-empresas th,
+    #tabla-empresas td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    #tabla-empresas .btn-recuperar {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Tablets y pantallas medianas */
+@media (min-width: 768px) {
+    #form-empresa .form-actions .btn {
+        flex: 0 1 auto;
+        min-width: 160px; /* 🟢 MODIFICADO: [2026-09-16] - Antes 120px */
+    }
+
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* 🟢 ELIMINADO: [2026-09-16] - Se eliminó min-width: auto porque   */
+    /*                              ya no hay min-width en la tabla      */
+    /* ═══════════════════════════════════════════════════════════════ */
+}
+
+/* Escritorio */
+@media (min-width: 1024px) {
+    #tabla-empresas th,
+    #tabla-empresas td {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+}

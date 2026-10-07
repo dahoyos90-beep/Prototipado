@@ -1,0 +1,45 @@
+<!-- modules/M13-Gestion-Matriz-Peligros-Riesgos/matriz-listado.html -->
+<div class="modulo-matriz" id="modulo-matriz">
+    <div class="modulo-header">
+        <h2>📊 Matriz de Peligros y Riesgos (GTC 45)</h2>
+        <p class="subtitle">Borrador para visualización · Módulo M13</p>
+        <button id="btn-nueva-matriz" class="btn btn-primary">+ Nueva Matriz</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                         -->
+    <!-- ============================================================ -->
+    <div id="tab-container-matriz" class="tab-container">
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="matriz">📋 Matriz</button>
+            <button class="tab-button" data-tab="estadistica">📊 Estadística</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: MATRIZ (LISTADO)                                     -->
+        <!-- ============================================================ -->
+        <div id="tab-matriz" class="tab-content">
+            <div class="card">
+                <h3>📋 Listado de Matrices</h3>
+                <p class="text-muted">Nota: Cada Centro de Trabajo tiene su propia Matriz de Riesgos.</p>
+
+                <div id="contenedor-matrices" class="lista-matrices">
+                    <!-- El TS insertará aquí las tarjetas -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: ESTADÍSTICA                                          -->
+        <!-- ============================================================ -->
+        <div id="tab-estadistica" class="tab-content hidden">
+            <div class="card">
+                <h3>📊 Estadísticas</h3>
+                <p class="text-muted" id="stats-titulo-matriz">Seleccione una matriz para ver sus estadísticas.</p>
+                <div id="contenedor-estadisticas">
+                    <p class="text-muted">Seleccione una matriz del listado para ver sus estadísticas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

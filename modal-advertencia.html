@@ -1,0 +1,39 @@
+<!-- ============================================================ -->
+<!-- modal-advertencia.html                                        -->
+<!-- Fragmento HTML del modal de advertencia de cambios sin guardar -->
+<!-- Se inyecta dinámicamente en el DOM desde el TS del modal.     -->
+<!-- ============================================================ -->
+
+<div id="modal-advertencia" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-advertencia-titulo">
+    <div class="modal-content">
+        <!-- Cabecera del modal -->
+        <div class="modal-header">
+            <h3 id="modal-advertencia-titulo">⚠️ Cambios sin guardar</h3>
+        </div>
+
+        <!-- Cuerpo del modal -->
+        <div class="modal-body">
+            <p id="modal-advertencia-mensaje">
+                No ha guardado la información. ¿Desea salir sin guardar?
+            </p>
+        </div>
+
+        <!-- Pie del modal con botones -->
+        <div class="modal-footer">
+            <button 
+                type="button" 
+                id="modal-advertencia-cancelar" 
+                class="btn btn-outline"
+            >
+                Cancelar
+            </button>
+            <button 
+                type="button" 
+                id="modal-advertencia-confirmar" 
+                class="btn btn-danger"
+            >
+                Salir sin guardar
+            </button>
+        </div>
+    </div>
+</div>

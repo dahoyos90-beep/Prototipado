@@ -1,0 +1,71 @@
+1. Paleta Cromática y Códigos de Color (Estimación Espectral)
+El diseño utiliza una paleta de alto contraste enfocada en la psicología industrial y de salud ocupacional (confianza, seguridad y ecología):
+
+Azul Institucional / Marino (Fondo superior y casco):
+
+Hex aproximado: #1B365D a #284B7D
+
+Uso: Transmite autoridad, competencia y solidez técnica. Se presenta en degradado plano vertical en la sección superior del escudo.
+
+Verde Bandera / Esmeralda (Borde exterior y llave):
+
+Hex aproximado: #2E8B57 o #388E3C
+
+Uso: Asociado estrictamente con la normativa de seguridad industrial, vida y sostenibilidad ambiental.
+
+Verde Claro / Lima (Fondo interior derecho y detalles de la llave):
+
+Hex aproximado: #4CAF50 a #81C784
+
+Uso: Aporta dinamismo visual y contraste en el fondo inferior derecho del escudo.
+
+Blanco Puro (Textos y filetes de separación):
+
+Hex aproximado: #FFFFFF
+
+Uso: Garantiza la lectura óptima (máximo ratio de contraste) sobre los bloques oscuros y da aire visual mediante la franja central.
+
+Naranja Cálido / Amarillo (Detalle del isotipo superior izquierdo):
+
+Hex aproximado: #F57C00 / #FFB300
+
+Uso: Acento de vitalidad y advertencia sutil en la base del corazón/hoja.
+
+2. Estructura Geométrica y Composición
+Geometría del Escudo (Contenedor): El isotipo se rige bajo una estructura de escudo heráldico moderno con un corte vertical asimétrico en su fondo (partido en dos tonos: azul a la izquierda y verde a la derecha). Esto divide conceptualmente la gestión administrativa (azul) de la operatividad técnica de campo (verde).
+
+Jerarquía Visual:
+
+Nivel Superior: Siglas SG-SST (máximo peso visual por tamaño y grosor).
+
+Nivel Medio: Subtítulo Manager y la banda descriptiva "Seguridad y Salud en el Trabajo".
+
+Nivel Inferior (Anclaje visual): Elementos icónicos de peso físico (el casco y la llave cruzados), que actúan como base de sustentación de la composición.
+
+3. Análisis Tipográfico y Caligráfico
+Para "SG-SST":
+
+Familia: Sans-Serif geométrica de trazo grueso (tipo Montserrat Bold o Futura Extrabold modificadas).
+
+Características: Trazos uniformes, ausencia total de remates (serifas), aperturas controladas y un carácter sumamente industrial y robusto. El kerning (espaciado entre letras) es amplio y perfectamente uniforme para aportar legibilidad corporativa.
+
+Para "Manager":
+
+Familia: Sans-Serif humanista / de transición (estilo Open Sans o Lato en peso SemiBold).
+
+Características: Combina mayúscula inicial con minúsculas. Sus terminales presentan ligeras modulaciones curvas que suavizan la rigidez del bloque superior.
+
+Para "Seguridad y Salud en el Trabajo":
+
+Familia: Sans-Serif lineal ligera (estilo Helvetica Light o Roboto Regular).
+
+Características: Trazos finos y limpios dispuestos en caja baja con iniciales capitales, optimizados específicamente para encajar dentro del espacio negativo de la cinta blanca horizontal sin saturar visualmente.
+
+4. Análisis de Trazos y Elementos Gráficos
+Isotipo Superior Izquierdo (Corazón / Hoja): Líneas de trazo orgánico y fluido. Contiene una silueta de hoja con nervaduras internas de línea delgada en color blanco, sugiriendo cuidado de la vida humana.
+
+Iconografía de Campo (Casco y Llave):
+
+Trazos de contorno (Stroke): Todos los iconos están delineados con un trazo exterior blanco continuo (stroke offset), lo que funciona como un recurso de diseño para separarlos y recortarlos nítidamente de los fondos complejos (azul y verde).
+
+Composición en aspa: La llave de tuercas cruza diagonalmente de abajo hacia arriba en un ángulo de aproximadamente 45 grados, entrelazándose por debajo del casco de seguridad de perfil, generando una retícula estable que aporta simetría dinámica al tercio inferior.
