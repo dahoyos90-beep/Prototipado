@@ -4,7 +4,8 @@
  * Exporta todas las interfaces del sistema.
  * Punto de entrada único para importar tipos desde cualquier módulo.
  * 
- * @version 1.8.0 (agregadas exportaciones de IPlanTrabajo, IActividadPlanTrabajo y EtapaPHVA)
+ * @version 1.9.0 (M18: agregados IRepresentante, ICapacitacionComite,
+ *                  EstadoPaso, ParteRepresentante, RolRepresentante, TipoReunion)
  * @since 2026-08-31
  */
 
@@ -75,15 +76,28 @@ export { IRecursosPlan } from './IRecursosPlan.js';
 export { IMedicionPlan } from './IMedicionPlan.js';
 
 // ================================================================
-// M18 - Comités (COPASST / Vigía)
+// M18 - Gestión de Comités (COPASST / Vigía)
 // ================================================================
 export {
+    // --- Interfaces principales ---
     IComite,
     IActaReunion,
     ICompromisoComite,
+
+    // --- Sub-interfaces ---
+    IRepresentante,
+    ICapacitacionComite,
+
+    // --- Tipos principales ---
     TipoComite,
     EstadoComite,
-    EstadoCompromiso
+    EstadoCompromiso,
+
+    // --- Tipos nuevos (M18) ---
+    EstadoPaso,
+    ParteRepresentante,
+    RolRepresentante,
+    TipoReunion
 } from './IComite.js';
 
 // ================================================================

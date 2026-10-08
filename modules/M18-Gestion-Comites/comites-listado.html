@@ -1,0 +1,116 @@
+<!--
+  modules/M18-Gestion-Comites/comites-listado.html
+  
+  Vista del listado de Comités (COPASST / Vigía).
+  Módulo M18 - Gestión de Comités.
+  
+  Contiene:
+  - Header del módulo con botón "+ Nuevo Comité".
+  - 2 pestañas principales:
+      * 📋 Comités: listado en tarjetas + estado vacío.
+      * 📊 Estadísticas: gráficos de barras CSS.
+  - Contenedor para las tarjetas (generadas por comites-listado.ts).
+  - Contenedor para las estadísticas (generado por comites-listado.ts).
+  
+  IDs que usa comites-listado.ts:
+  - #btn-nuevo-comite         → abrir modal nuevo comité
+  - #btn-nuevo-comite-vacio   → abrir modal desde estado vacío
+  - #tab-container-comites    → contenedor de tabs
+  - .tab-button[data-tab]     → tabs (comites / estadistica)
+  - #tab-comites              → panel de la pestaña Comités
+  - #tab-estadistica          → panel de la pestaña Estadísticas
+  - #contenedor-comites       → lista de tarjetas
+  - #estado-vacio-comites     → mensaje si no hay comités
+  - #contenedor-estadisticas-comites → resumen de estadísticas
+  
+  @version 1.0.1 (fix estado vacío con clase .hidden)
+  @since 2026-10-06
+-->
+
+<div id="comites-listado-container" class="comites-listado-container">
+
+    <!-- ============================================================ -->
+    <!-- ENCABEZADO DEL MÓDULO                                         -->
+    <!-- ============================================================ -->
+    <header class="modulo-header">
+        <div class="modulo-titulo">
+            <h1>🗂️ Gestión de Comités</h1>
+            <p class="modulo-subtitulo">
+                Conformación y seguimiento del COPASST / Vigía de SST
+            </p>
+        </div>
+        <div class="modulo-acciones">
+            <button id="btn-nuevo-comite" class="btn btn-primary" type="button">
+                ➕ Nuevo Comité
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                          -->
+    <!-- ============================================================ -->
+    <div class="tab-container" id="tab-container-comites">
+
+        <div class="tab-nav" role="tablist">
+            <button
+                class="tab-button active"
+                data-tab="comites"
+                role="tab"
+                type="button"
+            >📋 Comités</button>
+            <button
+                class="tab-button"
+                data-tab="estadistica"
+                role="tab"
+                type="button"
+            >📊 Estadísticas</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: COMITÉS (LISTADO EN TARJETAS)                         -->
+        <!-- ============================================================ -->
+        <div id="tab-comites" class="tab-content">
+
+            <div class="card">
+                <h3>📋 Listado de Comités</h3>
+                <p class="text-muted">
+                    Cada empresa o centro de trabajo tiene su propio Comité o
+                    Vigía de SST según el número de trabajadores.
+                </p>
+
+                <!-- Contenedor donde el TS inyecta las tarjetas -->
+                <div id="contenedor-comites" class="lista-comites"></div>
+
+                <!-- Estado vacío (se muestra cuando no hay comités) -->
+                <div id="estado-vacio-comites" class="estado-vacio hidden">
+                    <div class="estado-vacio-icono">📭</div>
+                    <h3>No hay comités registrados</h3>
+                    <p>Comience creando un nuevo comité para la empresa activa.</p>
+                    <button id="btn-nuevo-comite-vacio" class="btn btn-primary" type="button">
+                        ➕ Crear primer comité
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: ESTADÍSTICAS                                          -->
+        <!-- ============================================================ -->
+        <div id="tab-estadistica" class="tab-content hidden">
+
+            <div class="card">
+                <h3>📊 Estadísticas Generales</h3>
+                <p class="text-muted">
+                    Resumen de los comités registrados para la empresa activa.
+                </p>
+
+                <!-- Contenedor donde el TS inyecta las estadísticas -->
+                <div id="contenedor-estadisticas-comites"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
