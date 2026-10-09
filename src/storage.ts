@@ -10,7 +10,8 @@
  * - Garantizar el tipado fuerte en todas las operaciones de almacenamiento.
  * - Manejar errores y casos borde (datos corruptos, claves inexistentes, etc.).
  * 
- * @version 1.6.0 (imports movidos al inicio; comentarios normalizados)
+ * @version 1.8.0 (M23: separado import de IResultadoIndicador; agregados
+ *                  storages de CalculoHHT y PlanAccionIndicador)
  * @since 2026-08-31
  */
 
@@ -25,8 +26,24 @@ import { IPeligro, IReportePeligro } from './interfaces/IPeligro.js';
 import { IRiesgo } from './interfaces/IRiesgo.js';
 import { ICapacitacion } from './interfaces/ICapacitacion.js';
 import { IComite, IActaReunion, ICompromisoComite } from './interfaces/IComite.js';
-import { IConvivencia, IQuejaConvivencia, ICasoConvivencia, IActaConvivencia } from './interfaces/IConvivencia.js';
-import { IIndicador, IResultadoIndicador } from './interfaces/IIndicador.js';
+
+// --- M21 — Comité de Convivencia (interfaces separadas) ---
+import { IConvivencia } from './interfaces/IConvivencia.js';
+import { IQuejaConvivencia } from './interfaces/IQuejaConvivencia.js';
+import { ICasoConvivencia } from './interfaces/ICasoConvivencia.js';
+import { IActaConvivencia } from './interfaces/IActaConvivencia.js';
+import { IEntrevistaConvivencia } from './interfaces/IEntrevistaConvivencia.js';
+import { IPlanMejoraConvivencia } from './interfaces/IPlanMejoraConvivencia.js';
+import { ICompromisoConfidencialidad } from './interfaces/ICompromisoConfidencialidad.js';
+import { IInformeConvivencia } from './interfaces/IInformeConvivencia.js';
+import { IReglamentoInternoCCL } from './interfaces/IReglamentoInternoCCL.js';
+
+// --- M23 — Gestión de Indicadores (interfaces separadas) ---
+import { IIndicador } from './interfaces/IIndicador.js';
+import { IResultadoIndicador } from './interfaces/IResultadoIndicador.js';
+import { ICalculoHHT } from './interfaces/ICalculoHHT.js';
+import { IPlanAccionIndicador } from './interfaces/IPlanAccionIndicador.js';
+
 import { IAusentismo, ICausaAusentismo } from './interfaces/IAusentismo.js';
 import { ISiniestro } from './interfaces/ISiniestro.js';
 import { IEMO } from './interfaces/IEMO.js';
@@ -264,15 +281,22 @@ export const storageComites = new StorageService<IComite>('comites');
 export const storageActasReunion = new StorageService<IActaReunion>('actasReunion');
 export const storageCompromisosComite = new StorageService<ICompromisoComite>('compromisosComite');
 
-// M21 - Comité de Convivencia
+// M21 - Comité de Convivencia Laboral (CCL)
 export const storageConvivencia = new StorageService<IConvivencia>('convivencia');
 export const storageQuejasConvivencia = new StorageService<IQuejaConvivencia>('quejasConvivencia');
 export const storageCasosConvivencia = new StorageService<ICasoConvivencia>('casosConvivencia');
 export const storageActasConvivencia = new StorageService<IActaConvivencia>('actasConvivencia');
+export const storageEntrevistasConvivencia = new StorageService<IEntrevistaConvivencia>('entrevistasConvivencia');
+export const storagePlanesMejoraConvivencia = new StorageService<IPlanMejoraConvivencia>('planesMejoraConvivencia');
+export const storageCompromisosConfidencialidad = new StorageService<ICompromisoConfidencialidad>('compromisosConfidencialidad');
+export const storageInformesConvivencia = new StorageService<IInformeConvivencia>('informesConvivencia');
+export const storageReglamentosCCL = new StorageService<IReglamentoInternoCCL>('reglamentosCCL');
 
 // M23 - Indicadores
 export const storageIndicadores = new StorageService<IIndicador>('indicadores');
 export const storageResultadosIndicadores = new StorageService<IResultadoIndicador>('resultadosIndicadores');
+export const storageCalculosHHT = new StorageService<ICalculoHHT>('calculosHHT');
+export const storagePlanesAccionIndicador = new StorageService<IPlanAccionIndicador>('planesAccionIndicador');
 
 // M24 - Ausentismo
 export const storageAusentismos = new StorageService<IAusentismo>('ausentismos');

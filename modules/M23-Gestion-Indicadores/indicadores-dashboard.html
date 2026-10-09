@@ -1,0 +1,255 @@
+<!--
+  modules/M23-Gestion-Indicadores/indicadores-dashboard.html
+  
+  Vista principal del módulo M23 - Gestión de Indicadores SG-SST.
+  
+  Basado en:
+  - Decreto 1072 de 2015 (art. 2.2.4.6.19 — Ficha técnica obligatoria)
+  - Resolución 0312 de 2019 (indicadores mínimos obligatorios)
+  - NTC 3701 (índices de accidentalidad)
+  - NTC 3793 (ausentismo)
+  
+  Contiene:
+  - Header del módulo con botón "+ Nuevo Indicador".
+  - 4 pestañas principales:
+      * 📊 Dashboard: resumen con semáforo y estadísticas.
+      * 📋 Indicadores: tabla completa.
+      * 📅 Resultados: registro de valores por periodo.
+      * 📄 Reportes: generación de reportes PDF.
+  - Contenedor para cada pestaña (generado por indicadores-dashboard.ts).
+  
+  IDs que usa indicadores-dashboard.ts:
+  - #btn-nuevo-indicador          → abrir modal nuevo indicador
+  - #btn-nuevo-indicador-vacio    → abrir modal desde estado vacío
+  - #tab-container-indicadores    → contenedor de tabs
+  - .tab-button[data-tab]         → tabs (dashboard / indicadores / resultados / reportes)
+  - #tab-dashboard                → panel Dashboard
+  - #tab-indicadores              → panel Indicadores
+  - #tab-resultados               → panel Resultados
+  - #tab-reportes                 → panel Reportes
+  - #contenedor-dashboard         → contenido dinámico Dashboard
+  - #contenedor-indicadores       → tabla dinámica
+  - #contenedor-resultados        → lista dinámica de resultados
+  - #contenedor-reportes          → contenido dinámico de reportes
+  - #estado-vacio-indicadores     → mensaje cuando no hay indicadores
+  
+  @version 1.0.0
+  @since 2026-10-08
+-->
+
+<div id="indicadores-container" class="indicadores-container">
+
+    <!-- ============================================================ -->
+    <!-- ENCABEZADO DEL MÓDULO                                         -->
+    <!-- ============================================================ -->
+    <header class="modulo-header">
+        <div class="modulo-titulo">
+            <h1>📈 Gestión de Indicadores SG-SST</h1>
+            <p class="modulo-subtitulo">
+                Medición, seguimiento y análisis de indicadores de Seguridad y Salud en el Trabajo
+            </p>
+        </div>
+        <div class="modulo-acciones">
+            <button id="btn-nuevo-indicador" class="btn btn-primary" type="button">
+                ➕ Nuevo Indicador
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                          -->
+    <!-- ============================================================ -->
+    <div class="tab-container" id="tab-container-indicadores">
+
+        <div class="tab-nav" role="tablist">
+            <button
+                class="tab-button active"
+                data-tab="dashboard"
+                role="tab"
+                type="button"
+            >📊 Dashboard</button>
+            <button
+                class="tab-button"
+                data-tab="indicadores"
+                role="tab"
+                type="button"
+            >📋 Indicadores</button>
+            <button
+                class="tab-button"
+                data-tab="resultados"
+                role="tab"
+                type="button"
+            >📅 Resultados</button>
+            <button
+                class="tab-button"
+                data-tab="reportes"
+                role="tab"
+                type="button"
+            >📄 Reportes</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: DASHBOARD                                              -->
+        <!-- ============================================================ -->
+        <div id="tab-dashboard" class="tab-content">
+
+            <!-- Stats-cards (3 cards de resumen) -->
+            <div class="card">
+                <h3>🎯 Resumen General</h3>
+                <div id="contenedor-dashboard">
+                    <!-- El TS inyecta aquí las 3 stat-cards + gráficos -->
+                </div>
+            </div>
+
+            <!-- Distribución por clasificación -->
+            <div class="card">
+                <h3>📊 Distribución por Clasificación</h3>
+                <div id="contenedor-clasificacion">
+                    <!-- El TS inyecta aquí el gráfico de barras -->
+                </div>
+            </div>
+
+            <!-- Indicadores en alerta -->
+            <div class="card">
+                <h3>⚠️ Indicadores en Alerta</h3>
+                <div id="contenedor-alertas">
+                    <!-- El TS inyecta aquí la lista de indicadores críticos -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: INDICADORES (TABLA)                                    -->
+        <!-- ============================================================ -->
+        <div id="tab-indicadores" class="tab-content hidden">
+
+            <div class="card">
+                <div class="tab-header-acciones">
+                    <h3>📋 Todos los Indicadores</h3>
+                    <div class="filtros-inline">
+                        <select id="filtro-clasificacion" class="input-filtro">
+                            <option value="">Todas las clasificaciones</option>
+                            <option value="Estructura">Estructura</option>
+                            <option value="Proceso">Proceso</option>
+                            <option value="Resultado">Resultado</option>
+                        </select>
+                        <select id="filtro-semaforo" class="input-filtro">
+                            <option value="">Todos los semáforos</option>
+                            <option value="Verde">🟢 Verde</option>
+                            <option value="Amarillo">🟡 Amarillo</option>
+                            <option value="Rojo">🔴 Rojo</option>
+                        </select>
+                        <select id="filtro-estado" class="input-filtro">
+                            <option value="">Todos los estados</option>
+                            <option value="Activo">Activos</option>
+                            <option value="Inactivo">Inactivos</option>
+                            <option value="EnConfiguracion">En Configuración</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="contenedor-indicadores" class="tabla-scroll">
+                    <!-- El TS inyecta aquí la tabla -->
+                </div>
+
+                <!-- Estado vacío -->
+                <div id="estado-vacio-indicadores" class="estado-vacio hidden">
+                    <div class="estado-vacio-icono">📭</div>
+                    <h3>No hay indicadores registrados</h3>
+                    <p>Comience creando un indicador o genere los mínimos obligatorios.</p>
+                    <button id="btn-nuevo-indicador-vacio" class="btn btn-primary" type="button">
+                        ➕ Crear primer indicador
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: RESULTADOS                                            -->
+        <!-- ============================================================ -->
+        <div id="tab-resultados" class="tab-content hidden">
+
+            <div class="card">
+                <div class="tab-header-acciones">
+                    <h3>📅 Registro de Resultados</h3>
+                    <div class="filtros-inline">
+                        <select id="filtro-indicador-resultados" class="input-filtro">
+                            <option value="">Seleccionar indicador...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="contenedor-resultados">
+                    <!-- El TS inyecta aquí la lista de resultados del indicador seleccionado -->
+                </div>
+
+                <div id="estado-vacio-resultados" class="estado-vacio">
+                    <div class="estado-vacio-icono">📅</div>
+                    <h3>Seleccione un indicador</h3>
+                    <p>Escoja un indicador en el filtro superior para ver y registrar sus resultados por periodo.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: REPORTES                                              -->
+        <!-- ============================================================ -->
+        <div id="tab-reportes" class="tab-content hidden">
+
+            <div class="card">
+                <h3>📄 Generación de Reportes</h3>
+                <p class="text-muted">
+                    Genere reportes de indicadores por periodo, área o clasificación.
+                </p>
+
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div class="form-group">
+                        <label for="reporte-periodo">Periodo</label>
+                        <select id="reporte-periodo" class="input-filtro">
+                            <option value="">Todos los periodos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reporte-clasificacion">Clasificación</label>
+                        <select id="reporte-clasificacion" class="input-filtro">
+                            <option value="">Todas</option>
+                            <option value="Estructura">Estructura</option>
+                            <option value="Proceso">Proceso</option>
+                            <option value="Resultado">Resultado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reporte-destinatario">Destinatario</label>
+                        <select id="reporte-destinatario" class="input-filtro">
+                            <option value="">Todos</option>
+                            <option value="AltaDireccion">Alta Dirección</option>
+                            <option value="Copasst">COPASST</option>
+                            <option value="ARL">ARL</option>
+                            <option value="MinisterioTrabajo">Ministerio del Trabajo</option>
+                            <option value="Trabajadores">Trabajadores</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="acciones-reportes">
+                    <button id="btn-generar-reporte" class="btn btn-success" type="button">
+                        🖨️ Generar Reporte PDF
+                    </button>
+                    <button id="btn-generar-reporte-anual" class="btn btn-primary" type="button">
+                        📊 Reporte Anual Completo
+                    </button>
+                </div>
+
+                <div id="contenedor-reportes" style="margin-top: 1.5rem;">
+                    <!-- El TS inyecta aquí la vista previa del reporte -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

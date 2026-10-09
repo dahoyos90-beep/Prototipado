@@ -1,0 +1,896 @@
+/* ================================================================
+   modules/M21-Gestion-Comite-Convivencia/convivencia-listado.css
+   Estilos del listado del Comité de Convivencia Laboral (CCL).
+   Módulo M21 - Gestión del Comité de Convivencia.
+
+   Basado en:
+   - Resolución 3461 de 2025
+   - Ley 2365 de 2024
+   - Ley 1010 de 2006
+
+   Incluye:
+   - Header del módulo.
+   - Pestañas principales (Comités / Estadísticas).
+   - Tarjetas de comités con badges de estado y alertas.
+   - Gráficos de barras CSS para estadísticas.
+   - Modal de nuevo comité.
+   - Estado vacío.
+   - Responsive (móvil).
+
+   @version 1.0.0
+   @since 2026-10-07
+   ================================================================ */
+
+/* ================================================================
+   CONTENEDOR PRINCIPAL
+   ================================================================ */
+
+.convivencia-listado-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ================================================================
+   ENCABEZADO DEL MÓDULO
+   ================================================================ */
+
+.modulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.modulo-titulo h1 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.75rem;
+    color: #1B365D;
+    font-weight: 700;
+}
+
+.modulo-subtitulo {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748B;
+}
+
+.modulo-acciones {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ================================================================
+   PESTAÑAS
+   ================================================================ */
+
+.tab-container {
+    width: 100%;
+}
+
+.tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748B;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    color: #284B7D;
+    background-color: #f1f5f9;
+    border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.tab-button.active {
+    color: #284B7D;
+    border-bottom-color: #284B7D;
+    font-weight: 700;
+}
+
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+
+.card {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.25s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    margin: 0 0 1rem 0;
+    color: #1B365D;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.card .text-muted {
+    color: #64748B;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* ================================================================
+   LISTA DE COMITÉS (TARJETAS)
+   ================================================================ */
+
+.lista-comites {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comite-item {
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #284B7D;
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: #f8fafc;
+    transition: box-shadow 0.25s ease, transform 0.15s ease;
+    flex-wrap: wrap;
+}
+
+.comite-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.comite-item.comite-vencido {
+    border-left-color: #DC2626;
+}
+
+.comite-item.comite-por-vencer {
+    border-left-color: #F59E0B;
+}
+
+.comite-item.comite-vigente {
+    border-left-color: #10B981;
+}
+
+.comite-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.comite-item-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1B365D;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.comite-item-info p {
+    margin: 0.2rem 0;
+    font-size: 0.85rem;
+    color: #64748B;
+}
+
+.comite-item-info p strong {
+    color: #1E293B;
+    font-weight: 600;
+}
+
+.comite-item-acciones {
+    display: flex;
+    gap: 0.375rem;
+    flex-shrink: 0;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ================================================================
+   BADGES
+   ================================================================ */
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* Badge tipo de comité (en M21 siempre es CCL) */
+.badge-tipo-ccl {
+    background: #EDE9FE;
+    color: #6D28D9;
+}
+
+/* Badge estado del comité */
+.badge-activo {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-inactivo {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.badge-formalizacion {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+/* Badge de alerta de vencimiento */
+.badge-alerta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-alerta-verde {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-alerta-amarillo {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-alerta-naranja {
+    background: #FFEDD5;
+    color: #9A3412;
+}
+
+.badge-alerta-rojo {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ================================================================
+   BOTONES
+   ================================================================ */
+
+.convivencia-listado-container .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.convivencia-listado-container .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.convivencia-listado-container .btn-primary {
+    background: #284B7D;
+    color: #ffffff;
+    border-color: #284B7D;
+}
+
+.convivencia-listado-container .btn-primary:hover {
+    background: #3A6B9E;
+    border-color: #3A6B9E;
+}
+
+.convivencia-listado-container .btn-outline {
+    background: transparent;
+    color: #284B7D;
+    border-color: #284B7D;
+}
+
+.convivencia-listado-container .btn-outline:hover {
+    background: #284B7D;
+    color: #ffffff;
+}
+
+.convivencia-listado-container .btn-danger {
+    background: #DC2626;
+    color: #ffffff;
+    border-color: #DC2626;
+}
+
+.convivencia-listado-container .btn-danger:hover {
+    background: #B91C1C;
+    border-color: #B91C1C;
+}
+
+.convivencia-listado-container .btn-success {
+    background: #10B981;
+    color: #ffffff;
+    border-color: #10B981;
+}
+
+.convivencia-listado-container .btn-success:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+/* ================================================================
+   ESTADO VACÍO
+   ================================================================ */
+
+.estado-vacio {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 3rem 1.5rem !important;
+    text-align: center !important;
+    color: #64748B;
+    gap: 0.5rem;
+}
+
+.estado-vacio.hidden {
+    display: none !important;
+}
+
+.estado-vacio-icono {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.estado-vacio h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1E293B;
+    font-weight: 700;
+}
+
+.estado-vacio p {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: #64748B;
+}
+
+/* ================================================================
+   MODAL (Nuevo Comité)
+   ================================================================ */
+
+.modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(15, 23, 42, 0.6) !important;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    z-index: 9999 !important;
+    overflow-y: auto;
+}
+
+.modal-overlay[style*="display: flex"] {
+    display: flex !important;
+}
+
+.modal-contenido {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    max-width: 640px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-titulo {
+    margin: 0 0 0.5rem 0;
+    padding: 1.25rem 1.5rem 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1B365D;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.modal-descripcion {
+    margin: 0;
+    padding: 0.75rem 1.5rem 0;
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.5;
+}
+
+.modal-form {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.modal-form .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.modal-form .form-group input,
+.modal-form .form-group select,
+.modal-form .form-group textarea {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: #ffffff;
+    color: #1E293B;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.modal-form .form-group input:focus,
+.modal-form .form-group select:focus,
+.modal-form .form-group textarea:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.15);
+}
+
+.modal-form .form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.modal-form .form-group small {
+    font-size: 0.7rem;
+    color: #64748B;
+    font-style: italic;
+}
+
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem 1.25rem 1.5rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.modal-acciones .btn {
+    min-width: 110px;
+}
+
+/* ================================================================
+   ESTADÍSTICAS
+   ================================================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    transition: box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #284B7D;
+    margin: 0 0 0.25rem 0;
+    line-height: 1;
+}
+
+.stat-card p {
+    font-size: 0.85rem;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.stats-bloque {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.stats-bloque:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.stats-bloque h4 {
+    font-size: 1.05rem;
+    color: #1B365D;
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stats-grafica {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 0.5rem;
+}
+
+.stats-barra-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.stats-barra-label {
+    min-width: 110px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.stats-barra-container {
+    flex: 1;
+    height: 24px;
+    background-color: #e2e8f0;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.stats-barra-fill {
+    height: 100%;
+    border-radius: 0.25rem;
+    transition: width 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffffff;
+    min-width: 30px;
+}
+
+.stats-barra-valor {
+    min-width: 50px;
+    text-align: right;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+/* Colores de barras - estado del comité */
+.barra-activo {
+    background-color: #10B981;
+}
+
+.barra-formalizacion {
+    background-color: #F59E0B;
+}
+
+.barra-inactivo {
+    background-color: #94A3B8;
+}
+
+/* Colores de barras - alerta de vencimiento */
+.barra-verde {
+    background-color: #10B981;
+}
+
+.barra-amarillo {
+    background-color: #FCD34D;
+    color: #78350F;
+}
+
+.barra-naranja {
+    background-color: #F59E0B;
+}
+
+.barra-rojo {
+    background-color: #DC2626;
+}
+
+/* Colores de barras - quejas por tipo */
+.barra-acoso-laboral {
+    background-color: #F59E0B;
+}
+
+.barra-acoso-sexual {
+    background-color: #DC2626;
+}
+
+.barra-conflicto {
+    background-color: #3B82F6;
+}
+
+/* Tabla de estadísticas */
+.stats-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.stats-tabla th {
+    background-color: #f1f5f9;
+    color: #64748B;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.stats-tabla td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1E293B;
+}
+
+.stats-tabla tr:hover {
+    background-color: #f8fafc;
+}
+
+.stats-tabla .stats-total {
+    font-weight: 700;
+    background-color: #f1f5f9;
+    border-top: 2px solid #cbd5e1;
+}
+
+/* ================================================================
+   ALERTA VENCIMIENTO EN TARJETA
+   ================================================================ */
+
+.alerta-vencimiento {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.alerta-vencimiento.verde {
+    background: #D1FAE5;
+    color: #065F46;
+    border-left: 3px solid #10B981;
+}
+
+.alerta-vencimiento.amarillo {
+    background: #FEF3C7;
+    color: #92400E;
+    border-left: 3px solid #FCD34D;
+}
+
+.alerta-vencimiento.naranja {
+    background: #FFEDD5;
+    color: #9A3412;
+    border-left: 3px solid #F59E0B;
+}
+
+.alerta-vencimiento.rojo {
+    background: #FEE2E2;
+    color: #991B1B;
+    border-left: 3px solid #DC2626;
+}
+
+/* ================================================================
+   RESPONSIVE (MÓVIL — 768px o menos)
+   ================================================================ */
+
+@media (max-width: 768px) {
+    .convivencia-listado-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .modulo-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modulo-acciones {
+        justify-content: stretch;
+    }
+
+    .modulo-acciones .btn {
+        width: 100%;
+    }
+
+    .modulo-titulo h1 {
+        font-size: 1.375rem;
+    }
+
+    .comite-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .comite-item-acciones {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-barra-label {
+        min-width: 90px;
+        font-size: 0.75rem;
+    }
+
+    .stats-barra-valor {
+        min-width: 40px;
+        font-size: 0.75rem;
+    }
+
+    .modal-overlay {
+        padding: 1rem 0.5rem;
+    }
+
+    .modal-acciones {
+        flex-direction: column-reverse;
+    }
+
+    .modal-acciones .btn {
+        width: 100%;
+    }
+}
+
+/* ================================================================
+   RESPONSIVE (MÓVIL PEQUEÑO — 480px o menos)
+   ================================================================ */
+
+@media (max-width: 480px) {
+    .convivencia-listado-container {
+        padding: 0.75rem;
+    }
+
+    .modulo-titulo h1 {
+        font-size: 1.25rem;
+    }
+
+    .modulo-subtitulo {
+        font-size: 0.8125rem;
+    }
+
+    .tab-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-button {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card h3 {
+        font-size: 2rem;
+    }
+
+    .estado-vacio {
+        padding: 2rem 1rem !important;
+    }
+
+    .estado-vacio-icono {
+        font-size: 3rem;
+    }
+
+    .stats-barra-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+    }
+
+    .stats-barra-label {
+        min-width: auto;
+    }
+
+    .stats-barra-valor {
+        text-align: left;
+    }
+}

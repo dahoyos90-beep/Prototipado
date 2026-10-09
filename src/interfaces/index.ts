@@ -4,8 +4,9 @@
  * Exporta todas las interfaces del sistema.
  * Punto de entrada único para importar tipos desde cualquier módulo.
  * 
- * @version 1.9.0 (M18: agregados IRepresentante, ICapacitacionComite,
- *                  EstadoPaso, ParteRepresentante, RolRepresentante, TipoReunion)
+ * @version 2.1.0 (M23: actualizados exports a los 5 archivos separados:
+ *                  IIndicador, IResultadoIndicador, ITendenciaIndicador,
+ *                  ICalculoHHT, IPlanAccionIndicador)
  * @since 2026-08-31
  */
 
@@ -78,6 +79,8 @@ export { IMedicionPlan } from './IMedicionPlan.js';
 // ================================================================
 // M18 - Gestión de Comités (COPASST / Vigía)
 // ================================================================
+// ⚠️ NOTA: EstadoPaso, ParteRepresentante y RolRepresentante se exportan
+//         ÚNICAMENTE desde aquí (son compartidos con M21).
 export {
     // --- Interfaces principales ---
     IComite,
@@ -93,7 +96,7 @@ export {
     EstadoComite,
     EstadoCompromiso,
 
-    // --- Tipos nuevos (M18) ---
+    // --- Tipos compartidos (M18 + M21) ---
     EstadoPaso,
     ParteRepresentante,
     RolRepresentante,
@@ -101,30 +104,120 @@ export {
 } from './IComite.js';
 
 // ================================================================
-// M21 - Comité de Convivencia
+// M21 - Gestión del Comité de Convivencia Laboral (CCL)
 // ================================================================
+// ⚠️ NOTA: NO se re-exportan EstadoPaso, ParteRepresentante ni
+//         RolRepresentante porque ya están exportados desde M18.
+
+// --- Comité principal ---
 export {
     IConvivencia,
-    IQuejaConvivencia,
-    ICasoConvivencia,
-    IActaConvivencia,
     EstadoConvivencia,
-    EstadoQueja,
-    TipoQueja
+    RutaQueja
 } from './IConvivencia.js';
 
+// --- Queja ---
+export {
+    IQuejaConvivencia,
+    EstadoQueja,
+    TipoQueja
+} from './IQuejaConvivencia.js';
+
+// --- Caso ---
+export {
+    ICasoConvivencia,
+    ISeguimientoCaso,
+    ResultadoCaso,
+    EstadoSeguimiento
+} from './ICasoConvivencia.js';
+
+// --- Acta de reunión ---
+export {
+    IActaConvivencia,
+    TipoReunionConvivencia
+} from './IActaConvivencia.js';
+
+// --- Entrevista individual reservada ---
+export {
+    IEntrevistaConvivencia,
+    RolEntrevistado
+} from './IEntrevistaConvivencia.js';
+
+// --- Plan de mejora ---
+export {
+    IPlanMejoraConvivencia,
+    ISeguimientoPlanMejora,
+    EstadoPlanMejora,
+    EstadoSeguimientoPlan
+} from './IPlanMejoraConvivencia.js';
+
+// --- Compromiso de confidencialidad ---
+export {
+    ICompromisoConfidencialidad,
+    ParteConfidencialidad,
+    RolConfidencialidad,
+    TipoMiembroConfidencialidad
+} from './ICompromisoConfidencialidad.js';
+
+// --- Informe de gestión ---
+export {
+    IInformeConvivencia,
+    IIndicadoresConvivencia,
+    TipoInformeConvivencia,
+    PeriodoInformeConvivencia,
+    EstadoInformeConvivencia
+} from './IInformeConvivencia.js';
+
+// --- Reglamento interno ---
+export {
+    IReglamentoInternoCCL,
+    EstadoReglamento
+} from './IReglamentoInternoCCL.js';
+
 // ================================================================
-// M23 - Indicadores
+// M23 - Gestión de Indicadores
 // ================================================================
+
+// --- Indicador (datos maestros / ficha técnica) ---
 export {
     IIndicador,
-    IResultadoIndicador,
-    ITendenciaIndicador,
     ClasificacionIndicador,
     TipoResultado,
     EstadoIndicador,
-    Periodicidad
+    Periodicidad,
+    TipoIndicadorMinimo,
+    NivelSemaforo,
+    TipoMedida,
+    TipoCalculoAutomatico,
+    TipoTendencia,
+    DestinatarioIndicador
 } from './IIndicador.js';
+
+// --- Resultado del indicador (valor por periodo) ---
+export { IResultadoIndicador } from './IResultadoIndicador.js';
+
+// --- Tendencia del indicador (análisis histórico) ---
+export {
+    ITendenciaIndicador,
+    IDatoHistorico
+} from './ITendenciaIndicador.js';
+
+// --- Cálculo de Horas Hombre Trabajadas (HHT) ---
+export {
+    ICalculoHHT,
+    OrigenCalculoHHT,
+    EstadoCalculoHHT
+} from './ICalculoHHT.js';
+
+// --- Plan de acción del indicador ---
+export {
+    IPlanAccionIndicador,
+    IAccionPlan,
+    ISeguimientoPlanAccion,
+    EstadoPlanAccion,
+    TipoAccionPlan,
+    EstadoAccionPlan
+} from './IPlanAccionIndicador.js';
 
 // ================================================================
 // M24 - Ausentismo

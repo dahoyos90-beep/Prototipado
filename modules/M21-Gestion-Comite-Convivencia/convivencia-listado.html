@@ -1,0 +1,121 @@
+<!--
+  modules/M21-Gestion-Comite-Convivencia/convivencia-listado.html
+  
+  Vista del listado de Comités de Convivencia Laboral (CCL).
+  Módulo M21 - Gestión del Comité de Convivencia.
+  
+  Basado en:
+  - Resolución 3461 de 2025
+  - Ley 2365 de 2024
+  - Ley 1010 de 2006
+  
+  Contiene:
+  - Header del módulo con botón "+ Nuevo Comité".
+  - 2 pestañas principales:
+      * 📋 Comités: listado en tarjetas + estado vacío.
+      * 📊 Estadísticas: gráficos de barras CSS.
+  - Contenedor para las tarjetas (generadas por convivencia-listado.ts).
+  - Contenedor para las estadísticas (generado por convivencia-listado.ts).
+  
+  IDs que usa convivencia-listado.ts:
+  - #btn-nuevo-comite          → abrir modal nuevo comité
+  - #btn-nuevo-comite-vacio    → abrir modal desde estado vacío
+  - #tab-container-convivencia → contenedor de tabs
+  - .tab-button[data-tab]      → tabs (comites / estadistica)
+  - #tab-comites               → panel de la pestaña Comités
+  - #tab-estadistica           → panel de la pestaña Estadísticas
+  - #contenedor-comites        → lista de tarjetas
+  - #estado-vacio-comites      → mensaje si no hay comités
+  - #contenedor-estadisticas-convivencia → resumen de estadísticas
+  
+  @version 1.0.0
+  @since 2026-10-07
+-->
+
+<div id="convivencia-listado-container" class="convivencia-listado-container">
+
+    <!-- ============================================================ -->
+    <!-- ENCABEZADO DEL MÓDULO                                         -->
+    <!-- ============================================================ -->
+    <header class="modulo-header">
+        <div class="modulo-titulo">
+            <h1>🤝 Gestión del Comité de Convivencia Laboral</h1>
+            <p class="modulo-subtitulo">
+                Conformación y seguimiento del Comité de Convivencia (CCL)
+            </p>
+        </div>
+        <div class="modulo-acciones">
+            <button id="btn-nuevo-comite" class="btn btn-primary" type="button">
+                ➕ Nuevo Comité
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS PRINCIPALES                                          -->
+    <!-- ============================================================ -->
+    <div class="tab-container" id="tab-container-convivencia">
+
+        <div class="tab-nav" role="tablist">
+            <button
+                class="tab-button active"
+                data-tab="comites"
+                role="tab"
+                type="button"
+            >📋 Comités</button>
+            <button
+                class="tab-button"
+                data-tab="estadistica"
+                role="tab"
+                type="button"
+            >📊 Estadísticas</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: COMITÉS (LISTADO EN TARJETAS)                         -->
+        <!-- ============================================================ -->
+        <div id="tab-comites" class="tab-content">
+
+            <div class="card">
+                <h3>📋 Listado de Comités de Convivencia</h3>
+                <p class="text-muted">
+                    Cada empresa o centro de trabajo debe conformar un Comité de
+                    Convivencia Laboral (CCL) según la Resolución 3461 de 2025.
+                </p>
+
+                <!-- Contenedor donde el TS inyecta las tarjetas -->
+                <div id="contenedor-comites" class="lista-comites"></div>
+
+                <!-- Estado vacío (se muestra cuando no hay comités) -->
+                <div id="estado-vacio-comites" class="estado-vacio hidden">
+                    <div class="estado-vacio-icono">📭</div>
+                    <h3>No hay comités registrados</h3>
+                    <p>Comience creando un nuevo Comité de Convivencia para la empresa activa.</p>
+                    <button id="btn-nuevo-comite-vacio" class="btn btn-primary" type="button">
+                        ➕ Crear primer comité
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: ESTADÍSTICAS                                          -->
+        <!-- ============================================================ -->
+        <div id="tab-estadistica" class="tab-content hidden">
+
+            <div class="card">
+                <h3>📊 Estadísticas Generales</h3>
+                <p class="text-muted">
+                    Resumen de los comités de convivencia registrados para la empresa activa.
+                </p>
+
+                <!-- Contenedor donde el TS inyecta las estadísticas -->
+                <div id="contenedor-estadisticas-convivencia"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

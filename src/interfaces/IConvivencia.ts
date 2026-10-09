@@ -1,181 +1,169 @@
 /**
  * src/interfaces/IConvivencia.ts
  * 
- * Interfaz que define la estructura del Comité de Convivencia en el sistema.
- * Corresponde al módulo M10 - Gestión del Comité de Convivencia (CU34 al CU37).
+ * Interfaz que define la estructura del Comité de Convivencia Laboral (CCL)
+ * en el sistema. Corresponde al módulo M21 - Gestión del Comité de Convivencia.
  * 
- * Propósito:
- * - Establecer el contrato de datos para la entidad Comité de Convivencia.
- * - Permitir la conformación oficial (CU34), canal de quejas (CU35),
- *   gestión de casos (CU36) y repositorio de actas (CU37).
+ * Basado en:
+ * - Resolución 3461 de 2025 (MinTrabajo) — Reemplaza Res. 652 y 1356 de 2012
+ * - Ley 2365 de 2024 (Acoso Sexual Laboral)
+ * - Ley 1010 de 2006 (Acoso Laboral)
+ * - Decreto 1072 de 2015 (SG-SST)
+ * - Resolución 0312 de 2019 (Estándares Mínimos)
  * 
- * @version 1.1.0 (agregado empresaId a las 4 interfaces)
+ * @version 2.0.0 (extendida para M21: representantes, votación, cronograma,
+ *                  pasos, canales de queja. Se separan IQuejaConvivencia,
+ *                  ICasoConvivencia e IActaConvivencia a sus propios archivos.)
  * @since 2026-08-31
  */
 
+import type { IRepresentante } from './IComite.js';
+
+// ================================================================
+// TIPOS
+// ================================================================
+
 /**
  * Estado del Comité de Convivencia.
- * - Activo: Comité funcionando correctamente.
- * - Inactivo: Comité suspendido o disuelto.
- * - EnFormalizacion: Comité en proceso de conformación (falta documentación).
+ * - Activo:          Comité funcionando correctamente.
+ * - Inactivo:        Comité suspendido o disuelto.
+ * - EnFormalizacion: Comité en proceso de conformación.
  */
 export type EstadoConvivencia = "Activo" | "Inactivo" | "EnFormalizacion";
 
 /**
- * Estado de una queja radicada en el Comité de Convivencia.
- * - Radicada: Queja ingresada, pendiente de revisión.
- * - EnInvestigacion: Comité en proceso de investigación.
- * - Citacion: Se han citado a las partes involucradas.
- * - EnConciliacion: Proceso de conciliación en curso.
- * - Cerrada: Caso resuelto y cerrado.
- * - Trasladada: Caso trasladado a entidad externa (ej. Ministerio de Trabajo).
+ * Estado de cada paso de la conformación del comité.
+ * - Pendiente:  No se ha iniciado.
+ * - EnProgreso: Se inició pero no se completó.
+ * - Completado: Se completó y guardó.
  */
-export type EstadoQueja = "Radicada" | "EnInvestigacion" | "Citacion" | "EnConciliacion" | "Cerrada" | "Trasladada";
+export type EstadoPaso = "Pendiente" | "EnProgreso" | "Completado";
 
 /**
- * Tipo de queja según la naturaleza del incidente.
- * - AcosoLaboral: Acoso en el entorno laboral.
- * - Discriminacion: Discriminación por género, raza, religión, etc.
- * - Hostigamiento: Hostigamiento o intimidación.
- * - Violencia: Violencia física o verbal.
- * - Otro: Cualquier otro tipo de queja.
+ * Parte del comité a la que pertenece un representante.
+ * - Empleador:   Designado directamente por el Representante Legal.
+ * - Trabajador:  Electo por votación de los trabajadores.
  */
-export type TipoQueja = "AcosoLaboral" | "Discriminacion" | "Hostigamiento" | "Violencia" | "Otro";
+export type ParteRepresentante = "Empleador" | "Trabajador";
+
+/**
+ * Rol de un representante dentro del comité.
+ * - Principal: Miembro con voz y voto.
+ * - Suplente:  Reemplaza al principal en ausencias.
+ */
+export type RolRepresentante = "Principal" | "Suplente";
+
+/**
+ * Ruta de una queja según la naturaleza del hecho.
+ * - AcosoLaboral:          Ruta conciliatoria (Ley 1010 de 2006).
+ * - AccoSexual:            Ruta de protección + traslado directo (Ley 2365 de 2024).
+ * - ConflictoConvivencia:  Conflicto de convivencia general.
+ */
+export type RutaQueja = "AcosoLaboral" | "AcosoSexual" | "ConflictoConvivencia";
+
+// ================================================================
+// INTERFAZ PRINCIPAL: IConvivencia
+// ================================================================
 
 /**
  * Interfaz IConvivencia
  * 
- * Define la estructura completa del Comité de Convivencia.
- * Todas las propiedades son obligatorias para garantizar la integridad de los datos.
+ * Define la estructura completa del Comité de Convivencia Laboral (CCL).
  * 
- * @property {string} id - Identificador único del comité (generado por el sistema).
- * @property {string} empresaId - NIT de la empresa a la que pertenece el comité.
- * @property {string} nombre - Nombre descriptivo del comité (ej. "Comité de Convivencia - Sede Principal").
- * @property {string[]} miembrosEmpleador - IDs de los usuarios que representan a la parte empleadora.
- * @property {string[]} miembrosTrabajadores - IDs de los usuarios que representan a la parte trabajadora.
- * @property {string} actaEleccion - URL o nombre del archivo PDF del acta de elección (documento legal).
- * @property {string} fechaInicioVigencia - Fecha de inicio del periodo de vigencia (ISO YYYY-MM-DD).
- * @property {string} fechaFinVigencia - Fecha de fin del periodo de vigencia (ISO YYYY-MM-DD).
+ * @property {string} id - Identificador único del comité.
+ * @property {string} empresaId - NIT de la empresa a la que pertenece.
+ * @property {string} nombre - Nombre descriptivo.
+ * @property {string} ciudad - Ciudad o municipio del centro de trabajo.
+ * @property {number} numeroTrabajadores - Cantidad total de trabajadores.
+ * 
+ * @property {string} fechaInicioVigencia - Inicio del período (ISO YYYY-MM-DD).
+ * @property {string} fechaFinVigencia - Fin del período (ISO YYYY-MM-DD).
  * @property {EstadoConvivencia} estado - Estado del comité.
- * @property {Date} fechaCreacion - Fecha y hora de registro del comité.
+ * 
+ * @property {IRepresentante[]} representantesEmpleador - Reps. del empleador.
+ * @property {IRepresentante[]} representantesTrabajadores - Reps. de trabajadores.
+ * 
+ * @property {string | null} presidenteId - Cédula del Presidente.
+ * @property {string | null} secretarioId - Cédula del Secretario.
+ * 
+ * @property {string} canalQuejas - Correo electrónico oficial del CCL.
+ * @property {string} buzonFisico - Ubicación del buzón físico de quejas.
+ * 
+ * @property {string | null} fechaPublicacionConvocatoria - Fecha publicación.
+ * @property {string | null} fechaAperturaInscripciones - Apertura inscripciones.
+ * @property {string | null} fechaCierreInscripciones - Cierre inscripciones.
+ * @property {string | null} fechaVotacion - Fecha de votación.
+ * 
+ * @property {number} votosValidos - Total de votos válidos.
+ * @property {number} votosBlancos - Total de votos en blanco.
+ * @property {number} votosNulos - Total de votos nulos.
+ * @property {number} totalHabilitados - Total de trabajadores habilitados.
+ * @property {number} totalEmitidos - Total de votos emitidos.
+ * 
+ * @property {EstadoPaso} pasoConvocatoria - Estado del paso 1.
+ * @property {EstadoPaso} pasoEleccion - Estado del paso 2.
+ * @property {EstadoPaso} pasoDesignacion - Estado del paso 3.
+ * @property {EstadoPaso} pasoConstitucion - Estado del paso 4.
+ * @property {EstadoPaso} pasoCapacitacion - Estado del paso 5.
+ * @property {EstadoPaso} pasoReglamento - Estado del paso 6.
+ * 
+ * @property {string} actaEleccion - Nombre del archivo PDF del acta de elección.
+ * @property {string[]} miembros - IDs de los usuarios que integran el comité.
+ * 
+ * @property {Date} fechaCreacion - Fecha y hora de registro.
  * @property {Date} fechaActualizacion - Fecha y hora de la última modificación.
  */
 export interface IConvivencia {
+    // --- Identificación ---
     id: string;
-    empresaId: string; // NIT de la empresa
+    empresaId: string;
     nombre: string;
-    miembrosEmpleador: string[];
-    miembrosTrabajadores: string[];
-    actaEleccion: string;          // Nombre de archivo PDF
-    fechaInicioVigencia: string;   // ISO YYYY-MM-DD
-    fechaFinVigencia: string;      // ISO YYYY-MM-DD
+    ciudad: string;
+    numeroTrabajadores: number;
+
+    // --- Vigencia ---
+    fechaInicioVigencia: string;
+    fechaFinVigencia: string;
     estado: EstadoConvivencia;
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
-}
 
-/**
- * Interfaz IQuejaConvivencia
- * 
- * Define la estructura de una queja radicada en el Comité de Convivencia (CU35).
- * La queja puede ser anónima o con identificación del quejoso.
- * 
- * @property {string} id - Identificador único de la queja (generado por el sistema).
- * @property {string} empresaId - NIT de la empresa a la que pertenece la queja.
- * @property {string} comiteId - ID del comité al que pertenece.
- * @property {string | null} quejosoId - ID del usuario que radica la queja (puede ser null si es anónimo).
- * @property {string | null} quejosoNombre - Nombre del quejoso (si se proporciona, para casos anónimos se omite).
- * @property {TipoQueja} tipo - Tipo de queja según la naturaleza del incidente.
- * @property {string} descripcion - Descripción detallada del incidente.
- * @property {string | null} pruebasAdjuntas - URLs o nombres de archivos de pruebas (puede ser null).
- * @property {boolean} esAnonimo - Indica si la queja es anónima.
- * @property {string} fechaRadicacion - Fecha de radicación de la queja (ISO YYYY-MM-DD).
- * @property {string | null} fechaInvestigacion - Fecha de inicio de investigación (puede ser null).
- * @property {string} numeroRadicado - Número de radicado único generado por el sistema.
- * @property {EstadoQueja} estado - Estado actual de la queja.
- * @property {Date} fechaCreacion - Fecha y hora de registro de la queja.
- * @property {Date} fechaActualizacion - Fecha y hora de la última modificación.
- */
-export interface IQuejaConvivencia {
-    id: string;
-    empresaId: string; // NIT de la empresa
-    comiteId: string;
-    quejosoId: string | null;
-    quejosoNombre: string | null;
-    tipo: TipoQueja;
-    descripcion: string;
-    pruebasAdjuntas: string | null;
-    esAnonimo: boolean;
-    fechaRadicacion: string;       // ISO YYYY-MM-DD
-    fechaInvestigacion: string | null; // ISO YYYY-MM-DD
-    numeroRadicado: string;
-    estado: EstadoQueja;
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
-}
+    // --- Representantes ---
+    representantesEmpleador: IRepresentante[];
+    representantesTrabajadores: IRepresentante[];
 
-/**
- * Interfaz ICasoConvivencia
- * 
- * Define la estructura de un caso asociado a una queja (CU36).
- * Representa el ciclo de vida completo de la queja: citaciones, acuerdos, cierre.
- * 
- * @property {string} id - Identificador único del caso (generado por el sistema).
- * @property {string} empresaId - NIT de la empresa a la que pertenece el caso.
- * @property {string} quejaId - ID de la queja asociada.
- * @property {string} comiteId - ID del comité que gestiona el caso.
- * @property {string[]} citaciones - Descripciones de las citaciones realizadas (ej. "Citación a quejoso - 15/08/2026").
- * @property {string | null} acuerdos - Acuerdos logrados en las reuniones (puede ser null).
- * @property {string | null} actaCompromiso - URL o nombre del archivo PDF del acta de compromiso (puede ser null).
- * @property {string | null} trasladoExterno - Descripción del traslado a entidad externa (puede ser null).
- * @property {EstadoQueja} estado - Estado actual del caso (debe coincidir con el estado de la queja).
- * @property {string | null} fechaCierre - Fecha de cierre del caso (ISO YYYY-MM-DD, puede ser null si no está cerrado).
- * @property {Date} fechaCreacion - Fecha y hora de registro del caso.
- * @property {Date} fechaActualizacion - Fecha y hora de la última modificación.
- */
-export interface ICasoConvivencia {
-    id: string;
-    empresaId: string; // NIT de la empresa
-    quejaId: string;
-    comiteId: string;
-    citaciones: string[];
-    acuerdos: string | null;
-    actaCompromiso: string | null;
-    trasladoExterno: string | null;
-    estado: EstadoQueja;
-    fechaCierre: string | null;    // ISO YYYY-MM-DD
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
-}
+    // --- Roles internos ---
+    presidenteId: string | null;
+    secretarioId: string | null;
 
-/**
- * Interfaz IActaConvivencia
- * 
- * Define la estructura de un acta de reunión del Comité de Convivencia (CU37).
- * Incluye restricciones de acceso para proteger la información sensible.
- * 
- * @property {string} id - Identificador único del acta (generado por el sistema).
- * @property {string} empresaId - NIT de la empresa a la que pertenece el acta.
- * @property {string} comiteId - ID del comité al que pertenece.
- * @property {string} fechaReunion - Fecha de la reunión (ISO YYYY-MM-DD).
- * @property {string} tipoReunion - "Ordinaria" | "Extraordinaria".
- * @property {string} resumen - Resumen del contenido del acta.
- * @property {string} archivoPDF - URL o nombre del archivo PDF del acta.
- * @property {string[]} asistentes - IDs de los miembros que asistieron.
- * @property {string[]} permisosAcceso - IDs de usuarios o roles con permiso para acceder al acta (ej. "Comite", "Empresa", "Auditor").
- * @property {Date} fechaCreacion - Fecha y hora de registro del acta.
- * @property {Date} fechaActualizacion - Fecha y hora de la última modificación.
- */
-export interface IActaConvivencia {
-    id: string;
-    empresaId: string; // NIT de la empresa
-    comiteId: string;
-    fechaReunion: string;          // ISO YYYY-MM-DD
-    tipoReunion: "Ordinaria" | "Extraordinaria";
-    resumen: string;
-    archivoPDF: string;            // Nombre de archivo PDF
-    asistentes: string[];          // IDs de usuarios
-    permisosAcceso: string[];      // IDs de usuarios o roles autorizados
+    // --- Canales de comunicación ---
+    canalQuejas: string;
+    buzonFisico: string;
+
+    // --- Cronograma de conformación ---
+    fechaPublicacionConvocatoria: string | null;
+    fechaAperturaInscripciones: string | null;
+    fechaCierreInscripciones: string | null;
+    fechaVotacion: string | null;
+
+    // --- Votación ---
+    votosValidos: number;
+    votosBlancos: number;
+    votosNulos: number;
+    totalHabilitados: number;
+    totalEmitidos: number;
+
+    // --- Estado de cada paso ---
+    pasoConvocatoria: EstadoPaso;
+    pasoEleccion: EstadoPaso;
+    pasoDesignacion: EstadoPaso;
+    pasoConstitucion: EstadoPaso;
+    pasoCapacitacion: EstadoPaso;
+    pasoReglamento: EstadoPaso;
+
+    // --- Documentos ---
+    actaEleccion: string;
+    miembros: string[];
+
+    // --- Metadatos ---
     fechaCreacion: Date;
     fechaActualizacion: Date;
 }

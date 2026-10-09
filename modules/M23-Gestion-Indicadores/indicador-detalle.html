@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M23 - Detalle del Indicador</title>
+
+    <!-- ============================================================ -->
+    <!-- CSS GLOBALES DEL SISTEMA                                     -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../css/components/tables.css" />
+
+    <!-- ============================================================ -->
+    <!-- CSS ESPECÍFICO DEL DETALLE DE INDICADOR                      -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="indicador-detalle.css" />
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- CASCARÓN VACÍO                                               -->
+    <!-- El TS (indicador-detalle.ts) construye AQUÍ todo:            -->
+    <!--   - Botón "← Volver al Dashboard"                            -->
+    <!--   - Encabezado naranja con los datos del indicador           -->
+    <!--   - Banner de estado (semáforo actual)                       -->
+    <!--   - Sección de Ficha Técnica (7 campos Decreto 1072)         -->
+    <!--   - Sección de Resultados por periodo                        -->
+    <!--   - Sección de Tendencia (gráfico histórico)                 -->
+    <!--   - Sección de Plan de Acción (si aplica)                    -->
+    <!--   - Sección de HHT (si aplica)                               -->
+    <!--   - Modales para editar/registrar                            -->
+    <!--   - Botones inferiores (Guardar / Imprimir / Reporte)        -->
+    <!-- NO modificar el ID #indicador-detalle-container              -->
+    <!-- ============================================================ -->
+    <main
+        id="indicador-detalle-container"
+        class="indicador-detalle-root">
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT MÓDULO                                                -->
+    <!-- ============================================================ -->
+    <script
+        type="module"
+        src="../../dist/modules/M23-Gestion-Indicadores/indicador-detalle.js">
+    </script>
+
+</body>
+</html>

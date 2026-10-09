@@ -1,0 +1,1193 @@
+/* ================================================================
+   modules/M21-Gestion-Comite-Convivencia/convivencia-detalle.css
+   Estilos del detalle del Comité de Convivencia Laboral (CCL).
+   Módulo M21 - Gestión del Comité de Convivencia.
+
+   Basado en:
+   - Resolución 3461 de 2025
+   - Ley 2365 de 2024
+   - Ley 1010 de 2006
+
+   Incluye:
+   - Override del body (global.css asume SPA, aquí es pestaña nueva).
+   - Encabezado naranja estilo Excel con datos del comité.
+   - Banner de alerta de vencimiento (5 niveles).
+   - Fase 1: tarjetas de pasos con estados (⬜ ⏳ ✅).
+   - Fase 2: tarjetas de operación (quejas, casos, actas, etc.).
+   - Modales para llenar plantillas.
+   - Tablas de representantes, quejas y compromisos.
+   - Botones inferiores (guardar, imprimir).
+   - Responsive (1024px, 768px, 480px).
+
+   @version 1.0.0
+   @since 2026-10-07
+   ================================================================ */
+
+/* ================================================================
+   RESET UNIVERSAL
+   ================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================================================================
+   BASE
+   ⚠️ IMPORTANTE: convivencia-detalle.html se abre como página
+   independiente (pestaña nueva), NO dentro del layout del SPA.
+   Por eso hay que sobrescribir las reglas de global.css que asumen
+   el layout del index.html (body con height: 100vh + overflow: hidden).
+   ================================================================ */
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #f1f5f9;
+    color: #1E293B;
+    padding: 15px;
+    line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+
+    /* ⚠️ Sobrescribir el layout del SPA (global.css) */
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+.convivencia-detalle-root {
+    width: 100%;
+    max-width: 1600px;
+    min-width: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ================================================================
+   BOTONES
+   ================================================================ */
+
+.convivencia-detalle-root .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.convivencia-detalle-root .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.convivencia-detalle-root .btn-primary {
+    background: #284B7D;
+    color: #ffffff;
+    border-color: #284B7D;
+}
+.convivencia-detalle-root .btn-primary:hover {
+    background: #3A6B9E;
+    border-color: #3A6B9E;
+}
+
+.convivencia-detalle-root .btn-success {
+    background: #10B981;
+    color: #ffffff;
+    border-color: #10B981;
+}
+.convivencia-detalle-root .btn-success:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+.convivencia-detalle-root .btn-danger {
+    background: #DC2626;
+    color: #ffffff;
+    border-color: #DC2626;
+}
+.convivencia-detalle-root .btn-danger:hover {
+    background: #B91C1C;
+    border-color: #B91C1C;
+}
+
+.convivencia-detalle-root .btn-warning {
+    background: #F59E0B;
+    color: #ffffff;
+    border-color: #F59E0B;
+}
+.convivencia-detalle-root .btn-warning:hover {
+    background: #D97706;
+    border-color: #D97706;
+}
+
+.convivencia-detalle-root .btn-outline {
+    background: transparent;
+    color: #284B7D;
+    border-color: #284B7D;
+}
+.convivencia-detalle-root .btn-outline:hover {
+    background: #284B7D;
+    color: #ffffff;
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+
+.convivencia-detalle-root .card {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+
+/* ================================================================
+   ENCABEZADO DEL COMITÉ (estilo Excel naranja)
+   ================================================================ */
+
+.comite-encabezado {
+    background: #F59E0B;
+    border: 2px solid #92400E;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.comite-encabezado-titulo {
+    background: #F59E0B;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 2px solid #92400E;
+}
+
+.comite-encabezado-subtitulo {
+    background: #FEF3C7;
+    color: #78350F;
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid #92400E;
+}
+
+.comite-encabezado-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    background: #ffffff;
+}
+
+.comite-campo {
+    display: flex;
+    flex-direction: column;
+    padding: 0.375rem 0.625rem;
+    border-right: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    min-width: 0;
+}
+
+.comite-campo label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #78350F;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 0.1875rem;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+.comite-campo input,
+.comite-campo select {
+    padding: 0.25rem 0.375rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    background: #ffffff;
+    width: 100%;
+}
+
+.comite-campo input:focus,
+.comite-campo select:focus {
+    outline: none;
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+.comite-campo input[readonly] {
+    background: #f3f4f6;
+    color: #64748B;
+    cursor: not-allowed;
+}
+
+/* ================================================================
+   BANNER DE ALERTA DE VENCIMIENTO
+   ================================================================ */
+
+.banner-vencimiento {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-left: 5px solid;
+}
+
+.banner-vencimiento.verde {
+    background: #D1FAE5;
+    color: #065F46;
+    border-color: #10B981;
+}
+
+.banner-vencimiento.amarillo {
+    background: #FEF3C7;
+    color: #92400E;
+    border-color: #FCD34D;
+}
+
+.banner-vencimiento.naranja {
+    background: #FFEDD5;
+    color: #9A3412;
+    border-color: #F59E0B;
+}
+
+.banner-vencimiento.rojo {
+    background: #FEE2E2;
+    color: #991B1B;
+    border-color: #DC2626;
+}
+
+.banner-vencimiento .banner-icono {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.banner-vencimiento .banner-texto {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.banner-vencimiento .banner-texto strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.125rem;
+}
+
+/* ================================================================
+   HEADER DE FASE (Fase 1 / Fase 2)
+   ================================================================ */
+
+.fase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.fase-header h2 {
+    margin: 0;
+    color: #1B365D;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fase-progreso {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.fase-progreso-barra {
+    width: 120px;
+    height: 0.75rem;
+    background: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.fase-progreso-relleno {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+}
+
+/* ================================================================
+   GRID DE TARJETAS DE PASOS
+   ================================================================ */
+
+.tarjetas-pasos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+}
+
+/* ================================================================
+   TARJETA DE PASO
+   ================================================================ */
+
+.tarjeta-paso {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #94A3B8;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+    cursor: default;
+    height: 100%;
+    min-height: 0;
+}
+
+.tarjeta-paso:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.tarjeta-paso.estado-pendiente {
+    border-left-color: #94A3B8;
+    opacity: 0.9;
+}
+
+.tarjeta-paso.estado-en-progreso {
+    border-left-color: #F59E0B;
+    background: #FFFBEB;
+}
+
+.tarjeta-paso.estado-completado {
+    border-left-color: #10B981;
+    background: #F0FDF4;
+}
+
+.tarjeta-paso-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.tarjeta-paso-icono {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.tarjeta-paso-titulo {
+    flex: 1;
+    min-width: 0;
+}
+
+.tarjeta-paso-titulo h3 {
+    margin: 0 0 0.125rem 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1B365D;
+    line-height: 1.2;
+}
+
+.tarjeta-paso-titulo p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #64748B;
+    line-height: 1.3;
+}
+
+.tarjeta-paso-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+.tarjeta-paso-estado.pendiente {
+    background: #F1F5F9;
+    color: #64748B;
+}
+
+.tarjeta-paso-estado.en-progreso {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.tarjeta-paso-estado.completado {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.tarjeta-paso-acciones {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
+.tarjeta-paso-acciones .btn {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ================================================================
+   TARJETA DE OPERACIÓN (Fase 2)
+   ================================================================ */
+
+.tarjeta-operacion {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #284B7D;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.tarjeta-operacion:last-child {
+    margin-bottom: 0;
+}
+
+.tarjeta-operacion:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tarjeta-operacion.tarjeta-operacion-critica {
+    border-left-color: #DC2626;
+}
+
+.tarjeta-operacion.tarjeta-operacion-ok {
+    border-left-color: #10B981;
+}
+
+.tarjeta-operacion-info {
+    flex: 1;
+    min-width: 220px;
+}
+
+.tarjeta-operacion-info h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1B365D;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tarjeta-operacion-info p {
+    margin: 0.125rem 0;
+    font-size: 0.8125rem;
+    color: #64748B;
+}
+
+.tarjeta-operacion-info p strong {
+    color: #1E293B;
+    font-weight: 600;
+}
+
+.tarjeta-operacion-acciones {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+/* ================================================================
+   MODAL
+   ================================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-contenido {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    max-width: 900px;
+    width: 100%;
+    max-height: calc(100vh - 4rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: #1B365D;
+    color: #ffffff;
+    border-bottom: 2px solid #0f2942;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-header .btn-cerrar {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.375rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.modal-header .btn-cerrar:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.modal-body {
+    padding: 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.modal-contenido.modal-sm {
+    max-width: 480px;
+}
+
+/* ================================================================
+   INFO BOX
+   ================================================================ */
+
+.info-box {
+    background: #eff6ff;
+    border-left: 4px solid #284B7D;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+    color: #1E293B;
+    line-height: 1.5;
+}
+
+.info-box strong {
+    color: #1B365D;
+}
+
+.info-box.info-box-alerta {
+    background: #FEF3C7;
+    border-left-color: #F59E0B;
+    color: #78350F;
+}
+
+.info-box.info-box-alerta strong {
+    color: #92400E;
+}
+
+.info-box.info-box-critica {
+    background: #FEE2E2;
+    border-left-color: #DC2626;
+    color: #7F1D1D;
+}
+
+.info-box.info-box-critica strong {
+    color: #991B1B;
+}
+
+/* ================================================================
+   FORMULARIOS DENTRO DEL MODAL
+   ================================================================ */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+}
+
+.form-group.ancho-completo {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.form-group label .required {
+    color: #DC2626;
+    margin-left: 0.125rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: #ffffff;
+    color: #1E293B;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.form-group small {
+    font-size: 0.7rem;
+    color: #64748B;
+    font-style: italic;
+}
+
+/* ================================================================
+   TABLA DE REPRESENTANTES / QUEJAS / COMPROMISOS
+   ================================================================ */
+
+.tabla-representantes {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+    margin-bottom: 1rem;
+}
+
+.tabla-representantes th {
+    background: #1B365D;
+    color: #ffffff;
+    padding: 0.5rem 0.625rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border: 1px solid #0f2942;
+    white-space: nowrap;
+}
+
+.tabla-representantes td {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.tabla-representantes input,
+.tabla-representantes select,
+.tabla-representantes textarea {
+    width: 100%;
+    padding: 0.3125rem 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    background: #ffffff;
+}
+
+.tabla-representantes input:focus,
+.tabla-representantes select:focus,
+.tabla-representantes textarea:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 2px rgba(40, 75, 125, 0.15);
+}
+
+.tabla-representantes .col-rol {
+    background: #f8fafc;
+    font-weight: 600;
+    text-align: center;
+    width: 90px;
+    color: #1B365D;
+}
+
+.tabla-representantes .col-acciones {
+    text-align: center;
+    width: 70px;
+}
+
+.tabla-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 0.375rem;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    margin-bottom: 1rem;
+}
+
+/* ================================================================
+   BADGES DE ESTADO (para quejas)
+   ================================================================ */
+
+.badge-estado {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.badge-estado.estado-radicada {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+.badge-estado.estado-investigacion {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-estado.estado-citacion {
+    background: #EDE9FE;
+    color: #6D28D9;
+}
+
+.badge-estado.estado-conciliacion {
+    background: #FCE7F3;
+    color: #BE185D;
+}
+
+.badge-estado.estado-cerrada {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-estado.estado-trasladada {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ================================================================
+   BADGE DE TIPO DE QUEJA
+   ================================================================ */
+
+.badge-tipo-queja {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-tipo-queja.tipo-acoso-laboral {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-tipo-queja.tipo-acoso-sexual {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.badge-tipo-queja.tipo-conflicto {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+.badge-tipo-queja.tipo-discriminacion {
+    background: #EDE9FE;
+    color: #6D28D9;
+}
+
+.badge-tipo-queja.tipo-hostigamiento {
+    background: #FFEDD5;
+    color: #9A3412;
+}
+
+.badge-tipo-queja.tipo-violencia {
+    background: #FCE7F3;
+    color: #BE185D;
+}
+
+/* ================================================================
+   ESTADO VACÍO
+   ================================================================ */
+
+.estado-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: #64748B;
+}
+
+.estado-vacio-icono {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.estado-vacio p {
+    margin: 0;
+    font-size: 0.8125rem;
+}
+
+/* ================================================================
+   BOTONES INFERIORES
+   ================================================================ */
+
+.acciones-inferiores {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ================================================================
+   ALERT (mensajes)
+   ================================================================ */
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    border-left: 4px solid;
+}
+
+.alert.success {
+    background: #D1FAE5;
+    color: #065F46;
+    border-color: #10B981;
+}
+
+.alert.error {
+    background: #FEE2E2;
+    color: #991B1B;
+    border-color: #DC2626;
+}
+
+.alert.info {
+    background: #DBEAFE;
+    color: #1E40AF;
+    border-color: #3B82F6;
+}
+
+.alert.warning {
+    background: #FEF3C7;
+    color: #92400E;
+    border-color: #F59E0B;
+}
+
+/* ================================================================
+   LISTA DE PASOS DEL TRÁMITE (checklist de queja)
+   ================================================================ */
+
+.pasos-tramite-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.paso-tramite-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+}
+
+.paso-tramite-item .paso-tramite-label {
+    flex: 1;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.paso-tramite-item .paso-tramite-fecha {
+    font-size: 0.75rem;
+    color: #64748B;
+    font-family: monospace;
+}
+
+.paso-tramite-item .paso-tramite-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ================================================================
+   INDICADORES DE GESTIÓN
+   ================================================================ */
+
+.indicadores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.indicador-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.indicador-card .indicador-valor {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #284B7D;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.indicador-card .indicador-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.indicador-card .indicador-descripcion {
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    color: #94A3B8;
+}
+
+/* ================================================================
+   RESPONSIVE (TABLET — 1024px o menos)
+   ================================================================ */
+
+@media (max-width: 1024px) {
+    .comite-encabezado-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* ================================================================
+   RESPONSIVE (MÓVIL — 768px o menos)
+   ================================================================ */
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .convivencia-detalle-root {
+        gap: 1rem;
+    }
+
+    .comite-encabezado-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fase-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .fase-progreso {
+        justify-content: space-between;
+    }
+
+    .tarjetas-pasos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-operacion {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tarjeta-operacion-acciones {
+        width: 100%;
+    }
+
+    .tarjeta-operacion-acciones .btn {
+        flex: 1;
+    }
+
+    .modal-overlay {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .modal-contenido {
+        max-height: calc(100vh - 1.5rem);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+    }
+
+    .acciones-inferiores {
+        flex-direction: column-reverse;
+    }
+
+    .acciones-inferiores .btn {
+        width: 100%;
+    }
+
+    .tabla-representantes {
+        font-size: 0.75rem;
+    }
+
+    .indicadores-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================================================
+   RESPONSIVE (MÓVIL PEQUEÑO — 480px o menos)
+   ================================================================ */
+
+@media (max-width: 480px) {
+    .comite-encabezado-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-paso {
+        padding: 0.75rem;
+    }
+
+    .tarjeta-paso-icono {
+        font-size: 1.5rem;
+    }
+
+    .tarjeta-operacion {
+        padding: 1rem;
+    }
+
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer {
+        padding: 0.75rem 1rem;
+    }
+
+    .indicador-card .indicador-valor {
+        font-size: 1.5rem;
+    }
+}

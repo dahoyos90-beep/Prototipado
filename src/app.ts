@@ -5,7 +5,7 @@
  * Maneja autenticación, navegación, carga de módulos, selección de empresa,
  * advertencia de cambios sin guardar, notificaciones y control de inactividad.
  * 
- * @version 3.2.3 (agregado M18 al mapa de ARCHIVOS_ESPECIALES)
+ * @version 3.2.5 (agregado M23 al mapa de ARCHIVOS_ESPECIALES)
  * @since 2026-08-31
  */
 
@@ -62,7 +62,11 @@ const ARCHIVOS_ESPECIALES: Record<string, string> = {
     // 🆕 M17: carga el wrapper que tiene las dos pestañas (Plan de Capacitación + Plan de Trabajo)
     'M17-Plan-Trabajo-Capacitacion': 'plan-trabajo-capacitacion',
     // 🆕 M18: el listado es la vista por defecto (el detalle se abre en pestaña nueva)
-    'M18-Gestion-Comites': 'comites-listado'
+    'M18-Gestion-Comites': 'comites-listado',
+    // 🆕 M21: el listado es la vista por defecto (el detalle se abre en pestaña nueva)
+    'M21-Gestion-Comite-Convivencia': 'convivencia-listado',
+    // 🆕 M23: el dashboard es la vista por defecto (el detalle se abre en pestaña nueva)
+    'M23-Gestion-Indicadores': 'indicadores-dashboard'
 };
 
 const DEFAULT_MODULE = 'M03-Dashboard';
