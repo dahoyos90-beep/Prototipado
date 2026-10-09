@@ -9,6 +9,29 @@
  * - Permitir el registro de novedades (CU41), categorización de causas (CU42),
  *   visualización de estadísticas (CU43) y generación de reportes (CU44).
  * 
+ * ⚠️ AVISO DE EVOLUCIÓN (M24):
+ * Este archivo se conserva por compatibilidad. La interfaz `IAusentismo`
+ * ha sido reemplazada por `IEventoAusentismo` en el módulo M24, que
+ * soporta el modelo de 12 conceptos (8 por Ley + 4 Permisos) con horas
+ * y días por concepto.
+ * 
+ * Nuevas interfaces del M24:
+ *   - IEventoAusentismo    → el evento individual (una fila).
+ *   - IParametrosMes       → parámetros del mes (periodo, días, empleados, jornada).
+ *   - IEstadisticaMensual  → cierre mensual (bloques Ley/Permisos + días).
+ *   - IConsolidadoAnual    → consolidado anual (matriz 12 meses × 12 conceptos).
+ * 
+ * Los siguientes tipos siguen vigentes y en uso:
+ *   - CausaAusentismo
+ *   - EstadoNovedad
+ *   - TipoJornada
+ *   - ICausaAusentismo
+ *   - IEstadisticaAusentismo
+ *   - IReporteAusentismo
+ * 
+ * @version 2.0.0 (marcada IAusentismo como @deprecated; conservados el resto de tipos e interfaces)
+ * @since 2026-08-31
+ * 
  * @version 1.1.0 (agregado empresaId a IAusentismo e ICausaAusentismo)
  * @since 2026-08-31
  */
@@ -56,6 +79,11 @@ export type TipoJornada = "Diurna" | "Nocturna" | "Mixta";
  * Define la estructura completa de una novedad de ausentismo (CU41).
  * Todas las propiedades son obligatorias para garantizar la integridad de los datos.
  * 
+ * ⚠️ @deprecated
+ * Esta interfaz ha sido reemplazada por `IEventoAusentismo` (módulo M24).
+ * Se mantiene únicamente para compatibilidad con datos existentes y código
+ * legado. NO usar en código nuevo. Usar `IEventoAusentismo` en su lugar.
+ * 
  * @property {string} id - Identificador único de la novedad (generado por el sistema).
  * @property {string} empresaId - NIT de la empresa a la que pertenece la novedad.
  * @property {string} trabajadorId - ID del trabajador ausente (referencia a IUsuario.id).
@@ -71,6 +99,8 @@ export type TipoJornada = "Diurna" | "Nocturna" | "Mixta";
  * @property {string | null} observaciones - Observaciones adicionales (puede ser null).
  * @property {Date} fechaCreacion - Fecha y hora de registro de la novedad.
  * @property {Date} fechaActualizacion - Fecha y hora de la última modificación.
+ * 
+ * @deprecated Usar `IEventoAusentismo` del módulo M24 en su lugar.
  */
 export interface IAusentismo {
     id: string;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M25 - Registro de Accidentes</title>
+
+    <!-- ============================================================ -->
+    <!-- CSS GLOBALES DEL SISTEMA                                     -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../css/components/tables.css" />
+    <link rel="stylesheet" href="../../css/components/modals.css" />
+
+    <!-- ============================================================ -->
+    <!-- CSS ESPECÍFICO DEL MÓDULO                                    -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="registro-accidentes.css" />
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- CASCARÓN VACÍO                                               -->
+    <!-- El TS (registro-accidentes.ts) construye AQUÍ todo:          -->
+    <!--   - Barra superior: Volver · Exportar · Imprimir             -->
+    <!--   - Encabezado naranja estilo Excel (Registro de Accidentes) -->
+    <!--   - KPI Cards (total eventos, con incapacidad, días perdidos, -->
+    <!--               % medidas correctivas)                         -->
+    <!--   - Toolbar (buscador + filtros + botón Registrar)           -->
+    <!--   - DataGrid con las columnas del Excel Registro Accidentes  -->
+    <!--     (sticky primeras columnas, badges de estado)             -->
+    <!--   - Estado vacío cuando no hay registros                     -->
+    <!--   - Wizard modal de 4 pasos para crear/editar/ver eventos    -->
+    <!--   - Botones inferiores: Guardar · Cancelar                   -->
+    <!-- NO modificar el ID #registro-accidentes-container            -->
+    <!-- ============================================================ -->
+    <main
+        id="registro-accidentes-container"
+        class="modulo-siniestralidad-registro">
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT MÓDULO                                                -->
+    <!-- ============================================================ -->
+    <script
+        type="module"
+        src="../../dist/modules/M25-Gestion-Siniestralidad/registro-accidentes.js">
+    </script>
+
+</body>
+</html>

@@ -10,8 +10,16 @@
  * - Garantizar el tipado fuerte en todas las operaciones de almacenamiento.
  * - Manejar errores y casos borde (datos corruptos, claves inexistentes, etc.).
  * 
- * @version 1.8.0 (M23: separado import de IResultadoIndicador; agregados
- *                  storages de CalculoHHT y PlanAccionIndicador)
+ * @version 1.9.2
+ *  - M25: agregados 4 storages (configuración anual, registros mensuales,
+ *    consolidados anuales y análisis trimestrales). `storageSiniestros`
+ *    ahora apunta al Registro Nominal reescrito (ISiniestro v2.0.0).
+ * 
+ * @version 1.9.1
+ *  - S1: eliminado console.log de inicializarDatosPrueba (consola limpia en prod).
+ * 
+ * @version 1.9.0 (M24: agregados 5 storages para eventos, parámetros,
+ *                  cierres mensuales, consolidados anuales y trabajadores)
  * @since 2026-08-31
  */
 
@@ -44,8 +52,22 @@ import { IResultadoIndicador } from './interfaces/IResultadoIndicador.js';
 import { ICalculoHHT } from './interfaces/ICalculoHHT.js';
 import { IPlanAccionIndicador } from './interfaces/IPlanAccionIndicador.js';
 
+// --- M24 — Gestión de Ausentismo (interfaces separadas) ---
 import { IAusentismo, ICausaAusentismo } from './interfaces/IAusentismo.js';
+import { ISociodemografico } from './interfaces/ISociodemografico.js';
+import { IEventoAusentismo } from './interfaces/IEventoAusentismo.js';
+import { IParametrosMes } from './interfaces/IParametrosMes.js';
+import { IEstadisticaMensual } from './interfaces/IEstadisticaMensual.js';
+import { IConsolidadoAnual } from './interfaces/IConsolidadoAnual.js';
+
+// --- M25 — Gestión de Siniestralidad (interfaces separadas) ---
 import { ISiniestro } from './interfaces/ISiniestro.js';
+import { IConfiguracionSiniestralidad } from './interfaces/IConfiguracionSiniestralidad.js';
+import { IRegistroMensualSiniestralidad } from './interfaces/IRegistroMensualSiniestralidad.js';
+import { IConsolidadoAnualSiniestralidad } from './interfaces/IConsolidadoAnualSiniestralidad.js';
+import { IAnalisisTrimestralSiniestralidad } from './interfaces/IAnalisisTrimestralSiniestralidad.js';
+
+// --- Otras interfaces del sistema ---
 import { IEMO } from './interfaces/IEMO.js';
 import { IEncuesta } from './interfaces/IEncuesta.js';
 import { IAlertaSalud } from './interfaces/IAlertaSalud.js';
@@ -301,9 +323,32 @@ export const storagePlanesAccionIndicador = new StorageService<IPlanAccionIndica
 // M24 - Ausentismo
 export const storageAusentismos = new StorageService<IAusentismo>('ausentismos');
 export const storageCausasAusentismo = new StorageService<ICausaAusentismo>('causasAusentismo');
+export const storageTrabajadores = new StorageService<ISociodemografico>('sociodemografico');
+export const storageEventosAusentismo = new StorageService<IEventoAusentismo>('eventosAusentismo');
+export const storageParametrosMes = new StorageService<IParametrosMes>('parametrosMes');
+export const storageCierresMensuales = new StorageService<IEstadisticaMensual>('cierresMensuales');
+export const storageConsolidadosAnuales = new StorageService<IConsolidadoAnual>('consolidadosAnuales');
 
 // M25 - Siniestralidad
+// storageSiniestros ahora representa el Registro Nominal (ISiniestro v2.0.0).
+// Cada registro es un evento individual (accidente o incidente).
 export const storageSiniestros = new StorageService<ISiniestro>('siniestros');
+
+// M25 - Configuración anual (una por empresa + año)
+export const storageConfiguracionesSiniestralidad =
+    new StorageService<IConfiguracionSiniestralidad>('configuracionesSiniestralidad');
+
+// M25 - Registros mensuales (matriz 12 meses × 6 variables)
+export const storageRegistrosMensualesSiniestralidad =
+    new StorageService<IRegistroMensualSiniestralidad>('registrosMensualesSiniestralidad');
+
+// M25 - Consolidados anuales (caché recalculado por año)
+export const storageConsolidadosAnualesSiniestralidad =
+    new StorageService<IConsolidadoAnualSiniestralidad>('consolidadosAnualesSiniestralidad');
+
+// M25 - Análisis trimestrales (4 bloques de texto libre por año)
+export const storageAnalisisTrimestralesSiniestralidad =
+    new StorageService<IAnalisisTrimestralSiniestralidad>('analisisTrimestralesSiniestralidad');
 
 // M10 - Condiciones de Salud
 export const storageEMO = new StorageService<IEMO>('emo');
@@ -319,10 +364,10 @@ export const storageNotificaciones = new StorageService<INotificacion>('notifica
 
 /**
  * Función utilitaria para inicializar datos de prueba en localStorage.
- * Solo se debe usar en desarrollo.
+ * Solo se debe usar en desarrollo. Se exporta para permitir inicialización
+ * manual desde consola o scripts de seed externos.
  */
 export function inicializarDatosPrueba(): void {
-    console.log('Storage: Inicializando datos de prueba...');
-    // Aquí se pueden agregar datos de ejemplo para cada entidad
-    // cuando se implementen los módulos correspondientes.
+    // Reservado para datos de ejemplo por entidad cuando se implementen
+    // los módulos correspondientes. Sin efectos secundarios en producción.
 }

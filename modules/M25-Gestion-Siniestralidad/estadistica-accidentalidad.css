@@ -1,0 +1,1165 @@
+/* ================================================================
+   modules/M25-Gestion-Siniestralidad/estadistica-accidentalidad.css
+   
+   Estilos del HTML independiente "Estadística de Accidentalidad"
+   del módulo M25 - Gestión de Siniestralidad.
+   
+   Se abre en pestaña nueva desde gestion-siniestralidad.ts.
+   Sobrescribe el layout del SPA (global.css asume 100vh + overflow
+   hidden en body) para funcionar como documento independiente.
+   
+   Depende de:
+     - css/global.css               (variables, tipografía)
+     - css/components/buttons.css   (.btn)
+     - css/components/forms.css     (.form-control)
+     - css/components/tables.css    (.table)
+     - css/components/modals.css    (.modal-overlay)
+   
+   Incluye:
+     - Encabezado naranja estilo Excel (M13/M21).
+     - Selector de jornada 48h / 42h / personalizada.
+     - Interruptor de HHT automática.
+     - Sub-pestañas internas (Mes a mes / Consolidado / Estadísticas / Análisis).
+     - Matriz 12 meses × 6 variables editable in-place.
+     - Indicadores calculados (fondo gris, solo lectura).
+     - Chips de resumen.
+     - Barras CSS de progreso.
+     - Cards de análisis trimestral.
+     - Responsive (mobile-first).
+   
+   @version 1.0.0
+   @since 2026-10-09
+   ================================================================ */
+
+/* ================================================================
+   RESET UNIVERSAL
+   ================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================================================================
+   BASE
+   ⚠️ IMPORTANTE: este HTML se abre como página independiente
+   (pestaña nueva), NO dentro del layout del SPA. Por eso hay que
+   sobrescribir las reglas de global.css que asumen el layout del
+   index.html (body con height: 100vh + overflow: hidden).
+   ================================================================ */
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #f1f5f9;
+    color: #1E293B;
+    padding: 15px;
+    line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+
+    /* ⚠️ Sobrescribir el layout del SPA */
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+.modulo-siniestralidad-estadistica {
+    width: 100%;
+    max-width: 1600px;
+    min-width: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ================================================================
+   BOTONES
+   ================================================================ */
+
+.modulo-siniestralidad-estadistica .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.modulo-siniestralidad-estadistica .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.modulo-siniestralidad-estadistica .btn-primary {
+    background: #284B7D;
+    color: #ffffff;
+    border-color: #284B7D;
+}
+.modulo-siniestralidad-estadistica .btn-primary:hover {
+    background: #3A6B9E;
+    border-color: #3A6B9E;
+}
+
+.modulo-siniestralidad-estadistica .btn-success {
+    background: #10B981;
+    color: #ffffff;
+    border-color: #10B981;
+}
+.modulo-siniestralidad-estadistica .btn-success:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+.modulo-siniestralidad-estadistica .btn-outline {
+    background: transparent;
+    color: #284B7D;
+    border-color: #284B7D;
+}
+.modulo-siniestralidad-estadistica .btn-outline:hover {
+    background: #284B7D;
+    color: #ffffff;
+}
+
+.modulo-siniestralidad-estadistica .btn-danger {
+    background: #DC2626;
+    color: #ffffff;
+    border-color: #DC2626;
+}
+.modulo-siniestralidad-estadistica .btn-danger:hover {
+    background: #B91C1C;
+    border-color: #B91C1C;
+}
+
+.modulo-siniestralidad-estadistica .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+
+.modulo-siniestralidad-estadistica .card {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.modulo-siniestralidad-estadistica .card h3 {
+    margin: 0 0 1rem 0;
+    color: #1B365D;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+/* ================================================================
+   BARRA SUPERIOR — VOLVER / EXPORTAR / IMPRIMIR
+   ================================================================ */
+
+.barra-acciones-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.barra-acciones-superior .grupo-izq,
+.barra-acciones-superior .grupo-der {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* ================================================================
+   ENCABEZADO NARANJA ESTILO EXCEL
+   ================================================================ */
+
+.encabezado-excel {
+    background: #F59E0B;
+    border: 2px solid #92400E;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.encabezado-excel-titulo {
+    background: #F59E0B;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 2px solid #92400E;
+}
+
+.encabezado-excel-subtitulo {
+    background: #FEF3C7;
+    color: #78350F;
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid #92400E;
+}
+
+.encabezado-excel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    background: #ffffff;
+}
+
+.encabezado-campo {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.75rem;
+    border-right: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    min-width: 0;
+}
+
+.encabezado-campo label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #78350F;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 0.25rem;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+.encabezado-campo input,
+.encabezado-campo select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    background: #ffffff;
+    color: #1E293B;
+    width: 100%;
+}
+
+.encabezado-campo input:focus,
+.encabezado-campo select:focus {
+    outline: none;
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+.encabezado-campo input[readonly] {
+    background: #f3f4f6;
+    color: #64748B;
+    cursor: not-allowed;
+}
+
+/* ================================================================
+   SELECTOR DE JORNADA + INTERRUPTOR HHT
+   ================================================================ */
+
+.panel-jornada {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.panel-jornada .grupo-jornada {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.panel-jornada .grupo-jornada > label {
+    font-weight: 700;
+    font-size: 0.8125rem;
+    color: #1B365D;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.jornada-opciones {
+    display: inline-flex;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.jornada-opciones input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+.jornada-opciones label {
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    border-right: 1px solid #e2e8f0;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.jornada-opciones label:last-of-type {
+    border-right: none;
+}
+
+.jornada-opciones input[type="radio"]:checked + label {
+    background: #284B7D;
+    color: #ffffff;
+}
+
+.jornada-opciones input[type="radio"]:focus-visible + label {
+    outline: 3px solid #F59E0B;
+    outline-offset: -3px;
+}
+
+.jornada-personalizada {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: #475569;
+}
+
+.jornada-personalizada input {
+    width: 70px;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    font-family: inherit;
+}
+
+/* Interruptor HHT */
+.interruptor-hht {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    user-select: none;
+}
+
+.interruptor-hht input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 36px;
+    height: 20px;
+    background: #cbd5e1;
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.interruptor-hht input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.interruptor-hht input[type="checkbox"]:checked {
+    background: #10B981;
+}
+
+.interruptor-hht input[type="checkbox"]:checked::after {
+    transform: translateX(16px);
+}
+
+/* ================================================================
+   SUB-PESTAÑAS INTERNAS
+   ================================================================ */
+
+.sub-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #1B365D;
+    padding: 0 4px;
+    margin-bottom: 1rem;
+}
+
+.sub-tab {
+    padding: 9px 14px;
+    border: 1px solid #cbd5e1;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    background: #e2e8f0;
+    color: #334155;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: background 0.15s;
+}
+
+.sub-tab:hover {
+    background: #cbd5e1;
+}
+
+.sub-tab.activa {
+    background: #1B365D;
+    color: #ffffff;
+    border-color: #1B365D;
+}
+
+.sub-panel {
+    padding-top: 0;
+}
+
+.sub-panel.hidden {
+    display: none;
+}
+
+/* ================================================================
+   CHIPS DE RESUMEN
+   ================================================================ */
+
+.chips-resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.chip b {
+    font-size: 0.875rem;
+}
+
+.chip i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.chip .circulo-rojo { background: #DC2626; }
+.chip .circulo-naranja { background: #F59E0B; }
+.chip .circulo-amarillo { background: #FCD34D; }
+.chip .circulo-verde { background: #10B981; }
+.chip .circulo-gris { background: #94A3B8; }
+
+/* ================================================================
+   TABLA MATRIZ (12 meses × 6 variables / 5 indicadores)
+   ================================================================ */
+
+.tabla-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 2px solid #1B365D;
+    border-radius: 0.375rem;
+    background: #ffffff;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+}
+
+.tabla-matriz-mensual {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    min-width: 1100px;
+}
+
+.tabla-matriz-mensual thead th {
+    background: #1B365D;
+    color: #ffffff;
+    padding: 0.5rem 0.375rem;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border: 1px solid #0f2942;
+    white-space: nowrap;
+}
+
+.tabla-matriz-mensual thead th.th-concepto {
+    text-align: left;
+    background: #0f2942;
+    min-width: 240px;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+
+.tabla-matriz-mensual thead th.th-consolidado {
+    background: #F59E0B;
+    color: #ffffff;
+    border-color: #92400E;
+    min-width: 110px;
+    font-weight: 800;
+}
+
+.tabla-matriz-mensual tbody td {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid #d1d5db;
+    vertical-align: middle;
+    background: #ffffff;
+    font-size: 0.75rem;
+    text-align: right;
+}
+
+.tabla-matriz-mensual tbody td.td-concepto {
+    text-align: left;
+    font-weight: 600;
+    color: #1B365D;
+    background: #f8fafc;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 240px;
+}
+
+.tabla-matriz-mensual tbody td.td-consolidado {
+    background: #FEF3C7;
+    color: #78350F;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border-color: #92400E;
+}
+
+.tabla-matriz-mensual tbody td input {
+    width: 100%;
+    padding: 0.25rem 0.375rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    background: #ffffff;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.tabla-matriz-mensual tbody td input:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 2px rgba(40, 75, 125, 0.15);
+}
+
+.tabla-matriz-mensual tbody tr:hover td {
+    background: #f1f5f9;
+}
+
+.tabla-matriz-mensual tbody tr:hover td.td-concepto,
+.tabla-matriz-mensual tbody tr:hover td.td-consolidado {
+    background: inherit;
+}
+
+/* Tabla de indicadores calculados — fondo gris, sin inputs */
+.tabla-matriz-mensual.tabla-indicadores tbody td {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #284B7D;
+    text-align: center;
+}
+
+.tabla-matriz-mensual.tabla-indicadores tbody td.td-concepto {
+    background: #e2e8f0;
+    color: #1B365D;
+}
+
+.tabla-matriz-mensual.tabla-indicadores tbody td.td-consolidado {
+    background: #FEF3C7;
+    color: #78350F;
+    font-weight: 800;
+}
+
+/* ================================================================
+   BARRAS DE PROGRESO (Estadísticas)
+   ================================================================ */
+
+.barras-grafica {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.barra-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.barra-label {
+    min-width: 130px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.barra-container {
+    flex: 1;
+    height: 24px;
+    background: #e2e8f0;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.barra-fill {
+    height: 100%;
+    border-radius: 0.25rem;
+    transition: width 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.375rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffffff;
+    min-width: 30px;
+}
+
+.barra-valor {
+    min-width: 60px;
+    text-align: right;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+/* Colores de las barras */
+.barra-rojo { background: #DC2626; }
+.barra-naranja { background: #F59E0B; }
+.barra-amarillo { background: #FCD34D; color: #78350F; }
+.barra-verde { background: #10B981; }
+.barra-azul { background: #284B7D; }
+.barra-gris { background: #94A3B8; }
+.barra-cian { background: #06B6D4; }
+
+/* ================================================================
+   SEMÁFORO DE INDICADORES (anual vs meta)
+   ================================================================ */
+
+.semaforo-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+}
+
+.semaforo-item {
+    display: grid;
+    grid-template-columns: 1.2fr 0.7fr 0.7fr 2fr 0.6fr;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+}
+
+.semaforo-item .nombre {
+    font-weight: 700;
+    color: #1B365D;
+}
+
+.semaforo-item .valor {
+    text-align: right;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.semaforo-item .meta {
+    text-align: right;
+    color: #64748B;
+    font-family: monospace;
+    font-size: 0.75rem;
+}
+
+.semaforo-item .mini-barra {
+    height: 16px;
+    background: #e2e8f0;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.semaforo-item .mini-barra > div {
+    height: 100%;
+    border-radius: 0.25rem;
+    transition: width 0.5s ease-out;
+}
+
+.semaforo-item .estado {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* ================================================================
+   CARDS DE ANÁLISIS TRIMESTRAL
+   ================================================================ */
+
+.analisis-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.analisis-card {
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #284B7D;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.analisis-card.analisis-1T { border-left-color: #06B6D4; }
+.analisis-card.analisis-2T { border-left-color: #10B981; }
+.analisis-card.analisis-3T { border-left-color: #F59E0B; }
+.analisis-card.analisis-4T { border-left-color: #DC2626; }
+
+.analisis-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.analisis-card-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1B365D;
+    font-weight: 700;
+}
+
+.analisis-card-header .subtitulo-meses {
+    font-size: 0.75rem;
+    color: #64748B;
+    font-weight: 500;
+}
+
+.analisis-card textarea {
+    width: 100%;
+    min-height: 130px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    color: #1E293B;
+    background: #ffffff;
+    line-height: 1.5;
+}
+
+.analisis-card textarea:focus {
+    outline: none;
+    border-color: #284B7D;
+    box-shadow: 0 0 0 3px rgba(40, 75, 125, 0.15);
+}
+
+.analisis-card .acciones-analisis {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ================================================================
+   BOTONES INFERIORES FIJOS
+   ================================================================ */
+
+.acciones-inferiores {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ================================================================
+   MENSAJES / ALERTAS
+   ================================================================ */
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    border-left: 4px solid;
+    margin-top: 0.5rem;
+}
+
+.alert.success {
+    background: #D1FAE5;
+    color: #065F46;
+    border-color: #10B981;
+}
+
+.alert.error {
+    background: #FEE2E2;
+    color: #991B1B;
+    border-color: #DC2626;
+}
+
+.alert.info {
+    background: #DBEAFE;
+    color: #1E40AF;
+    border-color: #3B82F6;
+}
+
+.alert.warning {
+    background: #FEF3C7;
+    color: #92400E;
+    border-color: #F59E0B;
+}
+
+.alert.hidden {
+    display: none;
+}
+
+/* ================================================================
+   ESTADO VACÍO
+   ================================================================ */
+
+.estado-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #64748B;
+    gap: 0.5rem;
+}
+
+.estado-vacio-icono {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.estado-vacio h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1E293B;
+    font-weight: 700;
+}
+
+.estado-vacio p {
+    margin: 0;
+    font-size: 0.8125rem;
+}
+
+/* ================================================================
+   MODAL (por si lo usamos para guardar/exportar)
+   ================================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-overlay.abierto {
+    display: flex;
+}
+
+.modal-contenido {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    max-width: 640px;
+    width: 100%;
+    margin: auto;
+    animation: modalSlideIn 0.2s ease-out;
+}
+
+.modal-contenido .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: #1B365D;
+    color: #ffffff;
+    border-bottom: 2px solid #0f2942;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.modal-contenido .modal-header h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.modal-contenido .modal-body {
+    padding: 1.25rem;
+}
+
+.modal-contenido .modal-footer {
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-radius: 0 0 0.75rem 0.75rem;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ================================================================
+   RESPONSIVE — TABLETS (min-width: 768px)
+   ================================================================ */
+
+@media (min-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .modulo-siniestralidad-estadistica {
+        gap: 1.5rem;
+    }
+
+    .tabla-matriz-mensual {
+        font-size: 0.8rem;
+    }
+
+    .tabla-matriz-mensual thead th {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .tabla-matriz-mensual tbody td {
+        padding: 0.5rem;
+    }
+
+    .tabla-matriz-mensual tbody td input {
+        font-size: 0.8125rem;
+        padding: 0.375rem 0.5rem;
+    }
+
+    .barra-label {
+        min-width: 150px;
+        font-size: 0.85rem;
+    }
+
+    .analisis-card textarea {
+        font-size: 0.9rem;
+    }
+
+    .semaforo-item {
+        font-size: 0.85rem;
+    }
+}
+
+/* ================================================================
+   RESPONSIVE — ESCRITORIO (min-width: 1024px)
+   ================================================================ */
+
+@media (min-width: 1024px) {
+    body {
+        padding: 25px;
+    }
+
+    .encabezado-excel-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .tabla-matriz-mensual {
+        min-width: auto;
+        font-size: 0.85rem;
+    }
+
+    .tabla-matriz-mensual tbody td input {
+        font-size: 0.85rem;
+    }
+
+    .barra-label {
+        min-width: 180px;
+        font-size: 0.875rem;
+    }
+
+    .barra-container {
+        height: 26px;
+    }
+
+    .analisis-card textarea {
+        min-height: 150px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ================================================================
+   RESPONSIVE — MÓVILES PEQUEÑOS (max-width: 480px)
+   ================================================================ */
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .modulo-siniestralidad-estadistica {
+        gap: 1rem;
+    }
+
+    .encabezado-excel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-jornada {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .interruptor-hht {
+        margin-left: 0;
+    }
+
+    .jornada-opciones {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .jornada-opciones label {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .sub-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+
+    .sub-tab {
+        flex-shrink: 0;
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .barra-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+    }
+
+    .barra-label {
+        min-width: auto;
+    }
+
+    .barra-valor {
+        text-align: left;
+    }
+
+    .semaforo-item {
+        grid-template-columns: 1fr;
+        gap: 0.375rem;
+    }
+
+    .semaforo-item .valor,
+    .semaforo-item .meta {
+        text-align: left;
+    }
+
+    .acciones-inferiores {
+        flex-direction: column-reverse;
+    }
+
+    .acciones-inferiores .btn {
+        width: 100%;
+    }
+}

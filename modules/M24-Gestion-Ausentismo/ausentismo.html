@@ -1,0 +1,336 @@
+<!-- modules/M24-Gestion-Ausentismo/ausentismo.html -->
+<div class="modulo-ausentismo" id="modulo-ausentismo">
+    <div class="modulo-header">
+        <h2>📅 Gestión de Ausentismo</h2>
+        <p class="subtitle">Registro de eventos, indicadores mensuales y consolidado anual</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PESTAÑAS                                                    -->
+    <!-- ============================================================ -->
+    <div id="tab-container" class="tab-container">
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="registro">📝 Registro</button>
+            <button class="tab-button" data-tab="indicadores">📊 Indicadores</button>
+            <button class="tab-button" data-tab="consolidado">📈 Consolidado</button>
+            <button class="tab-button" data-tab="estadisticas">📉 Estadísticas</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: REGISTRO DEL MES                                     -->
+        <!-- ============================================================ -->
+        <div id="tab-registro" class="tab-content">
+            <div class="card">
+                <div class="card-header-flex">
+                    <h3>📝 Eventos de Ausentismo</h3>
+                    <button id="btn-nuevo-evento" class="btn btn-primary">+ Nuevo Evento</button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filtros-ausentismo">
+                    <div class="form-group">
+                        <label for="filtro-periodo">Periodo</label>
+                        <input type="month" id="filtro-periodo" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-area">Área</label>
+                        <input type="text" id="filtro-area" class="form-control" placeholder="Filtrar por área" />
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-empleado">Empleado</label>
+                        <input type="text" id="filtro-empleado" class="form-control" placeholder="Nombre o código diagnóstico" />
+                    </div>
+                    <div class="form-group filtro-acciones">
+                        <button id="btn-buscar-eventos" class="btn btn-primary" type="button">🔍 Buscar</button>
+                        <button id="btn-limpiar-filtros" class="btn btn-outline" type="button">🧹 Limpiar</button>
+                    </div>
+                </div>
+
+                <!-- Tabla -->
+                <div class="table-container">
+                    <table class="table table-striped" id="tabla-eventos">
+                        <thead>
+                            <tr>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Nombre</th>
+                                <th>Área</th>
+                                <th>Diagnóstico</th>
+                                <th>Total Horas</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-eventos">
+                            <!-- Filas generadas dinámicamente con TypeScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="mensaje-registro" class="alert" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: INDICADORES DEL MES                                  -->
+        <!-- ============================================================ -->
+        <div id="tab-indicadores" class="tab-content hidden">
+            <div class="card">
+                <h3>⚙️ Parámetros del Mes</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parametros-modo">Modo de Cálculo <span class="required">*</span></label>
+                        <select id="parametros-modo" class="form-control">
+                            <option value="mes" selected>Por Mes</option>
+                            <option value="anio">Por Año</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="parametros-periodo">Periodo <span class="required">*</span></label>
+                        <input type="month" id="parametros-periodo" class="form-control" required />
+                    </div>
+                    <div class="form-group hidden" id="parametros-anio-group">
+                        <label for="parametros-anio">Año <span class="required">*</span></label>
+                        <input type="number" id="parametros-anio" class="form-control" min="2020" max="2100" placeholder="Ej. 2026" />
+                    </div>
+                    <div class="form-group">
+                        <label for="parametros-dias-mes">Días del Mes <span class="required">*</span></label>
+                        <input type="number" id="parametros-dias-mes" class="form-control" min="28" max="31" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="parametros-empleados"># Empleados <span class="required">*</span></label>
+                        <input type="number" id="parametros-empleados" class="form-control" min="1" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="parametros-jornada">Jornada (h/día)</label>
+                        <input type="text" id="parametros-jornada" class="form-control" value="7" readonly />
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button id="btn-calcular-cierre" class="btn btn-primary">🔄 Calcular Cierre</button>
+                </div>
+                <div id="mensaje-parametros" class="alert" style="display:none;"></div>
+            </div>
+
+            <div id="indicadores-container">
+                <!-- Bloques Ley / Causa Médica / Permisos / Días por concepto generados dinámicamente -->
+            </div>
+
+            <div class="card">
+                <div class="card-header-flex">
+                    <h3>📤 Enviar a Indicadores (M23)</h3>
+                </div>
+                <p class="text-muted">
+                    Envía el resultado del indicador "Ausentismo por Causa Médica" (EG, AT, EL, LM, LP)
+                    al módulo M23. Este es el indicador legal exigido por la Resolución 0312 de 2019.
+                </p>
+                <button id="btn-enviar-m23" class="btn btn-secondary" disabled>
+                    📤 Enviar a M23
+                </button>
+                <div id="mensaje-envio-m23" class="alert" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: CONSOLIDADO ANUAL                                    -->
+        <!-- ============================================================ -->
+        <div id="tab-consolidado" class="tab-content hidden">
+            <div class="card">
+                <h3>📈 Consolidado Anual</h3>
+                <div class="filtros-ausentismo">
+                    <div class="form-group">
+                        <label for="consolidado-anio">Año</label>
+                        <input type="number" id="consolidado-anio" class="form-control" min="2020" max="2100" placeholder="Ej. 2026" />
+                    </div>
+                    <button id="btn-generar-consolidado" class="btn btn-primary">🔄 Generar Consolidado</button>
+                </div>
+                <div id="consolidado-container">
+                    <p class="text-muted">Selecciona un año y presiona "Generar Consolidado".</p>
+                </div>
+                <div id="mensaje-consolidado" class="alert" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: ESTADÍSTICAS                                         -->
+        <!-- ============================================================ -->
+        <div id="tab-estadisticas" class="tab-content hidden">
+            <div class="card">
+                <h3>📉 Estadísticas</h3>
+                <div class="filtros-ausentismo">
+                    <div class="form-group">
+                        <label for="estadisticas-modo">Modo</label>
+                        <select id="estadisticas-modo" class="form-control">
+                            <option value="mes" selected>Por Mes</option>
+                            <option value="anio">Por Año</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="estadisticas-periodo-group">
+                        <label for="estadisticas-periodo">Periodo</label>
+                        <input type="month" id="estadisticas-periodo" class="form-control" />
+                    </div>
+                    <div class="form-group hidden" id="estadisticas-anio-group">
+                        <label for="estadisticas-anio">Año</label>
+                        <input type="number" id="estadisticas-anio" class="form-control" min="2020" max="2100" placeholder="Ej. 2026" />
+                    </div>
+                    <div class="form-group">
+                        <label for="estadisticas-area">Área</label>
+                        <input type="text" id="estadisticas-area" class="form-control" placeholder="Todas las áreas" />
+                    </div>
+                    <button id="btn-generar-estadisticas" class="btn btn-primary">🔄 Generar Estadísticas</button>
+                </div>
+                <div id="estadisticas-container">
+                    <p class="text-muted">Selecciona filtros y presiona "Generar Estadísticas".</p>
+                </div>
+                <div id="mensaje-estadisticas" class="alert" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: NUEVO / EDITAR EVENTO                                -->
+    <!-- ============================================================ -->
+    <div id="modal-evento" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-evento-titulo">
+        <div class="modal-content modal-content-lg">
+            <div class="modal-header">
+                <h3 id="modal-evento-titulo">Nuevo Evento de Ausentismo</h3>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-evento" novalidate>
+                    <input type="hidden" id="evento-id" />
+
+                    <!-- ===== Datos manuales del evento ===== -->
+                    <fieldset>
+                        <legend>Datos del Evento</legend>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-fecha-inicio">Fecha Inicio <span class="required">*</span></label>
+                                <input type="date" id="evento-fecha-inicio" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-fecha-fin">Fecha Fin <span class="required">*</span></label>
+                                <input type="date" id="evento-fecha-fin" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-nombre">Nombre <span class="required">*</span></label>
+                                <input type="text" id="evento-nombre" class="form-control" placeholder="Nombre completo" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-area">Área <span class="required">*</span></label>
+                                <input type="text" id="evento-area" class="form-control" placeholder="Ej. Producción" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-soporte">Soporte de Contingencia</label>
+                                <input type="text" id="evento-soporte" class="form-control" placeholder="Nombre del archivo o URL" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-cie10">Enfermedad o código diagnóstico</label>
+                                <input type="text" id="evento-cie10" class="form-control" placeholder="Ej. J00" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-entidad">Entidad que Expide</label>
+                                <input type="text" id="evento-entidad" class="form-control" placeholder="EPS, ARL..." />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-otorgado">Otorgado Por</label>
+                                <input type="text" id="evento-otorgado" class="form-control" placeholder="Jefe inmediato" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="evento-observaciones">Observaciones</label>
+                            <textarea id="evento-observaciones" class="form-control" rows="2" placeholder="Detalle adicional"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- ===== Contingencia en horas por concepto ===== -->
+                    <fieldset>
+                        <legend>Contingencia Expresada en Horas</legend>
+
+                        <h4 class="seccion-h4">Ausentismo por Ley</h4>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-horas-eg" title="Enfermedad General">EG — Enfermedad General</label>
+                                <input type="number" id="evento-horas-eg" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-at" title="Accidente de Trabajo">AT — Accidente de Trabajo</label>
+                                <input type="number" id="evento-horas-at" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-el" title="Enfermedad Laboral">EL — Enfermedad Laboral</label>
+                                <input type="number" id="evento-horas-el" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-horas-lm" title="Licencia de Maternidad">LM — Licencia de Maternidad</label>
+                                <input type="number" id="evento-horas-lm" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-lp" title="Licencia de Paternidad">LP — Licencia de Paternidad</label>
+                                <input type="number" id="evento-horas-lp" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-ll" title="Licencia por Luto">LL — Licencia por Luto</label>
+                                <input type="number" id="evento-horas-ll" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-horas-lac" title="Lactancia">LAC — Lactancia</label>
+                                <input type="number" id="evento-horas-lac" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-vac" title="Vacaciones">VAC — Vacaciones</label>
+                                <input type="number" id="evento-horas-vac" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-lnr" title="Licencia No Remunerada">LNR — Licencia No Remunerada</label>
+                                <input type="number" id="evento-horas-lnr" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                        </div>
+
+                        <h4 class="seccion-h4">Permisos Laborales</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="evento-horas-dp" title="Diligencias Personales">DP — Diligencias Personales</label>
+                                <input type="number" id="evento-horas-dp" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-vm" title="Visita Médica">VM — Visita Médica</label>
+                                <input type="number" id="evento-horas-vm" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-es" title="Estudio">ES — Estudio</label>
+                                <input type="number" id="evento-horas-es" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="evento-horas-cd" title="Calamidad Doméstica">CD — Calamidad Doméstica</label>
+                                <input type="number" id="evento-horas-cd" class="form-control" min="0" step="0.5" value="0" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar-evento" class="btn btn-outline">Cancelar</button>
+                <button type="submit" form="form-evento" class="btn btn-primary">💾 Guardar Evento</button>
+            </div>
+        </div>
+    </div>
+</div>

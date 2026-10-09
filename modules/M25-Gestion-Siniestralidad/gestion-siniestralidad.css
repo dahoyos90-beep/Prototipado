@@ -1,0 +1,165 @@
+/* ================================================================
+   modules/M25-Gestion-Siniestralidad/gestion-siniestralidad.css
+   
+   Estilos del módulo principal M25 - Gestión de Siniestralidad.
+   
+   Corresponde a la vista cargada dentro del SPA (index.html) que
+   muestra dos tarjetas de acceso a los HTMLs independientes:
+     - estadistica-accidentalidad.html  (se abre en pestaña nueva)
+     - registro-accidentes.html         (se abre en pestaña nueva)
+   
+   Depende de:
+     - css/global.css             (variables, layout, tipografía)
+     - css/components/buttons.css (estilos .btn)
+   
+   @version 1.0.1
+     - Alineado con el patrón M24/M13: header plano (sin .modulo-titulo)
+       y sin override del componente .alert.
+   
+   @version 1.0.0
+   @since 2026-10-09
+   ================================================================ */
+
+/* ================================================================
+   1. CONTENEDOR PRINCIPAL
+   ================================================================ */
+
+.modulo-siniestralidad {
+    width: 100%;
+}
+
+/* ================================================================
+   2. ENCABEZADO DEL MÓDULO (patrón M24/M13)
+   ================================================================ */
+
+.modulo-siniestralidad .modulo-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-siniestralidad .modulo-header h2 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+}
+
+.modulo-siniestralidad .modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ================================================================
+   3. GRID DE TARJETAS DE ACCESO
+   ================================================================ */
+
+.modulo-tarjetas-acceso {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+/* ================================================================
+   4. TARJETA DE ACCESO INDIVIDUAL
+   ================================================================ */
+
+.tarjeta-acceso {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-normal),
+                transform var(--transition-fast),
+                border-color var(--transition-fast);
+}
+
+.tarjeta-acceso:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--color-primary-light);
+}
+
+.tarjeta-acceso-icono {
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.tarjeta-acceso h3 {
+    margin: 0;
+    color: var(--color-primary-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.tarjeta-acceso .btn {
+    align-self: stretch;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* ================================================================
+   5. RESPONSIVE — TABLETS (min-width: 768px)
+   ================================================================ */
+
+@media (min-width: 768px) {
+    .modulo-siniestralidad .modulo-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .modulo-siniestralidad .modulo-header .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .modulo-tarjetas-acceso {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+
+    .tarjeta-acceso {
+        padding: var(--spacing-xl);
+    }
+
+    .tarjeta-acceso-icono {
+        font-size: 3rem;
+    }
+
+    .tarjeta-acceso h3 {
+        font-size: 1.35rem;
+    }
+
+    .tarjeta-acceso .btn {
+        align-self: flex-start;
+        min-width: 180px;
+    }
+}
+
+/* ================================================================
+   6. RESPONSIVE — ESCRITORIO (min-width: 1024px)
+   ================================================================ */
+
+@media (min-width: 1024px) {
+    .modulo-siniestralidad .modulo-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .modulo-tarjetas-acceso {
+        gap: var(--spacing-xxl);
+    }
+
+    .tarjeta-acceso {
+        padding: var(--spacing-xxl);
+    }
+
+    .tarjeta-acceso-icono {
+        font-size: 3.5rem;
+    }
+
+    .tarjeta-acceso h3 {
+        font-size: 1.5rem;
+    }
+}

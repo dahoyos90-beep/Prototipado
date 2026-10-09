@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M25 - Estadística de Accidentalidad</title>
+
+    <!-- ============================================================ -->
+    <!-- CSS GLOBALES DEL SISTEMA                                     -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../css/components/tables.css" />
+    <link rel="stylesheet" href="../../css/components/modals.css" />
+
+    <!-- ============================================================ -->
+    <!-- CSS ESPECÍFICO DEL MÓDULO                                    -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="estadistica-accidentalidad.css" />
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- CASCARÓN VACÍO                                               -->
+    <!-- El TS (estadistica-accidentalidad.ts) construye AQUÍ todo:  -->
+    <!--   - Encabezado naranja estilo Excel con datos de la empresa  -->
+    <!--   - Selector de jornada (48h / 42h / personalizada)          -->
+    <!--   - Interruptor de HHT automática                            -->
+    <!--   - Sub-pestañas: Mes a mes | Consolidado | Estadísticas |   -->
+    <!--                   Análisis Trimestral                        -->
+    <!--   - Matriz 12 meses × 6 variables (editable in-place)        -->
+    <!--   - Indicadores calculados (solo lectura)                    -->
+    <!--   - Bloques de estadísticas con barras CSS                   -->
+    <!--   - 4 cards de análisis trimestral                           -->
+    <!--   - Botones: Guardar / Enviar a M23 / Exportar / Imprimir    -->
+    <!-- NO modificar el ID #estadistica-accidentalidad-container     -->
+    <!-- ============================================================ -->
+    <main
+        id="estadistica-accidentalidad-container"
+        class="modulo-siniestralidad-estadistica">
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT MÓDULO                                                -->
+    <!-- ============================================================ -->
+    <script
+        type="module"
+        src="../../dist/modules/M25-Gestion-Siniestralidad/estadistica-accidentalidad.js">
+    </script>
+
+</body>
+</html>

@@ -5,7 +5,22 @@
  * Maneja autenticación, navegación, carga de módulos, selección de empresa,
  * advertencia de cambios sin guardar, notificaciones y control de inactividad.
  * 
- * @version 3.2.5 (agregado M23 al mapa de ARCHIVOS_ESPECIALES)
+ * @version 3.2.8
+ *  - A2: reemplazado el placeholder window.prompt/alert por el modal real
+ *        de selección de empresa (src/interfaces/modal-seleccion-empresa.ts).
+ *        La verificación del NIT ya no se pide al usuario: la empresa se
+ *        elige de una lista ya filtrada por rol.
+ * 
+ * @version 3.2.7
+ *  - A1: redirección a login con window.location.replace (forzada).
+ *  - A3: actualizarInterfazUsuario construye el DOM con createElement +
+ *        textContent (cierra XSS por innerHTML con datos del usuario).
+ *  - A4: corregido bug lógico en necesitaSeleccionarEmpresa (|| true).
+ *  - A5: imports de advertencia-cambios unificados.
+ *  - A6: initApp es async y espera configurarNotificaciones().
+ *  - A7: eliminado console.info que exponía datos del usuario.
+ * 
+ * @version 3.2.6 (agregado M24 al mapa de ARCHIVOS_ESPECIALES)
  * @since 2026-08-31
  */
 
@@ -14,8 +29,7 @@ import {
     haySesionActiva,
     cerrarSesion,
     obtenerUsuarioSesion,
-    crearUsuarioPorDefecto,
-    obtenerSesion
+    crearUsuarioPorDefecto
 } from './auth.js';
 import {
     verificarInactividad,
@@ -24,13 +38,16 @@ import {
     establecerEmpresaActiva,
     obtenerEmpresasVinculadas
 } from './session-manager.js';
-import { ejecutarConAdvertencia } from './advertencia-cambios.js';
-import { inicializarAdvertencia } from './advertencia-cambios.js';
+import {
+    ejecutarConAdvertencia,
+    inicializarAdvertencia
+} from './advertencia-cambios.js';
 import { mostrarModalAdvertencia } from './interfaces/modal-advertencia.js';
+import { abrirModalSeleccionEmpresa } from './interfaces/modal-seleccion-empresa.js';
 import { inicializarNotificacionesUI } from './notificaciones-ui.js';
 import { verificarAlertasEliminacion } from './notificaciones.js';
 import { storageEmpresas } from './storage.js';
-import type { IUsuario, IEmpresa, RolUsuario } from './interfaces/index.js';
+import type { IUsuario, IEmpresa } from './interfaces/index.js';
 
 // ================================================================
 // CONSTANTES Y SELECTORES
@@ -57,16 +74,12 @@ const MODULES_JS_BASE_PATH = '../modules/';
 const ARCHIVOS_ESPECIALES: Record<string, string> = {
     'M10-Gestion-Condiciones-Salud': 'condiciones-salud',
     'M11-Gestion-Perfil-Afiliaciones': 'perfil-afiliaciones',
-    // 🆕 M13: el listado es la vista por defecto (el detalle se carga desde el listado)
     'M13-Gestion-Matriz-Peligros-Riesgos': 'matriz-listado',
-    // 🆕 M17: carga el wrapper que tiene las dos pestañas (Plan de Capacitación + Plan de Trabajo)
     'M17-Plan-Trabajo-Capacitacion': 'plan-trabajo-capacitacion',
-    // 🆕 M18: el listado es la vista por defecto (el detalle se abre en pestaña nueva)
     'M18-Gestion-Comites': 'comites-listado',
-    // 🆕 M21: el listado es la vista por defecto (el detalle se abre en pestaña nueva)
     'M21-Gestion-Comite-Convivencia': 'convivencia-listado',
-    // 🆕 M23: el dashboard es la vista por defecto (el detalle se abre en pestaña nueva)
-    'M23-Gestion-Indicadores': 'indicadores-dashboard'
+    'M23-Gestion-Indicadores': 'indicadores-dashboard',
+    'M24-Gestion-Ausentismo': 'ausentismo'
 };
 
 const DEFAULT_MODULE = 'M03-Dashboard';
@@ -86,7 +99,7 @@ let intervaloInactividad: number | null = null;
 // FUNCIÓN PRINCIPAL
 // ================================================================
 
-function initApp(): void {
+async function initApp(): Promise<void> {
     console.info('🚀 Iniciando SG-SST Manager...');
 
     // 1. Crear usuario por defecto
@@ -102,7 +115,7 @@ function initApp(): void {
     // 2. Verificar sesión activa
     if (!haySesionActiva()) {
         console.info('🔒 No hay sesión activa. Redirigiendo a login...');
-        window.location.href = 'login.html';
+        window.location.replace('login.html');
         return;
     }
 
@@ -113,8 +126,6 @@ function initApp(): void {
         cerrarSesion();
         return;
     }
-
-    console.info(`👤 Sesión iniciada como: ${usuario.nombreCompleto} (${usuario.email})`);
 
     // 4. Configurar advertencia de cambios sin guardar
     configurarAdvertencia();
@@ -132,7 +143,7 @@ function initApp(): void {
     actualizarInterfazUsuario(usuario);
 
     // 7. Inicializar sistema de notificaciones (campana)
-    configurarNotificaciones();
+    await configurarNotificaciones();
 
     // 8. Verificar si necesita seleccionar empresa
     if (necesitaSeleccionarEmpresa(usuario)) {
@@ -140,7 +151,7 @@ function initApp(): void {
         mostrarModalSeleccionEmpresa(usuario);
     } else {
         // 9. Cargar módulo por defecto
-        cargarModulo(DEFAULT_MODULE);
+        void cargarModulo(DEFAULT_MODULE);
     }
 
     // 10. Configurar navegación
@@ -206,8 +217,7 @@ function necesitaSeleccionarEmpresa(usuario: IUsuario): boolean {
     if (obtenerEmpresaActiva()) return false;
 
     if (usuario.rol === 'Profesional') {
-        const empresasVinculadas = obtenerEmpresasVinculadas();
-        return empresasVinculadas.length > 0 || true;
+        return true;
     }
 
     if (usuario.rol === 'Empresa') {
@@ -220,8 +230,10 @@ function necesitaSeleccionarEmpresa(usuario: IUsuario): boolean {
 /**
  * Muestra el modal de selección de empresa.
  * 
- * ⚠️ PLACEHOLDER: Por ahora usa window.prompt() como solución temporal.
- * Se reemplazará cuando se cree el HTML+CSS del modal de selección.
+ * Si el usuario no tiene empresas vinculadas, muestra un empty state
+ * con un botón para ir a Gestión de Empresas. En caso contrario, abre
+ * el modal real (src/interfaces/modal-seleccion-empresa.ts) que gestiona
+ * la selección, validación y callbacks.
  * 
  * @param usuario - Usuario autenticado.
  */
@@ -241,60 +253,25 @@ function mostrarModalSeleccionEmpresa(usuario: IUsuario): void {
             const btn = qs('#btn-ir-empresas');
             if (btn) {
                 btn.addEventListener('click', () => {
-                    cargarModulo('M02-Gestion-Empresas');
+                    void cargarModulo('M02-Gestion-Empresas');
                 });
             }
         }
         return;
     }
 
-    const opciones = empresasDisponibles
-        .map((e, i) => `${i + 1}. ${e.razonSocial} (NIT: ${e.nit})`)
-        .join('\n');
+    abrirModalSeleccionEmpresa(empresasDisponibles, {
+        onConfirmar: (empresa: IEmpresa) => {
+            establecerEmpresaActiva(empresa.nit);
+            console.info(`✅ Empresa activa: ${empresa.razonSocial} (${empresa.nit})`);
 
-    const seleccion = window.prompt(
-        `Seleccione una empresa (ingrese el número):\n\n${opciones}\n\nIngrese el número:`,
-        '1'
-    );
-
-    if (!seleccion) {
-        console.warn('Selección de empresa cancelada.');
-        return;
-    }
-
-    const indice = parseInt(seleccion, 10) - 1;
-    if (indice < 0 || indice >= empresasDisponibles.length) {
-        alert('Selección inválida. Intente de nuevo.');
-        mostrarModalSeleccionEmpresa(usuario);
-        return;
-    }
-
-    const empresaSeleccionada = empresasDisponibles[indice];
-
-    const nitIngresado = window.prompt(
-        `Verifique el NIT de la empresa "${empresaSeleccionada.razonSocial}":\n\nIngrese el NIT:`
-    );
-
-    if (!nitIngresado) {
-        console.warn('Verificación de NIT cancelada.');
-        mostrarModalSeleccionEmpresa(usuario);
-        return;
-    }
-
-    const nitLimpio = nitIngresado.replace(/\D/g, '');
-    const nitEmpresa = empresaSeleccionada.nit.replace(/\D/g, '');
-
-    if (nitLimpio !== nitEmpresa) {
-        alert('❌ El NIT ingresado no coincide. Intente de nuevo.');
-        mostrarModalSeleccionEmpresa(usuario);
-        return;
-    }
-
-    establecerEmpresaActiva(empresaSeleccionada.nit);
-    console.info(`✅ Empresa activa: ${empresaSeleccionada.razonSocial} (${empresaSeleccionada.nit})`);
-
-    actualizarEmpresaActivaEnHeader(empresaSeleccionada);
-    cargarModulo(DEFAULT_MODULE);
+            actualizarEmpresaActivaEnHeader(empresa);
+            void cargarModulo(DEFAULT_MODULE);
+        },
+        onCancelar: () => {
+            console.warn('Selección de empresa cancelada por el usuario.');
+        }
+    });
 }
 
 /**
@@ -328,6 +305,9 @@ function obtenerEmpresasDisponibles(usuario: IUsuario): IEmpresa[] {
  * #notificaciones-campana-wrapper, que se crea aquí. Por eso, este método
  * debe llamarse ANTES de inicializarNotificacionesUI().
  * 
+ * Construye el DOM con createElement + textContent para evitar XSS por
+ * inyección de datos del usuario (nombre, rol, razón social).
+ * 
  * @param usuario - Usuario autenticado.
  */
 function actualizarInterfazUsuario(usuario: IUsuario): void {
@@ -344,31 +324,56 @@ function actualizarInterfazUsuario(usuario: IUsuario): void {
         header.appendChild(userArea);
     }
 
-    // Obtener empresa activa (si existe)
-    const empresaActiva = obtenerEmpresaActiva();
-    const empresa = empresaActiva ? storageEmpresas.obtenerPorId(empresaActiva) : null;
+    userArea.innerHTML = '';
 
-    // Construir HTML del área de usuario
-    const empresaHTML = empresa
-        ? `<span id="empresa-activa" class="empresa-activa">🏢 ${empresa.razonSocial}</span>`
-        : '';
+    const empresaActivaNit = obtenerEmpresaActiva();
+    const empresa = empresaActivaNit
+        ? storageEmpresas.obtenerPorId(empresaActivaNit)
+        : null;
 
-    const btnCambiarEmpresaHTML = usuario.rol === 'Profesional'
-        ? `<button id="btn-cambiar-empresa" class="btn btn-outline btn-sm" style="display:none;">🔄 Cambiar empresa</button>`
-        : '';
+    const userInfo = document.createElement('div');
+    userInfo.className = 'user-info';
 
-    userArea.innerHTML = `
-        <div class="user-info">
-            <span class="user-name">${usuario.nombreCompleto}</span>
-            <span class="user-role">${usuario.rol}</span>
-            ${empresaHTML}
-        </div>
-        <div id="notificaciones-campana-wrapper" class="notificaciones-campana-wrapper"></div>
-        ${btnCambiarEmpresaHTML}
-        <button id="logout-btn" class="btn btn-outline btn-sm">🚪 Cerrar sesión</button>
-    `;
+    const spanNombre = document.createElement('span');
+    spanNombre.className = 'user-name';
+    spanNombre.textContent = usuario.nombreCompleto;
+    userInfo.appendChild(spanNombre);
 
-    // Configurar botón cambiar empresa
+    const spanRol = document.createElement('span');
+    spanRol.className = 'user-role';
+    spanRol.textContent = usuario.rol;
+    userInfo.appendChild(spanRol);
+
+    if (empresa) {
+        const spanEmpresa = document.createElement('span');
+        spanEmpresa.id = 'empresa-activa';
+        spanEmpresa.className = 'empresa-activa';
+        spanEmpresa.textContent = `🏢 ${empresa.razonSocial}`;
+        userInfo.appendChild(spanEmpresa);
+    }
+
+    userArea.appendChild(userInfo);
+
+    const campanaWrapper = document.createElement('div');
+    campanaWrapper.id = 'notificaciones-campana-wrapper';
+    campanaWrapper.className = 'notificaciones-campana-wrapper';
+    userArea.appendChild(campanaWrapper);
+
+    if (usuario.rol === 'Profesional') {
+        const btnCambiar = document.createElement('button');
+        btnCambiar.id = 'btn-cambiar-empresa';
+        btnCambiar.className = 'btn btn-outline btn-sm';
+        btnCambiar.style.display = 'none';
+        btnCambiar.textContent = '🔄 Cambiar empresa';
+        userArea.appendChild(btnCambiar);
+    }
+
+    const btnLogout = document.createElement('button');
+    btnLogout.id = 'logout-btn';
+    btnLogout.className = 'btn btn-outline btn-sm';
+    btnLogout.textContent = '🚪 Cerrar sesión';
+    userArea.appendChild(btnLogout);
+
     configurarBotonCambiarEmpresa(usuario);
 }
 
@@ -386,18 +391,19 @@ function actualizarEmpresaActivaEnHeader(empresa: IEmpresa): void {
         if (usuario) actualizarInterfazUsuario(usuario);
     }
 
-    const btnCambiar = qs(BTN_CAMBIAR_EMPRESA_SELECTOR) as HTMLButtonElement;
+    const btnCambiar = qs(BTN_CAMBIAR_EMPRESA_SELECTOR) as HTMLButtonElement | null;
     if (btnCambiar) {
         btnCambiar.style.display = 'inline-block';
     }
 }
+
 /**
  * Configura el botón "Cambiar empresa" en el header.
  * 
  * @param usuario - Usuario autenticado.
  */
 function configurarBotonCambiarEmpresa(usuario: IUsuario): void {
-    const btnCambiar = qs(BTN_CAMBIAR_EMPRESA_SELECTOR) as HTMLButtonElement;
+    const btnCambiar = qs(BTN_CAMBIAR_EMPRESA_SELECTOR) as HTMLButtonElement | null;
 
     if (!btnCambiar) return;
 
@@ -446,7 +452,7 @@ function configurarNavegacion(): void {
 
             ejecutarConAdvertencia(() => {
                 actualizarNavegacionActiva(anchor);
-                cargarModulo(moduleId);
+                void cargarModulo(moduleId);
             });
         });
     });
@@ -475,7 +481,7 @@ function actualizarNavegacionActiva(activeLink: HTMLAnchorElement): void {
  * Configura el botón de cerrar sesión del header.
  */
 function configurarLogout(): void {
-    const logoutBtn = qs(LOGOUT_BTN_SELECTOR) as HTMLButtonElement;
+    const logoutBtn = qs(LOGOUT_BTN_SELECTOR) as HTMLButtonElement | null;
     if (!logoutBtn) {
         console.warn('Botón de cerrar sesión no encontrado.');
         return;
@@ -494,7 +500,7 @@ function configurarLogout(): void {
  * Configura el enlace de cerrar sesión del menú.
  */
 function configurarLogoutMenu(): void {
-    const logoutLink = qs(LOGOUT_NAV_LINK_SELECTOR) as HTMLAnchorElement;
+    const logoutLink = qs(LOGOUT_NAV_LINK_SELECTOR) as HTMLAnchorElement | null;
     if (!logoutLink) {
         console.warn('Enlace de cerrar sesión en el menú no encontrado.');
         return;
@@ -706,9 +712,11 @@ function mostrarError(container: Element, moduleId: string): void {
 // ================================================================
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
+    document.addEventListener('DOMContentLoaded', () => {
+        void initApp();
+    });
 } else {
-    initApp();
+    void initApp();
 }
 
 export {

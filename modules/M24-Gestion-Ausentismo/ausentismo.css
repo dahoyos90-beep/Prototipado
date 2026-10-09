@@ -1,0 +1,669 @@
+/* ================================================================
+   modules/M24-Gestion-Ausentismo/ausentismo.css
+   Estilos específicos del módulo M24 - Gestión de Ausentismo.
+
+   Depende de:
+     - css/global.css           (variables, layout, tipografía)
+     - css/components/buttons.css
+     - css/components/forms.css
+     - css/components/tables.css
+     - css/components/modals.css
+
+   @version 1.1.1
+   @since 2026-10-08
+
+   Cambios 1.1.1:
+     - H9b: alineación vertical de inputs en el fieldset de horas.
+       Los labels que ocupan 1 o 2 líneas ("DP — Diligencias
+       Personales", "CD — Calamidad Doméstica") ya no desalinean
+       los inputs: se usa flex-column + margin-top:auto para
+       empujarlos al fondo de cada celda.
+
+   Cambios 1.1.0:
+     - H9: control de tamaño de inputs (evita que se estiren)
+     - H8: agrupación de botones Buscar/Limpiar en filtros
+     - H5/H6: grupos Mes/Año en Indicadores y Estadísticas
+     - H10: input jornada readonly
+     - H3/H6: bloque Causa Médica (Res. 0312) + indicador destacado
+   ================================================================ */
+
+/* ================================================================
+   1. CONTENEDOR PRINCIPAL
+   ================================================================ */
+
+.modulo-ausentismo {
+    width: 100%;
+}
+
+.modulo-ausentismo .modulo-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-ausentismo .modulo-header h2 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+}
+
+.modulo-ausentismo .modulo-header .subtitle {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ================================================================
+   2. PESTAÑAS
+   ================================================================ */
+
+.modulo-ausentismo .tab-container {
+    width: 100%;
+}
+
+.modulo-ausentismo .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+}
+
+.modulo-ausentismo .tab-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.modulo-ausentismo .tab-button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.modulo-ausentismo .tab-button.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+}
+
+.modulo-ausentismo .tab-content {
+    animation: tabFadeIn 0.3s ease-in-out;
+}
+
+.modulo-ausentismo .tab-content.hidden {
+    display: none;
+}
+
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================================================
+   3. TARJETAS Y ENCABEZADOS DE TARJETA
+   ================================================================ */
+
+.modulo-ausentismo .card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-lg);
+    transition: box-shadow var(--transition-normal);
+}
+
+.modulo-ausentismo .card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.modulo-ausentismo .card h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-primary-dark);
+    font-size: 1.15rem;
+}
+
+/* Cabecera flexible: título + botón a la derecha */
+.modulo-ausentismo .card-header-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.modulo-ausentismo .card-header-flex h3 {
+    margin: 0;
+}
+
+/* ================================================================
+   4. FILTROS
+   ================================================================ */
+
+.modulo-ausentismo .filtros-ausentismo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-ausentismo .filtros-ausentismo .form-group {
+    flex: 1 1 180px;
+    margin-bottom: 0;
+}
+
+.modulo-ausentismo .filtros-ausentismo .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.modulo-ausentismo .filtros-ausentismo .btn {
+    flex: 0 0 auto;
+}
+
+/* H8: grupo de acciones (Buscar / Limpiar) */
+.modulo-ausentismo .filtro-acciones {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-xs);
+    align-items: flex-end;
+    flex: 0 0 auto;
+    margin-bottom: 0;
+}
+
+.modulo-ausentismo .filtro-acciones .btn {
+    height: 36px;
+    white-space: nowrap;
+}
+
+/* ================================================================
+   5. FORMULARIOS (ajustes específicos dentro del módulo)
+   ================================================================ */
+
+.modulo-ausentismo fieldset {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.modulo-ausentismo legend {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    padding: 0 var(--spacing-sm);
+    font-size: 1rem;
+}
+
+.modulo-ausentismo .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.modulo-ausentismo .form-row .form-group {
+    flex: 1 1 200px;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Sub-encabezado dentro de fieldset (Ausentismo por Ley / Permisos) */
+.modulo-ausentismo .seccion-h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px dashed var(--color-gray-200);
+}
+
+.modulo-ausentismo .seccion-h4:first-child {
+    margin-top: 0;
+}
+
+/* Inputs numéricos de horas (más compactos) */
+.modulo-ausentismo input[type="number"] {
+    text-align: right;
+}
+
+/* H9: control de tamaño de inputs (evita que se estiren) */
+.modulo-ausentismo .form-control {
+    max-width: 100%;
+    height: 36px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    box-sizing: border-box;
+}
+
+.modulo-ausentismo textarea.form-control {
+    height: auto;
+    min-height: 60px;
+    resize: vertical;
+}
+
+/* En filtros y parámetros el ancho máximo es más contenido */
+.modulo-ausentismo .filtros-ausentismo .form-control,
+.modulo-ausentismo #tab-indicadores .form-control {
+    max-width: 240px;
+}
+
+/* Input readonly (jornada fija = 7 h/día) */
+.modulo-ausentismo .form-control[readonly] {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-600);
+    cursor: not-allowed;
+}
+
+.modulo-ausentismo #parametros-jornada {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* H5/H6: visibilidad de grupos Mes/Año */
+.modulo-ausentismo #parametros-anio-group.hidden,
+.modulo-ausentismo #estadisticas-anio-group.hidden,
+.modulo-ausentismo #estadisticas-periodo-group.hidden {
+    display: none;
+}
+
+/* ----------------------------------------------------------------
+   H9b: ALINEACIÓN VERTICAL DE LOS CAMPOS DE HORAS
+   
+   Problema: labels como "DP — Diligencias Personales" o
+   "CD — Calamidad Doméstica" ocupan 2 líneas y empujan su
+   input hacia abajo, desalineándolo del resto de la fila.
+   
+   Solución: dentro de cada fieldset, cada .form-group pasa a
+   ser flex-column; el input lleva margin-top:auto para que se
+   pegue al fondo de su celda. Como el padre estira todas las
+   celdas de la fila a la misma altura, todos los inputs del
+   mismo renglón quedan alineados al fondo → perfectamente
+   alineados entre sí.
+   ---------------------------------------------------------------- */
+
+.modulo-ausentismo fieldset .form-row {
+    align-items: stretch;
+}
+
+.modulo-ausentismo fieldset .form-row .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-md);
+    min-width: 0;
+}
+
+.modulo-ausentismo fieldset .form-row .form-group label {
+    flex: 0 0 auto;
+    margin-bottom: var(--spacing-xs);
+}
+
+.modulo-ausentismo fieldset .form-row .form-group .form-control {
+    flex: 0 0 auto;
+    margin-top: auto;   /* empuja el input al fondo de la celda */
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ================================================================
+   6. TABLAS
+   ================================================================ */
+
+.modulo-ausentismo #tabla-eventos {
+    min-width: 720px;
+}
+
+.modulo-ausentismo .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modulo-ausentismo .actions-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
+.modulo-ausentismo .actions-cell .btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    min-height: 30px;
+    min-width: 30px;
+}
+
+/* ================================================================
+   7. ALERTAS (mensajes inline del módulo)
+   ================================================================ */
+
+.modulo-ausentismo .alert {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-md);
+    font-weight: 500;
+}
+
+.modulo-ausentismo .alert.success {
+    display: block;
+    background-color: #D1FAE5;
+    color: #065F46;
+    border-left: 4px solid #059669;
+}
+
+.modulo-ausentismo .alert.error {
+    display: block;
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-left: 4px solid #DC2626;
+}
+
+/* ================================================================
+   8. MODAL DE EVENTO (más ancho por los campos de horas)
+   ================================================================ */
+
+.modal-content-lg {
+    max-width: 900px;
+}
+
+/* ================================================================
+   9. INDICADORES (bloques Ley / Causa Médica / Permisos / Días)
+   ================================================================ */
+
+.bloque-indicadores {
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 4px solid var(--color-primary);
+}
+
+.bloque-indicadores h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+}
+
+.grid-indicadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.indicador-item {
+    background-color: var(--color-white);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: center;
+    border: 1px solid var(--color-gray-200);
+}
+
+.indicador-item .label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.indicador-item .value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+/* Bloque Causa Médica (indicador legal Res. 0312) */
+.modulo-ausentismo .bloque-causa-medica {
+    background-color: #FEF2F2;
+    border-left-color: #DC2626;
+}
+
+.modulo-ausentismo .bloque-causa-medica .indicador-item {
+    background-color: var(--color-white);
+}
+
+/* Indicador destacado: % Ausentismo */
+.modulo-ausentismo .indicador-item-destacado {
+    background-color: #EFF6FF;
+    border-color: #93C5FD;
+}
+
+.modulo-ausentismo .indicador-item-destacado .value {
+    color: #1D4ED8;
+    font-size: 1.4rem;
+}
+
+/* ================================================================
+   10. CONSOLIDADO ANUAL (tabla matriz)
+   ================================================================ */
+
+.tabla-matriz-anual {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 900px;
+}
+
+.tabla-matriz-anual thead th {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+    font-weight: 700;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    text-align: center;
+    font-size: 0.75rem;
+    border-bottom: 2px solid var(--color-gray-200);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.tabla-matriz-anual tbody td {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    text-align: right;
+    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-800);
+}
+
+.tabla-matriz-anual tbody td:first-child {
+    text-align: left;
+    font-weight: 600;
+    background-color: var(--color-gray-100);
+    position: sticky;
+    left: 0;
+}
+
+.tabla-matriz-anual tbody tr:hover td {
+    background-color: var(--color-gray-100);
+}
+
+.tabla-matriz-anual tfoot td {
+    font-weight: 700;
+    background-color: var(--color-gray-100);
+    color: var(--color-primary-dark);
+    border-top: 2px solid var(--color-gray-300);
+}
+
+/* ================================================================
+   11. ESTADÍSTICAS
+   ================================================================ */
+
+.stats-tabla-ausentismo {
+    background-color: var(--color-white);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    overflow-x: auto;
+}
+
+.stats-tabla-ausentismo h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+}
+
+.stats-tabla-ausentismo table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.stats-tabla-ausentismo th,
+.stats-tabla-ausentismo td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.stats-tabla-ausentismo th {
+    background-color: var(--color-gray-100);
+    font-weight: 600;
+    color: var(--color-gray-600);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ================================================================
+   12. RESPONSIVE (Mobile-First)
+   ================================================================ */
+
+/* --- Tablets --- */
+@media (min-width: 768px) {
+    .modulo-ausentismo .tab-button {
+        font-size: 0.95rem;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    .modulo-ausentismo .filtros-ausentismo .form-group {
+        flex: 1 1 220px;
+    }
+
+    .modulo-ausentismo .form-row .form-group {
+        flex: 1 1 220px;
+    }
+}
+
+/* --- Escritorio --- */
+@media (min-width: 1024px) {
+    .modulo-ausentismo .card {
+        padding: var(--spacing-xl);
+    }
+
+    .modulo-ausentismo fieldset {
+        padding: var(--spacing-lg);
+    }
+
+    /* 4 columnas para los campos de horas */
+    .modulo-ausentismo fieldset .form-row .form-group {
+        flex: 1 1 calc(25% - var(--spacing-md));
+    }
+
+    .modulo-ausentismo #tabla-eventos {
+        min-width: auto;
+    }
+
+    .modulo-ausentismo .tabla-matriz-anual {
+        min-width: auto;
+    }
+}
+
+/* --- Móviles pequeños --- */
+@media (max-width: 480px) {
+    .modulo-ausentismo .tab-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+
+    .modulo-ausentismo .tab-button {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        white-space: nowrap;
+    }
+
+    .modulo-ausentismo .card {
+        padding: var(--spacing-md);
+    }
+
+    .modulo-ausentismo fieldset {
+        padding: var(--spacing-sm);
+    }
+
+    .modulo-ausentismo .filtros-ausentismo {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .modulo-ausentismo .filtros-ausentismo .form-group {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .modulo-ausentismo .filtros-ausentismo .btn {
+        width: 100%;
+    }
+
+    .modulo-ausentismo .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .modulo-ausentismo .form-row .form-group {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .modal-content-lg {
+        max-width: 100%;
+    }
+
+    .modulo-ausentismo #tabla-eventos {
+        min-width: 600px;
+        font-size: 0.8rem;
+    }
+
+    .tabla-matriz-anual {
+        font-size: 0.75rem;
+    }
+
+    /* Ajustes móviles para lo nuevo */
+    .modulo-ausentismo .filtros-ausentismo .form-control,
+    .modulo-ausentismo #tab-indicadores .form-control {
+        max-width: 100%;
+    }
+
+    .modulo-ausentismo .filtro-acciones {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .modulo-ausentismo .filtro-acciones .btn {
+        flex: 1 1 auto;
+    }
+
+    .modulo-ausentismo .indicador-item-destacado .value {
+        font-size: 1.15rem;
+    }
+}
